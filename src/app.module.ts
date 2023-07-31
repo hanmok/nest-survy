@@ -19,8 +19,24 @@ import { ConfigModule } from '@nestjs/config';
   // TypeOrmModule.forRootAsync({}) // trigger error ;; 
   // TypeOrmModule.forRoot()
   ConfigModule.forRoot(),
-  TypeOrmModule.forRootAsync({ 
-    useClass: TypeOrmConfigService
+  // TypeOrmModule.forRootAsync({ 
+  //   useClass: TypeOrmConfigService
+  // })
+  TypeOrmModule.forRoot({ 
+    type: 'mysql',
+    host: 'us-cdbr-east-06.cleardb.net',
+    port: 3306,
+    username: 'bce8ef11b95d3a',
+    password: 'c3fa51f1',
+    database: 'heroku_3df4ab91447196b',
+    synchronize: false
+
+// DB_HOST=us-cdbr-east-06.cleardb.net
+// DB_PORT=3306
+// DB_USERNAME=bce8ef11b95d3a
+// DB_PASSWORD=c3fa51f1
+// DB_NAME=heroku_3df4ab91447196b
+
   })
   // TypeOrmModule.forRootAsync({
   //   useClass: TypeOrmConfigService
