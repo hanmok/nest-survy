@@ -12,6 +12,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './typeorm.config';
 import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './user/auth.service';
+import { SelectableOptionModule } from './selectable-option/selectable-option.module';
+import { SectionBridgeModule } from './section-bridge/section-bridge.module';
+import { QuestionTypeModule } from './question-type/question-type.module';
+import { AnswerService } from './answer/answer.service';
+import { AnswerController } from './answer/answer.controller';
+import { AnswerModule } from './answer/answer.module';
 
 @Module({
   imports: [
@@ -38,13 +44,17 @@ import { AuthService } from './user/auth.service';
 // DB_PASSWORD=c3fa51f1
 // DB_NAME=heroku_3df4ab91447196b
 
-  })
+  }),
+  SelectableOptionModule,
+  SectionBridgeModule,
+  QuestionTypeModule,
+  AnswerModule
   // TypeOrmModule.forRootAsync({
   //   useClass: TypeOrmConfigService
   // })
   // TypeOrmConfigService.forRoot(),
   ],
-  controllers: [AppController],
-  providers: [AppService, AuthService],
+  controllers: [AppController, AnswerController],
+  providers: [AppService, AuthService, AnswerService],
 })
 export class AppModule {}
