@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Survey } from 'src/survey/survey.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Section { 
@@ -7,7 +8,9 @@ export class Section {
 
 	// Foreign Key
 	// @Column()
-	// survey_id: number;
+	@OneToOne(() => Survey)
+	@JoinColumn()
+	survey_id: number;
 
 	@Column()
 	expectedTimeInSec: number;
