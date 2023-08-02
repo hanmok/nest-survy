@@ -11,6 +11,7 @@ import { SegmentModule } from './segment/segment.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './typeorm.config';
 import { ConfigModule } from '@nestjs/config';
+import { AuthService } from './user/auth.service';
 
 @Module({
   imports: [
@@ -44,6 +45,6 @@ import { ConfigModule } from '@nestjs/config';
   // TypeOrmConfigService.forRoot(),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}

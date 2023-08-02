@@ -1,26 +1,46 @@
 import { User } from './user.entity';
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { AuthService } from './auth.service';
 
 
 @Controller('/user')
 export class UserController {
-	constructor(private userService: UserService) {}
+	constructor(private userService: UserService, private authService: AuthService) {}
 
 	@Post('/signup')
-	async createUser() {}
+	async createUser(@Body() body: CreateUserDto) {
+		// const user = await this.
+		const user = await this.authService.signup(body.email, body.password)
+		return user;
+	}
 
 	@Get()
 	async getAllUsers() {} 
 
 	@Post('/login')
-	async login() {}
+	async login(@Body() body: CreateUserDto) {
+		const user = await this.authService.signin(body.email, body.password)
+		return user;
+	}
 
 	@Post('/logout')
 	async logout() {}
 
 	@Get('/:id')
-	async getById() {}
+	async getById(@Param('id') id: string) {
+		const user = await this.userService.findOne(parseInt(id))
+		if (!user) { 
+			throw new NotFoundException('user not found');
+		}
+		return user;
+	}
+
+	@Delete('/:id')
+	removeUser(@Param('id') id: string) { 
+		return this.userService.remove(parseInt(id));
+	}
 
 	@Get('/:user_id/genres')
 	async getGenres() {}
