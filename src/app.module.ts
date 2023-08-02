@@ -19,6 +19,16 @@ import { AnswerService } from './answer/answer.service';
 import { AnswerController } from './answer/answer.controller';
 import { AnswerModule } from './answer/answer.module';
 import { UserService } from './user/user.service';
+import { User } from './user/user.entity';
+import { Genre } from './genre/genre.entity';
+import { Question } from './question/question.entity';
+import { QuestionType } from './question-type/questionType.entity';
+import { Response } from './response/response.entity';
+import { Section } from './section/section.entity';
+import { SectionBridge } from './section-bridge/section-bridge.entity';
+import { Segment } from './segment/segment.entity';
+import { selectableOption } from './selectable-option/selectable-option.entity';
+import { Survey } from './survey/survey.entity';
 
 @Module({
   imports: [
@@ -30,7 +40,7 @@ import { UserService } from './user/user.service';
   // TypeOrmModule.forRootAsync({ 
   //   useClass: TypeOrmConfigService
   // })
-  
+
   TypeOrmModule.forRoot({ 
     type: 'mysql',
     host: 'us-cdbr-east-06.cleardb.net',
@@ -47,6 +57,8 @@ import { UserService } from './user/user.service';
 // DB_NAME=heroku_3df4ab91447196b
 
   }),
+  TypeOrmModule.forFeature([User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]),
+  
   SelectableOptionModule,
   SectionBridgeModule,
   QuestionTypeModule,
