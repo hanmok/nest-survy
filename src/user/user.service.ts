@@ -8,7 +8,7 @@ export class UserService {
 	constructor(@InjectRepository(User) private repo: Repository<User>) {} 
 
 	create(username: string, password: string) { 
-		const user = this.repo.create({username, password})
+		const user = this.repo.create({username, password, })
 		return this.repo.save(user)
 	}
 	
@@ -39,4 +39,8 @@ export class UserService {
 	find(username: string) { 
 		return this.repo.find({where: {username}}); 
 	} 
+	
+	getAll() { 
+		return this.repo.find()
+	}
 }

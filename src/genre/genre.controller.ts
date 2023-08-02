@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { GenreService } from './genre.service';
-import { CreateGenreDto } from './CreateGenreDto';
+import { CreateGenreDto } from './create-genre.dto';
 
-@Controller('genre')
+@Controller('/genre')
 export class GenreController {
 	constructor(private genreService: GenreService) {}
 
@@ -13,9 +13,9 @@ export class GenreController {
 
 	@Post()
 	async createGenre(@Body() body: CreateGenreDto) {
-		const genre = this.genreService.create(body.name)
-		// return genre
-		console.log('hihi')
+		console.log(body)
+		const genre = await this.genreService.create(body.name)
+		return genre
 	}
 
 	@Get('/:id')
@@ -36,6 +36,5 @@ export class GenreController {
 	@Post('/:genre_id/surveys/:survey_id')
 	async createSurveyGenre() {
 
-	}
-	
+	}	
 }

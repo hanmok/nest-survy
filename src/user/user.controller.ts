@@ -3,9 +3,13 @@ import { Body, Controller, Delete, Get, NotFoundException, Param, Post } from '@
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthService } from './auth.service';
+// import { Serialize } from 'src/question/serialize.interceptor';
+// import { Serial}
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 
 
 @Controller('/user')
+@Serialize(CreateUserDto)
 export class UserController {
 	constructor(private userService: UserService, private authService: AuthService) {}
 
@@ -18,7 +22,9 @@ export class UserController {
 
 	@Get()
 	getAllUsers() {
+		
 		console.log("getting all users~")
+		return this.userService.getAll()
 	} 
 
 	@Post('/login')

@@ -3,6 +3,8 @@ POST http://localhost:3000/genre
 Content-Type: "application/json"
 
 {
-	"name": "hi"
+	"name": "b"
 }
 
+###
+GET http://localhost:3000/genre

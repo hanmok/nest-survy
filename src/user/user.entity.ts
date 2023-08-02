@@ -16,16 +16,17 @@ export class User {
 
 
 	// fatigue // INT
-	@Column({ default: 0})
-	creditAmount: number  // INT
+	// DB 에 없음. 
+	// @Column({ default: 0})
+	// creditAmount: number  // INT
 
 	// birthdate // Date 보류 ; 
 	
-	@Column()
-	isMale: boolean; // TinyInt
+	// @Column()
+	// isMale: boolean; // TinyInt
 
-	@Column()
-	nickname: string;
+	// @Column()
+	// nickname: string;
 	// registeredAt DATETIME
 	// nickname VARCHAR(100)
 }
