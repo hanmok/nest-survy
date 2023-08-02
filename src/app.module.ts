@@ -52,17 +52,25 @@ import { UserController } from './user/user.controller';
     password: 'c3fa51f1',
     database: 'heroku_3df4ab91447196b',
     synchronize: false,
-    entities:[ User, Genre, Question, QuestionType]
+    entities:[ User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]
   }),
   TypeOrmModule.forFeature([
     User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey
   ]),
-
-  SelectableOptionModule,
-  SectionBridgeModule,
-  QuestionTypeModule,
   AnswerModule, 
-  GenreModule
+  GenreModule,
+  QuestionModule,
+  QuestionTypeModule,
+  ResponseModule,
+  SectionModule,
+  SectionBridgeModule,
+  SegmentModule,
+  SelectableOptionModule,
+  SurveyModule,
+  UserModule
+  
+  
+  
   // TypeOrmModule.forRootAsync({
   //   useClass: TypeOrmConfigService
   // })
