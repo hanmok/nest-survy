@@ -1,4 +1,15 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 
 @Controller('question')
-export class QuestionController {}
+export class QuestionController {
+
+	@Get()
+	async getAllQuestions() {} 
+
+	@Post()
+	async createQuestion() {}
+
+	@Get('/:id')
+	async getQuestionById() {}
+	
+}
