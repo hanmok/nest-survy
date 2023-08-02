@@ -12,16 +12,18 @@ export class UserController {
 	@Post('/signup')
 	async createUser(@Body() body: CreateUserDto) {
 		// const user = await this.
-		const user = await this.authService.signup(body.email, body.password)
+		const user = await this.authService.signup(body.username, body.password)
 		return user;
 	}
 
 	@Get()
-	async getAllUsers() {} 
+	getAllUsers() {
+		console.log("getting all users~")
+	} 
 
 	@Post('/login')
 	async login(@Body() body: CreateUserDto) {
-		const user = await this.authService.signin(body.email, body.password)
+		const user = await this.authService.signin(body.username, body.password)
 		return user;
 	}
 

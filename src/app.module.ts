@@ -29,6 +29,9 @@ import { SectionBridge } from './section-bridge/section-bridge.entity';
 import { Segment } from './segment/segment.entity';
 import { selectableOption } from './selectable-option/selectable-option.entity';
 import { Survey } from './survey/survey.entity';
+import { GenreService } from './genre/genre.service';
+import { GenreController } from './genre/genre.controller';
+import { UserController } from './user/user.controller';
 
 @Module({
   imports: [
@@ -48,27 +51,24 @@ import { Survey } from './survey/survey.entity';
     username: 'bce8ef11b95d3a',
     password: 'c3fa51f1',
     database: 'heroku_3df4ab91447196b',
-    synchronize: false
-
-// DB_HOST=us-cdbr-east-06.cleardb.net
-// DB_PORT=3306
-// DB_USERNAME=bce8ef11b95d3a
-// DB_PASSWORD=c3fa51f1
-// DB_NAME=heroku_3df4ab91447196b
-
+    synchronize: false,
+    entities:[ User, Genre, Question, QuestionType]
   }),
-  TypeOrmModule.forFeature([User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]),
-  
+  TypeOrmModule.forFeature([
+    User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey
+  ]),
+
   SelectableOptionModule,
   SectionBridgeModule,
   QuestionTypeModule,
-  AnswerModule
+  AnswerModule, 
+  GenreModule
   // TypeOrmModule.forRootAsync({
   //   useClass: TypeOrmConfigService
   // })
   // TypeOrmConfigService.forRoot(),
   ],
-  controllers: [AppController, AnswerController],
-  providers: [AppService, AuthService, AnswerService, UserService],
+  controllers: [AppController, AnswerController, GenreController, UserController],
+  providers: [AppService, AuthService, AnswerService, UserService, GenreService],
 })
 export class AppModule {}

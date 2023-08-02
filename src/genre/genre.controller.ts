@@ -1,24 +1,41 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { GenreService } from './genre.service';
+import { CreateGenreDto } from './CreateGenreDto';
 
 @Controller('genre')
 export class GenreController {
+	constructor(private genreService: GenreService) {}
 
 	@Get()
-	async getAllGenres() {}
+	async getAllGenres() {
+		return this.genreService.getAll()
+	}
 
 	@Post()
-	async createGenre() {}
+	async createGenre(@Body() body: CreateGenreDto) {
+		const genre = this.genreService.create(body.name)
+		// return genre
+		console.log('hihi')
+	}
 
 	@Get('/:id')
-	async getGenreById() {}
+	async getGenreById() {
+
+	}
 
 	@Get('/:genre_id/users') 
-	async getUsersByGenreId() {}
+	async getUsersByGenreId() {
+		
+	}
 
 	@Get('/:genre_id/surveys')
-	async getSurveysByGenreId() {}
+	async getSurveysByGenreId() {
+
+	}
 
 	@Post('/:genre_id/surveys/:survey_id')
-	async createSurveyGenre() {}
+	async createSurveyGenre() {
+
+	}
 	
 }

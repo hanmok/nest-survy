@@ -1,0 +1,25 @@
+###
+GET http://localhost:3000/user
+
+###
+GET http://dearsurvy.herokuapp.com/user/4
+
+###
+POST http://localhost:3000/user/signup
+Content-Type: "application/json"
+
+{
+	"username": "workout@gmail.com",
+    "password": "workout"
+}
+
+
+###
+POST http://dearsurvy.herokuapp.com/user
+Content-Type: "application/json"
+
+{
+	"username": "workout@gmail.com",
+    "password": "workout"
+}
+
