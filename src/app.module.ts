@@ -18,6 +18,7 @@ import { QuestionTypeModule } from './question-type/question-type.module';
 import { AnswerService } from './answer/answer.service';
 import { AnswerController } from './answer/answer.controller';
 import { AnswerModule } from './answer/answer.module';
+import { UserService } from './user/user.service';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AnswerModule } from './answer/answer.module';
   // TypeOrmModule.forRootAsync({ 
   //   useClass: TypeOrmConfigService
   // })
+  
   TypeOrmModule.forRoot({ 
     type: 'mysql',
     host: 'us-cdbr-east-06.cleardb.net',
@@ -55,6 +57,6 @@ import { AnswerModule } from './answer/answer.module';
   // TypeOrmConfigService.forRoot(),
   ],
   controllers: [AppController, AnswerController],
-  providers: [AppService, AuthService, AnswerService],
+  providers: [AppService, AuthService, AnswerService, UserService],
 })
 export class AppModule {}

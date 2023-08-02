@@ -18,15 +18,10 @@ export class Question {
 	@Column()
 	correctAnswer: number;
 
-
 	// Foreign Keys
 	// @Column()
 	// questionType_id: number;
 	
 	// @Column()
 	// section_id: number;
-
-	
-
-
 }
