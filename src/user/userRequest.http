@@ -1,6 +1,11 @@
 ### Get All Users
 GET http://localhost:3000/user
 
+
+### Get All users with remote
+GET https://dearsurvy.herokuapp.com/user
+Retry-After: 10
+
 ###
 # GET http://dearsurvy.herokuapp.com/user/4
 

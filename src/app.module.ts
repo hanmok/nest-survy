@@ -32,31 +32,42 @@ import { Survey } from './survey/survey.entity';
 import { GenreService } from './genre/genre.service';
 import { GenreController } from './genre/genre.controller';
 import { UserController } from './user/user.controller';
+// import { config } from 'process';
+import { config } from './config';
+import { DatabaseConfig } from './database.config';
 
 @Module({
   imports: [
     UserModule, 
     GenreModule, QuestionModule, SectionModule, SurveyModule, ResponseModule, SegmentModule,
-  // TypeOrmModule.forRootAsync({}) // trigger error ;; 
-  // TypeOrmModule.forRoot()
-  ConfigModule.forRoot(),
-  // TypeOrmModule.forRootAsync({ 
-  //   useClass: TypeOrmConfigService
-  // })
 
-  TypeOrmModule.forRoot({ 
-    type: 'mysql',
-    host: 'us-cdbr-east-06.cleardb.net',
-    port: 3306,
-    username: 'bce8ef11b95d3a',
-    password: 'c3fa51f1',
-    database: 'heroku_3df4ab91447196b',
-    synchronize: false,
-    entities:[ User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]
+  ConfigModule.forRoot({
+    isGlobal: true,
+    load: [config]
   }),
+  // 이걸 쓰면 에러가 안나고
+  // TypeOrmModule.forRoot({ 
+  //   type: 'mysql',
+  //   host: 'us-cdbr-east-06.cleardb.net',
+  //   port: 3306,
+  //   username: 'bce8ef11b95d3a',
+  //   password: 'c3fa51f1',
+  //   database: 'heroku_3df4ab91447196b',
+  //   synchronize: false,
+  //   // entities:[ User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]
+  //   entities: ['./**/*.entity.js']
+  // }),
+  
   TypeOrmModule.forFeature([
     User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey
   ]),
+
+  // 이걸 쓰면 에러가 난다. 왜그럴까 ? 
+  TypeOrmModule.forRootAsync({
+    imports: [ConfigModule],
+    useClass: DatabaseConfig
+  }),
+
   AnswerModule, 
   GenreModule,
   QuestionModule,

@@ -2,10 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
-	constructor(@InjectRepository(User) private repo: Repository<User>) {} 
+	constructor(@InjectRepository(User) private repo: Repository<User>
+	// , private configService: ConfigService
+	) {} 
+
+	// createToken({id, email}: User) { 
+	// 	const secret = this.configService.get('JWT_SECRET');
+	// 	return jwt.sign({id, email}, secret);
+	// }
 
 	create(username: string, password: string) { 
 		const user = this.repo.create({username, password, })
