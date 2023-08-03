@@ -3,11 +3,13 @@ import { GenreService } from './genre.service';
 import { CreateGenreDto } from './create-genre.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { GenreDto } from './genre.dto';
+import { UserGenreService } from 'src/user_genre/user_genre.service';
+import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 
 @Serialize(GenreDto)
 @Controller('/genre')
 export class GenreController {
-	constructor(private genreService: GenreService) {}
+	constructor(private genreService: GenreService, private userGenreService: UserGenreService, private surveyGenreService: SurveyGenreService) {}
 
 	@Get()
 	async getAllGenres() {

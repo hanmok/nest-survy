@@ -3,11 +3,14 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SurveyDto } from './survey.dto';
 import { SurveyService } from './survey.service';
 import { CreateSurveyDTO } from './create-survey.dto';
+import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
+import { PostService } from 'src/post/post.service';
+import { ParticipateService } from 'src/participate/participate.service';
 
 @Controller('/survey')
 @Serialize(SurveyDto)
 export class SurveyController {
-	constructor(private surveyService: SurveyService) {}
+	constructor(private surveyService: SurveyService, private surveyGenreService: SurveyGenreService, private postService: PostService, private participateService: ParticipateService) {}
 
 	@Post('/create')
 	async createSurvey(@Body() body: CreateSurveyDTO) {

@@ -7,12 +7,15 @@ import { AuthService } from './auth.service';
 // import { Serial}
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { UserGenreService } from 'src/user_genre/user_genre.service';
+import { PostService } from 'src/post/post.service';
+import { ParticipateService } from 'src/participate/participate.service';
 
 
 @Controller('/user')
 @Serialize(UserDto)
 export class UserController {
-	constructor(private userService: UserService, private authService: AuthService) {}
+	constructor(private userService: UserService, private authService: AuthService, private userGenreService: UserGenreService, private postService: PostService, private participateService: ParticipateService) {}
 
 	@Post('/signup')
 	async createUser(@Body() body: CreateUserDto) {
@@ -59,7 +62,7 @@ export class UserController {
 	
 	@Get('/:user_id/posted-surveys')
 	async getPostedSurveys() {}
-	
+
 	@Post('/posted-surveys')
 	async postSurvey() {}
 	
