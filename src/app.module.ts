@@ -35,7 +35,8 @@ import { UserController } from './user/user.controller';
 // import { config } from 'process';
 import { config } from './config';
 import { DatabaseConfig } from './database.config';
-import { UserGenreController } from './user_genre/user_genre.controller';
+// import { UserGenreController } from './user_genre/user_genre.controller';
+// import { User}
 import { UserGenreService } from './user_genre/user_genre.service';
 import { UserGenreModule } from './user_genre/user_genre.module';
 import { SurveyGenreController } from './survey_genre/survey_genre.controller';
@@ -47,6 +48,22 @@ import { PostModule } from './post/post.module';
 import { ParticipateController } from './participate/participate.controller';
 import { ParticipateService } from './participate/participate.service';
 import { ParticipateModule } from './participate/participate.module';
+import { QuestionController } from './question/question.controller';
+import { QuestionTypeController } from './question-type/question-type.controller';
+import { ResponseController } from './response/response.controller';
+import { SectionController } from './section/section.controller';
+import { SectionBridgeController } from './section-bridge/section-bridge.controller';
+import { SegmentController } from './segment/segment.controller';
+import { SelectableOptionController } from './selectable-option/selectable-option.controller';
+import { SurveyController } from './survey/survey.controller';
+import { QuestionService } from './question/question.service';
+import { QuestionTypeService } from './question-type/question-type.service';
+import { ResponseService } from './response/response.service';
+import { SectionService } from './section/section.service';
+import { SectionBridgeService } from './section-bridge/section-bridge.service';
+import { SegmentService } from './segment/segment.service';
+import { SelectableOptionService } from './selectable-option/selectable-option.service';
+import { SurveyService } from './survey/survey.service';
 
 @Module({
   imports: [
@@ -103,7 +120,41 @@ import { ParticipateModule } from './participate/participate.module';
   // })
   // TypeOrmConfigService.forRoot(),
   ],
-  controllers: [AppController, AnswerController, GenreController, UserController, UserGenreController, SurveyGenreController, PostController, ParticipateController],
-  providers: [AppService, AuthService, AnswerService, UserService, GenreService, UserGenreService, SurveyGenreService, PostService, ParticipateService],
+  controllers: [
+    AppController, 
+    AnswerController, 
+    GenreController, 
+    QuestionController,
+    QuestionTypeController,
+    ResponseController,
+    SectionController,
+    SectionBridgeController,
+    SegmentController,
+    SelectableOptionController,
+    SurveyController,
+    UserController 
+    // UserGenreController, 
+    // SurveyGenreController, 
+    // PostController, 
+    // ParticipateController
+  ],
+  providers: [AppService, 
+    AuthService, 
+    AnswerService, 
+    GenreService, 
+    QuestionService,
+    QuestionTypeService,
+    ResponseService,
+    SectionService,
+    SectionBridgeService,
+    SegmentService,
+    SelectableOptionService,
+    SurveyService,
+    UserService, 
+    
+    UserGenreService, 
+    SurveyGenreService, 
+    PostService, 
+    ParticipateService],
 })
 export class AppModule {}
