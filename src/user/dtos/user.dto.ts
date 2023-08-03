@@ -8,8 +8,12 @@ export class UserDto {
 	id: number;
 
 	@Expose()
+	@IsEmail()
+	username: string;
+
+	@Expose()
 	@IsNumber()
-	collecedReward: number;
+	collectedReward: number;
 
 	@Expose()
 	birthDate: string;
@@ -21,9 +25,4 @@ export class UserDto {
 	// @Expose()
 	// @IsString()
 	// registeredAt: string;
-
-	@Expose()
-	@IsEmail()
-	username: string;
-
 }

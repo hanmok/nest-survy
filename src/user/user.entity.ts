@@ -9,12 +9,16 @@ export class User {
 	username: string;
 
 	@Column()
-	password: string
+	password: string;
 
 	@Column({ default: 0})
-	collectedReward: number // Int
+	collectedReward: number; // Int
 
+	@Column()
+	birthDate: string;
 
+	@Column()
+	isMale: number;
 	// fatigue // INT
 	// DB 에 없음. 
 	// @Column({ default: 0})

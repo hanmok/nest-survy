@@ -16,7 +16,7 @@ export class UserService {
 	// }
 
 	create(username: string, password: string) { 
-		const user = this.repo.create({username, password, })
+		const user = this.repo.create({username, password})
 		return this.repo.save(user)
 	}
 	
