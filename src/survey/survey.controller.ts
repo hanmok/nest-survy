@@ -4,13 +4,19 @@ import { Controller, Get, Post } from '@nestjs/common';
 export class SurveyController {
 
 	@Post('/create')
-	async createSurvey() {}
+	async createSurvey() {
+		
+	}
 
 	@Get()
-	async getAllSurveys() {}
+	async getAllSurveys() {
+
+	}
 
 	@Get('/:id')
-	async getSurveyById() {}
+	async getSurveyById() {
+
+	}
 
 	@Get('/:survey_id/posted-user')
 	async getPostedUserBySurveyId() {}

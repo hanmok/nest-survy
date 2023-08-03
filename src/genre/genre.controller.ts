@@ -1,7 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { GenreService } from './genre.service';
 import { CreateGenreDto } from './create-genre.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { GenreDto } from './genre.dto';
 
+@Serialize(GenreDto)
 @Controller('/genre')
 export class GenreController {
 	constructor(private genreService: GenreService) {}
@@ -19,8 +22,12 @@ export class GenreController {
 	}
 
 	@Get('/:id')
-	async getGenreById() {
-
+	async getGenreById(@Param('id') id: string) {
+		const genre = await this.genreService.findOne(parseInt(id))
+		if (!genre) { 
+			throw new NotFoundException('genre not found');
+		}
+		return genre;
 	}
 
 	@Get('/:genre_id/users') 

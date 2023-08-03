@@ -23,6 +23,13 @@ export class GenreService {
 		}
 	}
 
+	findOne(id: number) { 
+		if(!id) {
+			return null
+		}
+		return this.repo.findOneBy({id});
+	}
+
 	getAll() { 
 		return this.repo.find()
 	}

@@ -15,15 +15,12 @@ export class UserController {
 
 	@Post('/signup')
 	async createUser(@Body() body: CreateUserDto) {
-		// const user = await this.
 		const user = await this.authService.signup(body.username, body.password)
 		return user;
 	}
 
 	@Get()
 	getAllUsers() {
-		
-		console.log("getting all users~")
 		return this.userService.getAll()
 	} 
 
