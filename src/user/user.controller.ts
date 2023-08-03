@@ -43,6 +43,9 @@ export class UserController {
 		return user;
 	}
 
+	// @Post('/regenerate_access_token')
+	
+
 	@Delete('/:id')
 	removeUser(@Param('id') id: string) { 
 		return this.userService.remove(parseInt(id));
@@ -56,7 +59,7 @@ export class UserController {
 	
 	@Get('/:user_id/posted-surveys')
 	async getPostedSurveys() {}
-
+	
 	@Post('/posted-surveys')
 	async postSurvey() {}
 	

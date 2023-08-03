@@ -35,6 +35,18 @@ import { UserController } from './user/user.controller';
 // import { config } from 'process';
 import { config } from './config';
 import { DatabaseConfig } from './database.config';
+import { UserGenreController } from './user_genre/user_genre.controller';
+import { UserGenreService } from './user_genre/user_genre.service';
+import { UserGenreModule } from './user_genre/user_genre.module';
+import { SurveyGenreController } from './survey_genre/survey_genre.controller';
+import { SurveyGenreService } from './survey_genre/survey_genre.service';
+import { SurveyGenreModule } from './survey_genre/survey_genre.module';
+import { PostController } from './post/post.controller';
+import { PostService } from './post/post.service';
+import { PostModule } from './post/post.module';
+import { ParticipateController } from './participate/participate.controller';
+import { ParticipateService } from './participate/participate.service';
+import { ParticipateModule } from './participate/participate.module';
 
 @Module({
   imports: [
@@ -78,7 +90,11 @@ import { DatabaseConfig } from './database.config';
   SegmentModule,
   SelectableOptionModule,
   SurveyModule,
-  UserModule
+  UserModule,
+  UserGenreModule,
+  SurveyGenreModule,
+  PostModule,
+  ParticipateModule
   
   
   
@@ -87,7 +103,7 @@ import { DatabaseConfig } from './database.config';
   // })
   // TypeOrmConfigService.forRoot(),
   ],
-  controllers: [AppController, AnswerController, GenreController, UserController],
-  providers: [AppService, AuthService, AnswerService, UserService, GenreService],
+  controllers: [AppController, AnswerController, GenreController, UserController, UserGenreController, SurveyGenreController, PostController, ParticipateController],
+  providers: [AppService, AuthService, AnswerService, UserService, GenreService, UserGenreService, SurveyGenreService, PostService, ParticipateService],
 })
 export class AppModule {}

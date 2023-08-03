@@ -31,13 +31,13 @@ export class SurveyController {
 	}
 
 	@Get('/:survey_id/posted-user')
-	async getPostedUserBySurveyId() {}
+	async getPostedUserBySurveyId(@Param('survey_id') survey_id: string) {}
 
 	@Get('/:survey_id/participated-users')
-	async getParticipatedUserBySurveyId() {}
+	async getParticipatedUserBySurveyId(@Param('survey_id') survey_id: string) {}
 
 	@Get('/:survey_id/genres')
-	async getGenresBySurveyId() {}
+	async getGenresBySurveyId(@Param('survey_id') survey_id: string) {}
 
 	@Post('/genres')
 	async createSurveyGenre() {}
