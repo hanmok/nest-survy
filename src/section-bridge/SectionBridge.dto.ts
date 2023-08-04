@@ -1,21 +1,15 @@
 import { Expose } from "class-transformer";
-import { IsNumber } from "class-validator";
-
 
 export class SectionBridgeDTO { 
 	@Expose()
-	@IsNumber() //fk
-	current_id: number;
+	current_id: number; //fk
 
 	@Expose()
-	@IsNumber() //fk
-	next_id: number;
+	next_id: number; // fk
 
 	@Expose()
-	@IsNumber() //fk
-	question_id: number;
+	question_id: number; //fk
 
 	@Expose()
-	@IsNumber() //fk
-	selectableOption_id: number;
+	selectableOption_id: number; //fk
 }

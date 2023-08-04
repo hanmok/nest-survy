@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { SelectableOptionService } from './selectable-option.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { selectableOptionDTO } from './selectable-option.dto';
+import { SelectableOptionDTO } from './selectable-option.dto';
 import { CreateSelectableOptionDTO } from './createSelectableOption.dto';
 
-@Serialize(selectableOptionDTO)
+@Serialize(SelectableOptionDTO)
 @Controller('selectable-option')
 export class SelectableOptionController {
 	constructor(private selectableOptionService: SelectableOptionService) {}

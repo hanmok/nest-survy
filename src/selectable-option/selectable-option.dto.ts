@@ -1,8 +1,6 @@
 import { Expose } from "class-transformer";
-import { IsNumber, IsOptional, IsString } from "class-validator";
 
-
-export class selectableOptionDTO { 
+export class SelectableOptionDTO { 
 	@Expose()
 	id: number;
 

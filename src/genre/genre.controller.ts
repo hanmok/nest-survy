@@ -7,7 +7,7 @@ import { UserGenreService } from 'src/user_genre/user_genre.service';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 import { UserDto } from 'src/user/dtos/user.dto';
 import { SurveyDto } from 'src/survey/survey.dto';
-import { survey_genreDTO } from 'src/survey_genre/survey_genre.dto';
+import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
 
 
@@ -52,7 +52,7 @@ export class GenreController {
 	}
 
 	@Post('/:genre_id/surveys/:survey_id')
-	@Serialize(survey_genreDTO)
+	@Serialize(SurveyGenreDTO)
 	async createSurveyGenre(@Param('genre_id') genre_id: string, @Param('survey_id') survey_id: string) {
 		return await this.surveyGenreService.create(parseInt(survey_id), parseInt(genre_id))
 	}	
