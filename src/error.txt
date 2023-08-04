@@ -1,0 +1,8 @@
+2023-08-04T06:09:03.715586+00:00 app[web.1]: EntityMetadataNotFoundError: No metadata for "UserGenre" was found.
+2023-08-04T06:09:03.715586+00:00 app[web.1]: at DataSource.getMetadata (/app/node_modules/typeorm/data-source/DataSource.js:299:19)
+2023-08-04T06:09:03.715586+00:00 app[web.1]: at get metadata [as metadata] (/app/node_modules/typeorm/repository/Repository.js:15:40)
+2023-08-04T06:09:03.715587+00:00 app[web.1]: at Repository.create (/app/node_modules/typeorm/repository/Repository.js:52:41)
+2023-08-04T06:09:03.715587+00:00 app[web.1]: at UserGenreService.create (/app/dist/user_genre/user_genre.service.js:28:37)
+2023-08-04T06:09:03.715587+00:00 app[web.1]: at UserController.getUserGenres (/app/dist/user/user.controller.js:57:44)
+2023-08-04T06:09:03.715587+00:00 app[web.1]: at /app/node_modules/@nestjs/core/router/router-execution-context.js:38:29
+2023-08-04T06:09:03.715587+00:00 app[web.1]: at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

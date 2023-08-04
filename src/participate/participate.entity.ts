@@ -1,6 +1,6 @@
-import { PrimaryColumn } from "typeorm";
+import { Entity, PrimaryColumn } from "typeorm";
 
-
+@Entity()
 export class Participate { 
 	@PrimaryColumn()
 	user_id: number; //fk

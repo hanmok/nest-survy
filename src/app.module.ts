@@ -9,7 +9,7 @@ import { SurveyModule } from './survey/survey.module';
 import { ResponseModule } from './response/response.module';
 import { SegmentModule } from './segment/segment.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './typeorm.config';
+// import { TypeOrmConfigService } from './typeorm.config';
 import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './user/auth.service';
 import { SelectableOptionModule } from './selectable-option/selectable-option.module';
@@ -35,17 +35,16 @@ import { UserController } from './user/user.controller';
 // import { config } from 'process';
 import { config } from './config';
 import { DatabaseConfig } from './database.config';
-// import { UserGenreController } from './user_genre/user_genre.controller';
-// import { User}
+
 import { UserGenreService } from './user_genre/user_genre.service';
 import { UserGenreModule } from './user_genre/user_genre.module';
-import { SurveyGenreController } from './survey_genre/survey_genre.controller';
+
 import { SurveyGenreService } from './survey_genre/survey_genre.service';
 import { SurveyGenreModule } from './survey_genre/survey_genre.module';
-import { PostController } from './post/post.controller';
+// import { PostController } from './post/post.controller';
 import { PostService } from './post/post.service';
 import { PostModule } from './post/post.module';
-import { ParticipateController } from './participate/participate.controller';
+// import { ParticipateController } from './participate/participate.controller';
 import { ParticipateService } from './participate/participate.service';
 import { ParticipateModule } from './participate/participate.module';
 import { QuestionController } from './question/question.controller';
@@ -64,39 +63,43 @@ import { SectionBridgeService } from './section-bridge/section-bridge.service';
 import { SegmentService } from './segment/segment.service';
 import { SelectableOptionService } from './selectable-option/selectable-option.service';
 import { SurveyService } from './survey/survey.service';
+import { UserGenre } from './user_genre/user_genre.entity';
+import { Participate } from './participate/participate.entity';
+import { PostEntity } from './post/postEntity';
+import { SurveyGenre } from './survey_genre/survey_genre.entity';
 
 @Module({
   imports: [
-    UserModule, 
-    GenreModule, QuestionModule, SectionModule, SurveyModule, ResponseModule, SegmentModule,
-
   ConfigModule.forRoot({
     isGlobal: true,
     load: [config]
   }),
   // 이걸 쓰면 에러가 안나고
-  // TypeOrmModule.forRoot({ 
-  //   type: 'mysql',
-  //   host: 'us-cdbr-east-06.cleardb.net',
-  //   port: 3306,
-  //   username: 'bce8ef11b95d3a',
-  //   password: 'c3fa51f1',
-  //   database: 'heroku_3df4ab91447196b',
-  //   synchronize: false,
-  //   // entities:[ User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]
-  //   entities: ['./**/*.entity.js']
-  // }),
+  TypeOrmModule.forRoot({ 
+    type: 'mysql',
+    host: 'us-cdbr-east-06.cleardb.net',
+    port: 3306,
+    username: 'bce8ef11b95d3a',
+    password: 'c3fa51f1',
+    database: 'heroku_3df4ab91447196b',
+    synchronize: false,
+    // entities:[ User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]
+    // entities: ['./**/*.entity.js']
+    entities: [Genre, Participate, PostEntity, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre]
+  }),
   
   TypeOrmModule.forFeature([
-    User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey
+    Genre, Participate, PostEntity, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre
   ]),
 
   // 이걸 쓰면 에러가 난다. 왜그럴까 ? 
-  TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    useClass: DatabaseConfig
-  }),
+  // TypeOrmModule.forRootAsync({
+  //   imports: [ConfigModule],
+  //   useClass: DatabaseConfig
+  //   // useClass: config
+  // }),
 
+  SegmentModule,
   AnswerModule, 
   GenreModule,
   QuestionModule,
@@ -133,10 +136,7 @@ import { SurveyService } from './survey/survey.service';
     SelectableOptionController,
     SurveyController,
     UserController 
-    // UserGenreController, 
-    // SurveyGenreController, 
-    // PostController, 
-    // ParticipateController
+
   ],
   providers: [AppService, 
     AuthService, 
@@ -151,7 +151,6 @@ import { SurveyService } from './survey/survey.service';
     SelectableOptionService,
     SurveyService,
     UserService, 
-    
     UserGenreService, 
     SurveyGenreService, 
     PostService, 

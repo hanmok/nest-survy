@@ -1,6 +1,7 @@
-import { PrimaryColumn } from "typeorm";
+import { Entity, PrimaryColumn } from "typeorm";
 
-export class Survey_genre { 
+@Entity()
+export class SurveyGenre { 
 	@PrimaryColumn()
 	genre_id: number; // fk
 

@@ -9,7 +9,7 @@ import { PostEntity } from './postEntity';
 // 모든 사람이 올린건 볼 필요가 없음. 봐서도 안되고. 
 @Injectable()
 export class PostService {
-	constructor(@InjectRepository(Post) private repo: Repository<PostEntity>) {}
+	constructor(@InjectRepository(PostEntity) private repo: Repository<PostEntity>) {}
 
 	async create(survey_id: number, user_id: number) { 
 		const post = this.repo.create({survey_id, user_id})

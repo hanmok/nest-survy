@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Survey_genre } from './survey_genre.entity';
+import { SurveyGenre } from './survey_genre.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class SurveyGenreService {
-	constructor(@InjectRepository(Survey_genre) private repo: Repository<Survey_genre>) {}
+	constructor(@InjectRepository(SurveyGenre) private repo: Repository<SurveyGenre>) {}
 
 	// genre id 로 surveys 가져오기.
 	async getSurveysByGenreId(genre_id) { 

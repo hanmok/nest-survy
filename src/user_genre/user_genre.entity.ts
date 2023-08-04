@@ -1,11 +1,10 @@
-import { PrimaryColumn } from "typeorm";
+import { Entity, PrimaryColumn } from "typeorm";
 
-
-export class User_genre { 
+@Entity()
+export class UserGenre { 
 	@PrimaryColumn()
 	user_id: number;
 
 	@PrimaryColumn()
 	genre_id: number;
 }
-
