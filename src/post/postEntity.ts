@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
-export class Post { 
+export class PostEntity { 
 	
 	@PrimaryColumn()
 	survey_id: number; // fk

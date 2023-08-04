@@ -7,4 +7,7 @@ export class CreateSurveyDTO {
 
 	@IsNumber()
 	participationGoal: number;
+
+	@IsNumber()
+	user_id: number;
 }

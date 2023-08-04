@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { User_genre } from 'src/user_genre/user_genre.entity';
-import { Post } from 'src/post/post.entity';
+import { Post } from 'src/post/postEntity';
 import { Participate } from 'src/participate/participate.entity';
 import { UserGenreService } from 'src/user_genre/user_genre.service';
 import { PostService } from 'src/post/post.service';

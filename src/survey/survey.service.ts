@@ -22,5 +22,4 @@ export class SurveyService {
 		const survey = this.repo.create({title, participationGoal})
 		return this.repo.save(survey)
 	}
-	
 }

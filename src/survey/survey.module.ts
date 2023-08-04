@@ -7,7 +7,7 @@ import { Survey_genre } from 'src/survey_genre/survey_genre.entity';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 import { PostService } from 'src/post/post.service';
 import { ParticipateService } from 'src/participate/participate.service';
-import { Post } from 'src/post/post.entity';
+import { Post } from 'src/post/postEntity';
 import { Participate } from 'src/participate/participate.entity';
 
 @Module({

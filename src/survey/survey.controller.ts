@@ -10,20 +10,34 @@ import { ParticipateService } from 'src/participate/participate.service';
 @Controller('/survey')
 @Serialize(SurveyDto)
 export class SurveyController {
-	constructor(private surveyService: SurveyService, private surveyGenreService: SurveyGenreService, private postService: PostService, private participateService: ParticipateService) {}
+	constructor(private surveyService: SurveyService, 
+		private surveyGenreService: SurveyGenreService, 
+		private postService: PostService, 
+		private participateService: ParticipateService) {}
 
-	@Post('/create')
-	async createSurvey(@Body() body: CreateSurveyDTO) {
+	// survey 생성 및 user_id 로 post 생성. 
+	@Post('/create/:user_id')
+	async createSurvey(@Body() body: CreateSurveyDTO, @Param('user_id') user_id: string) {
 		const survey = await this.surveyService.create(body.title, body.participationGoal)
+		const _ = await this.postService.create(survey.id, parseInt(user_id))
 		return survey
 	}
 
+	// 모든 surveys 가져오기
 	@Get()
 	async getAllSurveys() {
 		return this.surveyService.getAll()
 	}
 
-	@Get('/:id')
+	// @Get('/except/participated-user/:user_id')
+	// async getAllSurveysExcept(user_id) {
+	// 	let allSurveys = this.surveyService.getAll()
+	// 	let participatedSurveys = this.participateService.getParticipatedSurveysByUserId(user_id)
+	// 	allSurveys.filter { }
+	// }
+
+	// id 로 특정 survey 가져오기
+	@Get('/:id') 
 	async getSurveyById(@Param('id') id: string) {
 		// return this.surveyService.findOne(parseInt(id))
 		const survey = await this.surveyService.findOne(parseInt(id))
@@ -33,15 +47,21 @@ export class SurveyController {
 		return survey
 	}
 
-	@Get('/:survey_id/posted-user')
-	async getPostedUserBySurveyId(@Param('survey_id') survey_id: string) {}
-
+	// 특정 survey 에 참여한 사람들 가져오기 (admin)
 	@Get('/:survey_id/participated-users')
-	async getParticipatedUserBySurveyId(@Param('survey_id') survey_id: string) {}
+	async getParticipatedUsersBySurveyId(@Param('survey_id') survey_id: string) {
+		return this.participateService.getParticipatedUsersBySurveyId(parseInt(survey_id))
+	}
 
+	// 특정 survey 에 있는 genres 가져오기
 	@Get('/:survey_id/genres')
-	async getGenresBySurveyId(@Param('survey_id') survey_id: string) {}
+	async getGenresBySurveyId(@Param('survey_id') survey_id: string) {
+		return this.surveyGenreService.getGenresBySurveyId(parseInt(survey_id))
+	}
 
-	@Post('/genres')
-	async createSurveyGenre() {}
+	// survey ~ genre 연결 시키기
+	@Post('/:survey_id/genres/:genre_id')
+	async createSurveyGenre(@Param('survey_id') survey_id: string, @Param('genre_id') genre_id: string) {
+		return this.surveyGenreService.create(parseInt(survey_id), parseInt(genre_id))
+	}
 }
