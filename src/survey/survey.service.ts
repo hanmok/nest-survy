@@ -7,19 +7,19 @@ import { Repository } from 'typeorm';
 export class SurveyService {
 	constructor(@InjectRepository(Survey) private repo: Repository<Survey>) {}
 
-	getAll() { 
-		return this.repo.find()
+	async getAll() { 
+		return await this.repo.find()
 	}
 
-	findOne(id: number) { 
+	async findOne(id: number) { 
 		if (!id) { 
 			return null
 		}
-		return this.repo.findOneBy({id});
+		return await this.repo.findOneBy({id});
 	}
 
-	create(title: string, participationGoal: number) { 
+	async create(title: string, participationGoal: number) { 
 		const survey = this.repo.create({title, participationGoal})
-		return this.repo.save(survey)
+		return await this.repo.save(survey)
 	}
 }

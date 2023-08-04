@@ -17,20 +17,20 @@ export class GenreService {
 				throw new ConflictException(`genre ${name} already exists`)
 			}
 			const genre = this.repo.create({name})
-			return this.repo.save(genre);
+			return await this.repo.save(genre);
 		} else { 
 			throw new BadRequestException('empty string')
 		}
 	}
 
-	findOne(id: number) { 
+	async findOne(id: number) { 
 		if(!id) {
 			return null
 		}
-		return this.repo.findOneBy({id});
+		return await this.repo.findOneBy({id});
 	}
 
-	getAll() { 
-		return this.repo.find()
+	async getAll() { 
+		return await this.repo.find()
 	}
 }

@@ -15,9 +15,9 @@ export class UserService {
 	// 	return jwt.sign({id, email}, secret);
 	// }
 
-	create(username: string, password: string) { 
+	async create(username: string, password: string) { 
 		const user = this.repo.create({username, password})
-		return this.repo.save(user)
+		return await this.repo.save(user)
 	}
 	
 	async update(id: number, attrs: Partial<User>) { 
@@ -26,7 +26,7 @@ export class UserService {
 			throw new NotFoundException('user not found');
 		}
 		Object.assign(user, attrs)
-		return this.repo.save(user);
+		return await this.repo.save(user);
 	}
 
 	async remove(id: number) { 
@@ -34,21 +34,21 @@ export class UserService {
 		if (!user) { 
 			throw new NotFoundException('user not found');
 		}
-		return this.repo.remove(user)
+		return await this.repo.remove(user)
 	}
 
-	findOne(id: number) { 
+	async findOne(id: number) { 
 		if (!id) { 
 			return null
 		}
-		return this.repo.findOneBy({id});
+		return await this.repo.findOneBy({id});
 	}
 
-	find(username: string) { 
-		return this.repo.find({where: {username}}); 
+	async find(username: string) { 
+		return await this.repo.find({where: {username}}); 
 	} 
 	
-	getAll() { 
-		return this.repo.find()
+	async getAll() { 
+		return await this.repo.find()
 	}
 }

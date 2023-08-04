@@ -11,17 +11,17 @@ import { PostEntity } from './postEntity';
 export class PostService {
 	constructor(@InjectRepository(Post) private repo: Repository<PostEntity>) {}
 
-	create(survey_id: number, user_id: number) { 
+	async create(survey_id: number, user_id: number) { 
 		const post = this.repo.create({survey_id, user_id})
-		return this.repo.save(post)
+		return await this.repo.save(post)
 	}
 
-	getPostedSurveysByUserId(user_id) { 
-		return this.repo.find({where: {user_id}})
+	async getPostedSurveysByUserId(user_id) { 
+		return await this.repo.find({where: {user_id}})
 	}
 
 	// admin 
-	getAll() { 
-		return this.repo.find()
+	async getAll() { 
+		return await this.repo.find()
 	}
 } 
