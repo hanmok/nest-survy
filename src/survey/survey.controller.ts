@@ -2,7 +2,7 @@ import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/c
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SurveyDto } from './survey.dto';
 import { SurveyService } from './survey.service';
-import { CreateSurveyDTO } from './create-survey.dto';
+import { CreateSurveyDTO } from './createSurvey.dto';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 import { PostingService } from 'src/posting/posting.service';
 import { ParticipatingService } from 'src/participating/participating.service';

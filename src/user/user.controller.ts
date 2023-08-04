@@ -1,14 +1,14 @@
 import { User } from './user.entity';
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateUserDto } from './dtos/createUser.dto';
 import { AuthService } from './auth.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { UserGenreService } from 'src/user_genre/user_genre.service';
 import { PostingService } from 'src/posting/posting.service';
 import { ParticipatingService } from 'src/participating/participating.service';
-import { UserGenreDTO } from 'src/user_genre/user_genre.dto';
+import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
 import { SurveyDto } from 'src/survey/survey.dto';
 
 

@@ -1,5 +1,6 @@
 import { Question } from 'src/question/question.entity';
 import { selectableOption } from 'src/selectable-option/selectable-option.entity';
+import { Survey } from 'src/survey/survey.entity';
 import { User } from 'src/user/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm';
 
@@ -25,6 +26,11 @@ export class Response {
 	@OneToOne(() => User)
 	@JoinColumn()
 	user_id: number;
+
+	@PrimaryColumn()
+	@OneToOne(() => Survey)
+	@JoinColumn()
+	survey_id: number;
 
 	@Column()
 	answerText: string;
