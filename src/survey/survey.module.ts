@@ -5,14 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Survey } from './survey.entity';
 import { SurveyGenre } from 'src/survey_genre/survey_genre.entity';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
-import { PostService } from 'src/post/post.service';
-import { ParticipateService } from 'src/participate/participate.service';
-import { PostEntity } from 'src/post/postEntity';
-import { Participate } from 'src/participate/participate.entity';
+import { PostingService } from 'src/posting/posting.service';
+import { ParticipatingService } from 'src/participating/participating.service';
+import { Posting } from 'src/posting/posting.entity';
+import { Participating } from 'src/participating/participating.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Survey, SurveyGenre, PostEntity, Participate])],
-  providers: [SurveyService, SurveyGenreService, PostService, ParticipateService],
+  imports: [TypeOrmModule.forFeature([Survey, SurveyGenre, Posting, Participating])],
+  providers: [SurveyService, SurveyGenreService, PostingService, ParticipatingService],
   controllers: [SurveyController]
 })
 export class SurveyModule {}

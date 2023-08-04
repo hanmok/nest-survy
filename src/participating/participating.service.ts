@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Participate } from './participate.entity';
+import { Participating } from './participating.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class ParticipateService {
-	constructor(@InjectRepository(Participate) private repo: Repository<Participate>) {}
+export class ParticipatingService {
+	constructor(@InjectRepository(Participating) private repo: Repository<Participating>) {}
 
 	async create(survey_id: number, user_id: number) { 
-		const participate = this.repo.create({survey_id, user_id})
-		return await this.repo.save(participate)
+		const participating = this.repo.create({survey_id, user_id})
+		return await this.repo.save(participating)
 	}
 
 	// SurveyId 로 조회하는거 필요해. admin 에게

@@ -41,12 +41,10 @@ import { UserGenreModule } from './user_genre/user_genre.module';
 
 import { SurveyGenreService } from './survey_genre/survey_genre.service';
 import { SurveyGenreModule } from './survey_genre/survey_genre.module';
-// import { PostController } from './post/post.controller';
-import { PostService } from './post/post.service';
-import { PostModule } from './post/post.module';
-// import { ParticipateController } from './participate/participate.controller';
-import { ParticipateService } from './participate/participate.service';
-import { ParticipateModule } from './participate/participate.module';
+import { PostingService } from './posting/posting.service';
+import { PostingModule } from './posting/posting.module';
+import { ParticipatingService } from './participating/participating.service';
+import { ParticipatingModule } from './participating/participating.module';
 import { QuestionController } from './question/question.controller';
 import { QuestionTypeController } from './question-type/question-type.controller';
 import { ResponseController } from './response/response.controller';
@@ -64,8 +62,8 @@ import { SegmentService } from './segment/segment.service';
 import { SelectableOptionService } from './selectable-option/selectable-option.service';
 import { SurveyService } from './survey/survey.service';
 import { UserGenre } from './user_genre/user_genre.entity';
-import { Participate } from './participate/participate.entity';
-import { PostEntity } from './post/postEntity';
+import { Participating } from './participating/participating.entity';
+import { Posting } from './posting/posting.entity';
 import { SurveyGenre } from './survey_genre/survey_genre.entity';
 
 @Module({
@@ -85,11 +83,11 @@ import { SurveyGenre } from './survey_genre/survey_genre.entity';
     synchronize: false,
     // entities:[ User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]
     // entities: ['./**/*.entity.js']
-    entities: [Genre, Participate, PostEntity, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre]
+    entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre]
   }),
   
   TypeOrmModule.forFeature([
-    Genre, Participate, PostEntity, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre
+    Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre
   ]),
 
   // 이걸 쓰면 에러가 난다. 왜그럴까 ? 
@@ -113,8 +111,8 @@ import { SurveyGenre } from './survey_genre/survey_genre.entity';
   UserModule,
   UserGenreModule,
   SurveyGenreModule,
-  PostModule,
-  ParticipateModule
+  PostingModule,
+  ParticipatingModule
   
   
   
@@ -153,7 +151,7 @@ import { SurveyGenre } from './survey_genre/survey_genre.entity';
     UserService, 
     UserGenreService, 
     SurveyGenreService, 
-    PostService, 
-    ParticipateService],
+    PostingService, 
+    ParticipatingService],
 })
 export class AppModule {}

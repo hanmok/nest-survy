@@ -1,11 +1,10 @@
 import { Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
-export class PostEntity { 
-	
+export class Participating { 
 	@PrimaryColumn()
-	survey_id: number; // fk
+	user_id: number; //fk
 
 	@PrimaryColumn()
-	user_id: number; // fk
+	survey_id: number; // fk
 }

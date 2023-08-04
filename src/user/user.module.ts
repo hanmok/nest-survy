@@ -5,24 +5,24 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { UserGenre } from 'src/user_genre/user_genre.entity';
-import { PostEntity } from 'src/post/postEntity';
-import { Participate } from 'src/participate/participate.entity';
+import { Posting } from 'src/posting/posting.entity';
+import { Participating } from 'src/participating/participating.entity';
 import { UserGenreService } from 'src/user_genre/user_genre.service';
-import { PostService } from 'src/post/post.service';
-import { ParticipateService } from 'src/participate/participate.service';
+import { PostingService } from 'src/posting/posting.service';
+import { ParticipatingService } from 'src/participating/participating.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
     User, 
     UserGenre, 
-    PostEntity, 
-    Participate])
+    Posting, 
+    Participating])
   ],
   providers: [UserService, 
     AuthService, 
     UserGenreService, 
-    PostService, 
-    ParticipateService],
+    PostingService, 
+    ParticipatingService],
   controllers: [UserController]
 })
 

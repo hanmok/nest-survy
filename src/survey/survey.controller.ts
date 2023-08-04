@@ -4,22 +4,22 @@ import { SurveyDto } from './survey.dto';
 import { SurveyService } from './survey.service';
 import { CreateSurveyDTO } from './create-survey.dto';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
-import { PostService } from 'src/post/post.service';
-import { ParticipateService } from 'src/participate/participate.service';
+import { PostingService } from 'src/posting/posting.service';
+import { ParticipatingService } from 'src/participating/participating.service';
 
 @Controller('/survey')
 @Serialize(SurveyDto)
 export class SurveyController {
 	constructor(private surveyService: SurveyService, 
 		private surveyGenreService: SurveyGenreService, 
-		private postService: PostService, 
-		private participateService: ParticipateService) {}
+		private postingService: PostingService, 
+		private participatingService: ParticipatingService) {}
 
 	// survey 생성 및 user_id 로 post 생성. 
-	@Post('/create/:user_id')
+	@Post('/create/user/:user_id')
 	async createSurvey(@Body() body: CreateSurveyDTO, @Param('user_id') user_id: string) {
 		const survey = await this.surveyService.create(body.title, body.participationGoal)
-		const _ = await this.postService.create(survey.id, parseInt(user_id))
+		const _ = await this.postingService.create(survey.id, parseInt(user_id))
 		return survey
 	}
 
@@ -50,7 +50,7 @@ export class SurveyController {
 	// 특정 survey 에 참여한 사람들 가져오기 (admin)
 	@Get('/:survey_id/participated-users')
 	async getParticipatedUsersBySurveyId(@Param('survey_id') survey_id: string) {
-		return await this.participateService.getParticipatedUsersBySurveyId(parseInt(survey_id))
+		return await this.participatingService.getParticipatedUsersBySurveyId(parseInt(survey_id))
 	}
 
 	// 특정 survey 에 있는 genres 가져오기
@@ -60,7 +60,7 @@ export class SurveyController {
 	}
 
 	// survey ~ genre 연결 시키기
-	@Post('/:survey_id/genres/:genre_id')
+	@Post('/:survey_id/genres/:genre_id/connections')
 	async createSurveyGenre(@Param('survey_id') survey_id: string, @Param('genre_id') genre_id: string) {
 		return await this.surveyGenreService.create(parseInt(survey_id), parseInt(genre_id))
 	}
