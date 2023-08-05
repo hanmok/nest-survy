@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ResponseService } from './response.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ResponseDTO } from './response.dto';
-import { CreateResponseDTO } from './createResponseDTO';
+import { CreateResponseDTO } from './createResponse.dto';
 
 @Serialize(ResponseDTO)
 @Controller('response')

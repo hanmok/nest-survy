@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Response } from './response.entity';
 import { Repository } from 'typeorm';
-import { CreateResponseDTO } from './createResponseDTO';
+import { CreateResponseDTO } from './createResponse.dto';
 
 @Injectable()
 export class ResponseService {

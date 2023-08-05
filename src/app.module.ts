@@ -49,7 +49,6 @@ import { QuestionController } from './question/question.controller';
 import { QuestionTypeController } from './question-type/question-type.controller';
 import { ResponseController } from './response/response.controller';
 import { SectionController } from './section/section.controller';
-import { SectionBridgeController } from './section-bridge/section-bridge.controller';
 import { SegmentController } from './segment/segment.controller';
 import { SelectableOptionController } from './selectable-option/selectable-option.controller';
 import { SurveyController } from './survey/survey.controller';
@@ -129,12 +128,10 @@ import { SurveyGenre } from './survey_genre/survey_genre.entity';
     QuestionTypeController,
     ResponseController,
     SectionController,
-    SectionBridgeController,
     SegmentController,
     SelectableOptionController,
     SurveyController,
     UserController 
-
   ],
   providers: [AppService, 
     AuthService, 

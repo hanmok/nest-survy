@@ -14,10 +14,11 @@ export class AuthService {
 		if (users.length) { 
 			throw new BadRequestException('username in use')
 		}
-
+		
 		const salt = randomBytes(8).toString('hex');
 		const hash = (await scrypt(password, salt, 32)) as Buffer;
 		const result = salt + '.' + hash.toString('hex');
+		console.log(`signup, salt: ${salt}, hash: ${hash}, result: ${result}, storedHash: ${hash.toString('hex')}`)
 		const user = this.userService.create(username, result)
 		return user;
 	}
@@ -29,6 +30,8 @@ export class AuthService {
 		}
 
 		const [salt, storedHash] = user.password.split('.');
+
+		console.log(`signin, user: ${user.username}, password: ${user.password}, salt: ${salt}, storedHash: ${storedHash}`)
 
 		const hash = (await scrypt(password, salt, 32)) as Buffer;
 

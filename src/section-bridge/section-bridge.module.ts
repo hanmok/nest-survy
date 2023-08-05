@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { SectionBridgeController } from './section-bridge.controller';
 import { SectionBridgeService } from './section-bridge.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SectionBridge } from './section-bridge.entity';
 
 @Module({
-  controllers: [SectionBridgeController],
+  imports: [TypeOrmModule.forFeature([
+    SectionBridge
+  ])],
   providers: [SectionBridgeService]
 })
 export class SectionBridgeModule {}

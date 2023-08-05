@@ -30,6 +30,12 @@ export class UserController {
 		return await this.authService.signup(body.username, body.password)
 	}
 
+	@Post('/signin')
+	@Serialize(UserDto)
+	async login(@Body() body: CreateUserDto) {
+		return await this.authService.signin(body.username, body.password)
+	}
+
 	// 모든 User 가져오기
 	@Get()
 	@Serialize(UserDto)
@@ -41,11 +47,7 @@ export class UserController {
 	// TODO: RefreshToken 으로 accessToken return 
 	// ERROR!! (salt 과정 재확인 필요)
 
-	@Post('/login')
-	@Serialize(UserDto)
-	async login(@Body() body: CreateUserDto) {
-		return await this.authService.signin(body.username, body.password)
-	}
+	
 
 	// 로그아웃, 
 	// TODO: accessToken, RefreshToken 만료시키기
