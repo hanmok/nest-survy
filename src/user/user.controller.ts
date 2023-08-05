@@ -1,5 +1,4 @@
-import { User } from './user.entity';
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { AuthService } from './auth.service';
@@ -27,13 +26,39 @@ export class UserController {
 	@Post('/signup')
 	@Serialize(UserDto)
 	async createUser(@Body() body: CreateUserDto) {
-		return await this.authService.signup(body.username, body.password)
+		const user = await this.authService.signup(body.username, body.password)
+		const userId = user.id
+		return await this.publishTokens(userId)
+		// const accessToken = await this.authService.generateAccessToken({userId})
+		// const refreshToken = await this.authService.generateRefreshToken({userId})
+		// return {accessToken, refreshToken, userId}
+	}
+
+	async publishTokens(userId) { 
+		const accessToken = await this.authService.generateAccessToken({userId})
+		const refreshToken = await this.authService.generateRefreshToken({userId})
+		return {accessToken, refreshToken, userId}
 	}
 
 	@Post('/signin')
-	@Serialize(UserDto)
 	async login(@Body() body: CreateUserDto) {
-		return await this.authService.signin(body.username, body.password)
+		const user = await this.authService.signin(body.username, body.password)
+		const userId = user.id
+		return await this.publishTokens(userId)
+		// const accessToken = await this.authService.generateAccessToken({userId})
+		// const refreshToken = await this.authService.generateRefreshToken({userId})
+		// return { accessToken, refreshToken, userId }
+	}
+
+	@Post('/regenerate_acess_token')
+	async refresh(@Body() body: {refreshToken: string}) { 
+		try { 
+			const { userId } = await this.authService.verifyToken(body.refreshToken)
+			const accessToken = await this.authService.generateAccessToken({userId})
+			return { accessToken };
+		} catch (error) { 
+			return new UnauthorizedException();
+		}
 	}
 
 	// 모든 User 가져오기
@@ -58,7 +83,7 @@ export class UserController {
 	@Get('/:id')
 	@Serialize(UserDto)
 	async getById(@Param('id') id: string) {
-		const user = await this.userService.findOne(parseInt(id))
+		const user = await this.userService.findByUserId(parseInt(id))
 		if (!user) { 
 			throw new NotFoundException('user not found');
 		}

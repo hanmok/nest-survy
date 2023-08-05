@@ -21,7 +21,7 @@ export class UserService {
 	}
 	
 	async update(id: number, attrs: Partial<User>) { 
-		const user = await this.findOne(id)
+		const user = await this.findByUserId(id)
 		if (!user) { 
 			throw new NotFoundException('user not found');
 		}
@@ -30,21 +30,21 @@ export class UserService {
 	}
 
 	async remove(id: number) { 
-		const user = await this.findOne(id);
+		const user = await this.findByUserId(id);
 		if (!user) { 
 			throw new NotFoundException('user not found');
 		}
 		return await this.repo.remove(user)
 	}
 
-	async findOne(id: number) { 
+	async findByUserId(id: number) { 
 		if (!id) { 
 			return null
 		}
 		return await this.repo.findOneBy({id});
 	}
 
-	async find(username: string) { 
+	async findByUsername(username: string) { 
 		return await this.repo.find({where: {username}}); 
 	} 
 	

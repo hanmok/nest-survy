@@ -10,6 +10,7 @@ import { Participating } from 'src/participating/participating.entity';
 import { UserGenreService } from 'src/user_genre/user_genre.service';
 import { PostingService } from 'src/posting/posting.service';
 import { ParticipatingService } from 'src/participating/participating.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -20,6 +21,7 @@ import { ParticipatingService } from 'src/participating/participating.service';
   ],
   providers: [UserService, 
     AuthService, 
+    JwtService,
     UserGenreService, 
     PostingService, 
     ParticipatingService],

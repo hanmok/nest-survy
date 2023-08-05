@@ -64,6 +64,8 @@ import { UserGenre } from './user_genre/user_genre.entity';
 import { Participating } from './participating/participating.entity';
 import { Posting } from './posting/posting.entity';
 import { SurveyGenre } from './survey_genre/survey_genre.entity';
+import { AuthModule } from './user/auth.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -73,6 +75,7 @@ import { SurveyGenre } from './survey_genre/survey_genre.entity';
   }),
   // 이걸 쓰면 에러가 안나고
   TypeOrmModule.forRoot({ 
+
     type: 'mysql',
     host: 'us-cdbr-east-06.cleardb.net',
     port: 3306,
@@ -111,7 +114,8 @@ import { SurveyGenre } from './survey_genre/survey_genre.entity';
   UserGenreModule,
   SurveyGenreModule,
   PostingModule,
-  ParticipatingModule
+  ParticipatingModule,
+  AuthModule
   
   
   
@@ -144,6 +148,7 @@ import { SurveyGenre } from './survey_genre/survey_genre.entity';
     SectionBridgeService,
     SegmentService,
     SelectableOptionService,
+    JwtService,
     SurveyService,
     UserService, 
     UserGenreService, 
