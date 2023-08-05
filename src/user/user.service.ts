@@ -10,11 +10,6 @@ export class UserService {
 	// , private configService: ConfigService
 	) {} 
 
-	// createToken({id, email}: User) { 
-	// 	const secret = this.configService.get('JWT_SECRET');
-	// 	return jwt.sign({id, email}, secret);
-	// }
-
 	async create(username: string, password: string) { 
 		const user = this.repo.create({username, password})
 		return await this.repo.save(user)

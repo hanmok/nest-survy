@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { AuthService } from './auth.service';
+// import { AuthService } from './auth.service';
+import { AuthService } from './auth/auth.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { UserGenreService } from 'src/user_genre/user_genre.service';
@@ -24,7 +25,6 @@ export class UserController {
 	// 회원 가입, 
 	// TODO: Refresh Token return 
 	@Post('/signup')
-	@Serialize(UserDto)
 	async createUser(@Body() body: CreateUserDto) {
 		const user = await this.authService.signup(body.username, body.password)
 		const userId = user.id
@@ -37,6 +37,7 @@ export class UserController {
 	async publishTokens(userId) { 
 		const accessToken = await this.authService.generateAccessToken({userId})
 		const refreshToken = await this.authService.generateRefreshToken({userId})
+		console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}, userId: ${userId}`)
 		return {accessToken, refreshToken, userId}
 	}
 

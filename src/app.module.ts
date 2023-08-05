@@ -11,7 +11,8 @@ import { SegmentModule } from './segment/segment.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { TypeOrmConfigService } from './typeorm.config';
 import { ConfigModule } from '@nestjs/config';
-import { AuthService } from './user/auth.service';
+// import { AuthService } from './user/auth.service';
+import { AuthService } from './user/auth/auth.service';
 import { SelectableOptionModule } from './selectable-option/selectable-option.module';
 import { SectionBridgeModule } from './section-bridge/section-bridge.module';
 import { QuestionTypeModule } from './question-type/question-type.module';
@@ -64,8 +65,10 @@ import { UserGenre } from './user_genre/user_genre.entity';
 import { Participating } from './participating/participating.entity';
 import { Posting } from './posting/posting.entity';
 import { SurveyGenre } from './survey_genre/survey_genre.entity';
-import { AuthModule } from './user/auth.module';
-import { JwtService } from '@nestjs/jwt';
+import { AuthModule } from './user/auth/auth.module';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtStrategy } from './user/jwt/jwt.strategy';
+require('dotenv').config();
 
 @Module({
   imports: [
@@ -73,9 +76,12 @@ import { JwtService } from '@nestjs/jwt';
     isGlobal: true,
     load: [config]
   }),
+  JwtModule.register({
+    secret: '046e13dae9c744286aea80fc54f6f203b1a15e36F',
+    secretOrPrivateKey:'046e13dae9c744286aea80fc54f6f203b1a15e36F'
+  }),
   // 이걸 쓰면 에러가 안나고
   TypeOrmModule.forRoot({ 
-
     type: 'mysql',
     host: 'us-cdbr-east-06.cleardb.net',
     port: 3306,
@@ -83,7 +89,6 @@ import { JwtService } from '@nestjs/jwt';
     password: 'c3fa51f1',
     database: 'heroku_3df4ab91447196b',
     synchronize: false,
-    // entities:[ User, Genre, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey]
     // entities: ['./**/*.entity.js']
     entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre]
   }),
@@ -115,7 +120,8 @@ import { JwtService } from '@nestjs/jwt';
   SurveyGenreModule,
   PostingModule,
   ParticipatingModule,
-  AuthModule
+  AuthModule,
+  JwtModule
   
   
   
@@ -149,6 +155,7 @@ import { JwtService } from '@nestjs/jwt';
     SegmentService,
     SelectableOptionService,
     JwtService,
+    JwtStrategy,
     SurveyService,
     UserService, 
     UserGenreService, 
