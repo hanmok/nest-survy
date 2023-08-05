@@ -23,7 +23,7 @@ export class AuthService {
 		console.log(`payload: ${payload}, accessToken: ${accessToken}`)
 		return accessToken
 	}
-
+	
 	async generateRefreshToken(payload: any) {
 		const refreshToken = await this.jwtService.sign(payload, {expiresIn: '60d', secret: '046e13dae9c744286aea80fc54f6f203b1a15e36'})
 		console.log(`payload: ${payload}, refreshToken: ${refreshToken}`)

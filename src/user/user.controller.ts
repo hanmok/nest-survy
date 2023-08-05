@@ -29,9 +29,6 @@ export class UserController {
 		const user = await this.authService.signup(body.username, body.password)
 		const userId = user.id
 		return await this.publishTokens(userId)
-		// const accessToken = await this.authService.generateAccessToken({userId})
-		// const refreshToken = await this.authService.generateRefreshToken({userId})
-		// return {accessToken, refreshToken, userId}
 	}
 
 	async publishTokens(userId) { 
@@ -41,23 +38,23 @@ export class UserController {
 		return {accessToken, refreshToken, userId}
 	}
 
+	
 	@Post('/signin')
-	async login(@Body() body: CreateUserDto) {
+	async login(@Body() body: CreateUserDto) { 
+		// 음.. User 
 		const user = await this.authService.signin(body.username, body.password)
 		const userId = user.id
 		return await this.publishTokens(userId)
-		// const accessToken = await this.authService.generateAccessToken({userId})
-		// const refreshToken = await this.authService.generateRefreshToken({userId})
-		// return { accessToken, refreshToken, userId }
 	}
 
-	@Post('/regenerate_acess_token')
-	async refresh(@Body() body: {refreshToken: string}) { 
-		try { 
-			const { userId } = await this.authService.verifyToken(body.refreshToken)
+	@Post('/auto_signin')
+	async autoSignin(@Body() body: {refreshToken: string}) { 
+		const userId = await this.authService.verifyToken(body.refreshToken)
+		
+		if (userId) { 
 			const accessToken = await this.authService.generateAccessToken({userId})
-			return { accessToken };
-		} catch (error) { 
+			return { accessToken, userId }
+		} else { 
 			return new UnauthorizedException();
 		}
 	}
@@ -69,16 +66,13 @@ export class UserController {
 		return await this.userService.getAll() 
 	} 
 	
-	// 로그인, 
-	// TODO: RefreshToken 으로 accessToken return 
-	// ERROR!! (salt 과정 재확인 필요)
-
-	
 
 	// 로그아웃, 
 	// TODO: accessToken, RefreshToken 만료시키기
 	@Post('/logout/:id')
-	logout() {} 
+	logout() {
+		
+	} 
 
 	// id 로 특정 User 가져오기
 	@Get('/:id')
