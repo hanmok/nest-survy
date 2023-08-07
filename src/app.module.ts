@@ -67,7 +67,11 @@ import { Posting } from './posting/posting.entity';
 import { SurveyGenre } from './survey_genre/survey_genre.entity';
 import { AuthModule } from './user/auth/auth.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { JwtStrategy } from './user/jwt/jwt.strategy';
+// import { JwtStrategy } from './user/jwt/jwt.strategy';
+import { JwtStrategy } from './user/jwt.strategy';
+import { AccessToken } from './user/accessToken.entity';
+// import { RefreshToken } from './user/jwt/refreshToken.entity';
+import { RefreshToken } from './user/refreshToken.entity';
 require('dotenv').config();
 
 @Module({
@@ -90,11 +94,11 @@ require('dotenv').config();
     database: 'heroku_3df4ab91447196b',
     synchronize: false,
     // entities: ['./**/*.entity.js']
-    entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre]
+    entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken]
   }),
   
   TypeOrmModule.forFeature([
-    Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre
+    Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken
   ]),
 
   // 이걸 쓰면 에러가 난다. 왜그럴까 ? 

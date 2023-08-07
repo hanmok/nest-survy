@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 // import { AuthService } from './auth.service';
@@ -13,7 +13,6 @@ import { SurveyDto } from 'src/survey/survey.dto';
 
 
 @Controller('/user')
-// @Serialize(UserDto)
 export class UserController {
 	constructor(
 		private userService: UserService, 
@@ -23,74 +22,56 @@ export class UserController {
 		private participatingService: ParticipatingService) {}
 
 	// 회원 가입, 
-	// TODO: Refresh Token return 
 	@Post('/signup')
 	async createUser(@Body() body: CreateUserDto) {
 		const user = await this.authService.signup(body.username, body.password)
 		const userId = user.id
-		return await this.publishTokens(userId)
+		console.log('hhii')
+		const accessToken = await this.authService.generateAccessToken(userId)
+		const refreshToken = await this.authService.generateRefreshToken(userId)
+		console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}, userId: ${userId}`)
+		return { accessToken, refreshToken, userId }
 	}
 
 	async publishTokens(userId) { 
-		const accessToken = await this.authService.generateAccessToken({userId})
-		const refreshToken = await this.authService.generateRefreshToken({userId})
-		console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}, userId: ${userId}`)
-		return {accessToken, refreshToken, userId}
+		const accessToken = await this.authService.generateAccessToken(userId)
+		const refreshToken = await this.authService.generateRefreshToken(userId)
+		return { accessToken, refreshToken, userId }
 	}
 
-	
-	@Post('/signin')
+	@Post('/signin') 
 	async login(@Body() body: CreateUserDto) { 
-		// 음.. User 
+		// id, password 확인
 		const user = await this.authService.signin(body.username, body.password)
 		const userId = user.id
-		return await this.publishTokens(userId)
+		// 토큰이 둘다 없어야함. 토큰 있으면 Error 출력, 없으면 새로 발급
+		if (this.authService.userHasToken(userId)) {
+			return { 
+				statusCode: 400,
+				message: 'please logout first'
+			}
+		}
+		return await this.publishTokens(userId) 
 	}
+
+	// 로그아웃, 
+	// accessToken, RefreshToken 만료
+	@Post('/logout/:id')
+	async logout(@Param('id') id: string) {
+		return await this.authService.removeTokens(parseInt(id))
+	} 
 
 	@Post('/auto_signin')
 	async autoSignin(@Body() body: {refreshToken: string}) { 
-		const userId = await this.authService.verifyToken(body.refreshToken)
-		
+		const userId = await this.authService.verifyRefreshToken(body.refreshToken)
 		if (userId) { 
-			const accessToken = await this.authService.generateAccessToken({userId})
+			// AccessToken 제거 
+			const _ = await this.authService.removeAccessToken(userId)
+			const accessToken = await this.authService.generateAccessToken(userId)
 			return { accessToken, userId }
 		} else { 
-			return new UnauthorizedException();
+			return new UnauthorizedException(); // 토큰 없으면 토큰 만료
 		}
-	}
-
-	// 모든 User 가져오기
-	@Get()
-	@Serialize(UserDto)
-	async getAllUsers() {
-		return await this.userService.getAll() 
-	} 
-	
-
-	// 로그아웃, 
-	// TODO: accessToken, RefreshToken 만료시키기
-	@Post('/logout/:id')
-	logout() {
-		
-	} 
-
-	// id 로 특정 User 가져오기
-	@Get('/:id')
-	@Serialize(UserDto)
-	async getById(@Param('id') id: string) {
-		const user = await this.userService.findByUserId(parseInt(id))
-		if (!user) { 
-			throw new NotFoundException('user not found');
-		}
-		return user;
-	}
-
-	// id 로 User 제거, 
-	// TODO: RefreshToken, AccessToken 무효화
-	@Delete('/:id')
-	@Serialize(UserDto)
-	async removeUser(@Param('id') id: string) { 
-		return await this.userService.remove(parseInt(id));
 	}
 
 	// user_id 로  genres 가져오기
@@ -125,6 +106,33 @@ export class UserController {
 	async getParticipatedSurveys(@Param('id') id: string) {
 		return await this.participatingService.getParticipatedSurveysByUserId(parseInt(id))
 	}
-	
-	// @Post('/regenerate_access_token')
+
+
+	// ADMIN
+
+	// 모든 User 가져오기 (Admin)
+	@Get()
+	@Serialize(UserDto)
+	async getAllUsers() {
+		return await this.userService.getAll() 
+	} 
+
+	// id 로 특정 User 가져오기
+	@Get('/:id')
+	@Serialize(UserDto)
+	async getById(@Param('id') id: string) {
+		const user = await this.userService.findByUserId(parseInt(id))
+		if (!user) { 
+			throw new NotFoundException('user not found');
+		}
+		return user;
+	}
+
+	// id 로 User 제거, 
+	@Delete('/:id')
+	@Serialize(UserDto)
+	async removeUser(@Param('id') id: string) { 
+		const _ = await this.authService.removeTokens(parseInt(id))
+		return await this.userService.remove(parseInt(id));
+	}
 }

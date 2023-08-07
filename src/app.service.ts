@@ -9,6 +9,8 @@ export class AppService {
     return this.configService.get<string>('DATABASE_NAME')
   }
   getHello(): string {
-    return 'Hello World!';
+    const returnValue = 'Hello world!!!'
+    console.log(returnValue)
+    return returnValue;
   }
 }

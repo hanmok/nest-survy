@@ -14,13 +14,19 @@ import { ParticipatingService } from 'src/participating/participating.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
+import { AccessToken } from './accessToken.entity';
+// import { RefreshToken } from './jwt/refreshToken.entity';
+import { RefreshToken } from './refreshToken.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
     User, 
     UserGenre, 
     Posting, 
-    Participating]), 
+    Participating, 
+  AccessToken, 
+  RefreshToken
+  ]), 
     PassportModule.register({
       defaultStrategy: 'jwt',
       session: false

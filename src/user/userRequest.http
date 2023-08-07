@@ -9,6 +9,37 @@ Retry-After: 10
 ###
 # GET http://dearsurvy.herokuapp.com/user/4
 
+
+###
+GET https://dearsurvy.herokuapp.com/
+
+### 
+POST https://dearsurvy.herokuapp.com/user/signup
+Content-Type: "application/json"
+
+{
+    "username": "myTest66@naver.com",
+    "password": "something"
+}
+
+### signin
+POST https://dearsurvy.herokuapp.com/user/signin
+Content-Type: "application/json"
+
+{
+    "username": "myTest61@naver.com",
+    "password": "something"
+}
+
+###
+# POST https://dearsurvy.herokuapp.com/user/signup
+POST http://localhost:3000/user/signup
+Content-Type: "application/json"
+
+###
+GET http://localhost:3000
+
+
 ###
 POST http://localhost:3000/user/signup
 Content-Type: "application/json"
