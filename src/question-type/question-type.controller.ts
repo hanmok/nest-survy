@@ -14,8 +14,10 @@ export class QuestionTypeController {
 		return await this.questionTypeService.getAll()
 	}
 
-	@Post()
-	async createQuestionType(@Body() body: CreateQuestionTypeDTO) {
-		return await this.questionTypeService.create(body.description)
-	}
+	
+	// @Post()
+	// async createQuestionType(@Body() body: CreateQuestionTypeDTO) {
+	// 	return await this.questionTypeService.create(body.description)
+	// }
+
 }

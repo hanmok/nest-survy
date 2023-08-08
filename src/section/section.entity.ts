@@ -8,8 +8,10 @@ export class Section {
 
 	// Foreign Key
 	// @Column()
-	@OneToOne(() => Survey)
-	@JoinColumn()
+	// @OneToOne(() => Survey)
+	// @JoinColumn()
+	
+	@Column()
 	survey_id: number;
 
 	@Column()

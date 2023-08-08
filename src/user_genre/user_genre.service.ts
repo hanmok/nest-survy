@@ -17,4 +17,8 @@ export class UserGenreService {
 		const userGenre = this.repo.create({user_id, genre_id})
 		return await this.repo.save(userGenre)
 	}
+
+	async delete(user_id: number, genre_id: number) { 
+		await this.repo.delete({user_id, genre_id})
+	}
 } 

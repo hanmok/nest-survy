@@ -5,37 +5,51 @@ import { SectionService } from './section.service';
 import { CreateSectionDTO } from './createSection.dto';
 import { SectionBridgeService } from 'src/section-bridge/section-bridge.service';
 import { CreateSectionBridgeDTO } from 'src/section-bridge/createSectionBridge.dto';
+import { SectionBridgeDTO } from 'src/section-bridge/SectionBridge.dto';
 
-@Serialize(SectionDTO)
+
 @Controller('/section')
 export class SectionController {
 	constructor(
 		private sectionService: SectionService, 
 		private sectionBridgeService: SectionBridgeService) {}
 
+	// ADMIN, Get all sections
+	
 	@Get() 
+	@Serialize(SectionDTO)
 	async getAllSection() {
-		return await this.sectionService.getAllSections
+		return await this.sectionService.getAllSections()
 	}
 
+
 	@Post()
+	@Serialize(SectionDTO)
 	async createSection(@Body() body: CreateSectionDTO) {
-		// const section = this.repo.create(body)
-		await this.sectionService.createSection(body)
+		return await this.sectionService.createSection(body)
 	}
 
 	@Get('/:id')
+	@Serialize(SectionDTO)
 	async getSectionById(@Param('id') id: string) {
 		return await this.sectionService.findSection(parseInt(id))
 	}
-
+	
+	// current_id, next_id, quesiton_id, selectableOption_id
 	@Post('/connect')
+	@Serialize(SectionBridgeDTO)
 	async connect(@Body() body: CreateSectionBridgeDTO) {
 		return await this.sectionBridgeService.create(body)
 	}
 
 	@Get('/:current_id')
+	@Serialize(SectionBridgeDTO)
 	async getNextSectionId(@Param('current_id') current_id: string) { 
 		return await this.sectionBridgeService.getByCurrentId(parseInt(current_id))
+	}
+
+	@Get('/:section_id/questions') 
+	async getQuestionsUsingSectionId(@Param('section_id') section_id: string) { 
+		return await this.sectionService.findQuestionsBySectionId(parseInt(section_id))
 	}
 }

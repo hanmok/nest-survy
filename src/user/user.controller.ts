@@ -11,6 +11,7 @@ import { ParticipatingService } from 'src/participating/participating.service';
 import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
 import { SurveyDto } from 'src/survey/survey.dto';
 import { PostingDTO } from 'src/posting/posting.dto';
+import { ParticipatingDTO } from 'src/participating/participating.dto';
 
 
 @Controller('/user')
@@ -73,37 +74,6 @@ export class UserController {
 		}
 	}
 
-
-
-	// user_id 로  genres 가져오기
-	@Get('/:id/genres')
-	@Serialize(UserGenreDTO)
-	async getGenres(@Param('id') id: string) {
-		return await this.userGenreService.getGenresByUserId(parseInt(id))
-	} 
-
-	// user_id, genre_id 로 user~genre 매칭 table 추가
-	@Post('/:id/genre/:genre_id/connection') 
-	async getUserGenres(@Param('id') id: string, @Param('genre_id') genre_id: string) { 
-		return await this.userGenreService.create(parseInt(id), parseInt(genre_id))
-	}
-	
-	// 특정 유저가 올린 모든 surveys 가져오기! 
-	@Get('/:id/posted-surveys')
-	// @Serialize(SurveyDto)
-	@Serialize(PostingDTO)
-	async getPostedSurveys(@Param('id') id: string) {
-		return await this.postingService.getPostedSurveysByUserId(parseInt(id))
-	} 
-	
-	// 특정 유저가 참여한 모든 surveys 제거. 음.. surveyController 에서 userId 를 받는게 더 낫지 않아? 
-	@Get('/:id/participated-surveys')
-	@Serialize(SurveyDto)
-	async getParticipatedSurveys(@Param('id') id: string) {
-		return await this.participatingService.getParticipatedSurveysByUserId(parseInt(id))
-	}
-
-
 	// ADMIN
 
 	// 모든 User 가져오기 (Admin)
@@ -131,4 +101,52 @@ export class UserController {
 		const _ = await this.authService.removeTokens(parseInt(id))
 		return await this.userService.remove(parseInt(id));
 	}
+	
+	// user_id 로  genres 가져오기
+	@Get('/:id/genres')
+	@Serialize(UserGenreDTO)
+	async getGenres(@Param('id') id: string) {
+		return await this.userGenreService.getGenresByUserId(parseInt(id))
+	} 
+
+	// user_id, genre_id 로 user~genre 매칭 table 추가
+	@Post('/:id/genre/:genre_id/connection') 
+	async createUserGenres(@Param('id') id: string, @Param('genre_id') genre_id: string) { 
+		return await this.userGenreService.create(parseInt(id), parseInt(genre_id))
+	}
+
+	@Delete('/:id/genre/:genre_id')
+	async deleteUserGenre(@Param('id') id: string, @Param('genre_id') genre_id: string) { 
+		return await this.userGenreService.delete(parseInt(id), parseInt(genre_id))
+	}
+	
+	// 특정 유저가 올린 모든 surveys 가져오기! 
+	@Get('/:id/posted-surveys')
+	// @Serialize(SurveyDto)
+	@Serialize(PostingDTO)
+	async getPostedSurveys(@Param('id') id: string) {
+		return await this.postingService.getPostedSurveysByUserId(parseInt(id))
+	} 
+
+	@Post(':id/posted-surveys/:survey_id/connection')
+	async createUserPost(@Param('id') id: string, @Param('survey_id') survey_id: string) { 
+		return await this.postingService.create(parseInt(survey_id), parseInt(id))
+	}
+
+	
+	// 특정 유저가 참여한 모든 surveys 제거. 음.. surveyController 에서 userId 를 받는게 더 낫지 않아? 
+	@Get('/:id/participated-surveys')
+	// @Serialize(SurveyDto)
+	@Serialize(ParticipatingDTO) // 등록하는 API 는 ? 
+	async getParticipatedSurveys(@Param('id') id: string) {
+		return await this.participatingService.getParticipatedSurveysByUserId(parseInt(id))
+	}
+
+	@Post(':id/participated-surveys/:survey_id/connection')
+	async createUserParticipation(@Param('id') id: string, @Param('survey_id') survey_id: string) { 
+		return await this.participatingService.create(parseInt(survey_id), parseInt(id))
+	}
+
+
+	
 }

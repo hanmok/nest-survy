@@ -9,11 +9,10 @@ import { CreateResponseDTO } from './createResponse.dto';
 export class ResponseController {
 	constructor(private responseService: ResponseService) {}
 
-	@Get('/survey/:survey_id/question/:question_id')
-	async getResponse(
-		@Param('survey_id') survey_id: number, 
-		@Param('question_id') question_id: number) { 
-		return await this.responseService.getResponse(survey_id, question_id)
+	// ADMIN
+	@Get()
+	async getAllResponses() {
+		return await this.responseService.getAll()
 	}
 
 	@Post()

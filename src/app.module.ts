@@ -28,7 +28,7 @@ import { Response } from './response/response.entity';
 import { Section } from './section/section.entity';
 import { SectionBridge } from './section-bridge/section-bridge.entity';
 import { Segment } from './segment/segment.entity';
-import { selectableOption } from './selectable-option/selectable-option.entity';
+import { SelectableOption } from './selectable-option/selectable-option.entity';
 import { Survey } from './survey/survey.entity';
 import { GenreService } from './genre/genre.service';
 import { GenreController } from './genre/genre.controller';
@@ -95,11 +95,11 @@ require('dotenv').config();
     database: 'heroku_3df4ab91447196b',
     synchronize: false,
     // entities: ['./**/*.entity.js']
-    entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken]
+    entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, SelectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken]
   }),
   
   TypeOrmModule.forFeature([
-    Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, selectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken
+    Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, SelectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken
   ]),
 
   // 이걸 쓰면 에러가 난다. 왜그럴까 ? 

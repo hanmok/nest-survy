@@ -3,13 +3,13 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "ty
 
 
 @Entity()
-export class selectableOption {
+export class SelectableOption {
 	@PrimaryGeneratedColumn()
 	id: number;
 	
 	@Column()
-	@OneToOne(() => Question)
-	@JoinColumn()
+	// @OneToOne(() => Question)
+	// @JoinColumn()
 	question_id: number;
 	
 	@Column()

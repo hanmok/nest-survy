@@ -5,19 +5,19 @@ import { Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 @Entity()
 export class SectionBridge { 
 	@PrimaryColumn()
-	@OneToOne(() => Section)
-	@JoinColumn()
+	// @OneToOne(() => Section)
+	// @JoinColumn()
 	current_id: number;
 
 	@PrimaryColumn()
-	@OneToOne(() => Section)
-	@JoinColumn()
+	// @OneToOne(() => Section)
+	// @JoinColumn()
 	next_id: number;
 
 	
 	@PrimaryColumn()
-	@OneToOne(() => Question)
-	@JoinColumn()
+	// @OneToOne(() => Question)
+	// @JoinColumn()
 	question_id: number;
 
 	@PrimaryColumn()

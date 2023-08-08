@@ -2,9 +2,6 @@ import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateSelectableOptionDTO { 
 	@IsNumber()
-	id: number;
-
-	@IsNumber()
 	question_id: number; // fk
 	
 	@IsNumber()

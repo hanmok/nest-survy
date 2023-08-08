@@ -6,6 +6,8 @@ export class Question {
 	id: number;
 
 	@Column()
+
+	@Column()
 	position: number;
 
 	// Optional
@@ -15,13 +17,13 @@ export class Question {
 	@Column()
 	expectedTimeInSec: number;
 
-	@Column()
-	correctAnswer: number;
+	// @Column()
+	// correctAnswer: number;
 
 	// Foreign Keys
-	// @Column()
-	// questionType_id: number;
+	@Column()
+	questionType_id: number;
 	
-	// @Column()
-	// section_id: number;
+	@Column()
+	section_id: number;
 }
