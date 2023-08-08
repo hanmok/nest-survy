@@ -72,6 +72,7 @@ import { JwtStrategy } from './user/jwt.strategy';
 import { AccessToken } from './user/accessToken.entity';
 // import { RefreshToken } from './user/jwt/refreshToken.entity';
 import { RefreshToken } from './user/refreshToken.entity';
+
 require('dotenv').config();
 
 @Module({
@@ -126,13 +127,12 @@ require('dotenv').config();
   ParticipatingModule,
   AuthModule,
   JwtModule
-  
-  
-  
+
   // TypeOrmModule.forRootAsync({
   //   useClass: TypeOrmConfigService
   // })
   // TypeOrmConfigService.forRoot(),
+  
   ],
   controllers: [
     AppController, 

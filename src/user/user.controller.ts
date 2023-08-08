@@ -10,6 +10,7 @@ import { PostingService } from 'src/posting/posting.service';
 import { ParticipatingService } from 'src/participating/participating.service';
 import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
 import { SurveyDto } from 'src/survey/survey.dto';
+import { PostingDTO } from 'src/posting/posting.dto';
 
 
 @Controller('/user')
@@ -26,10 +27,8 @@ export class UserController {
 	async createUser(@Body() body: CreateUserDto) {
 		const user = await this.authService.signup(body.username, body.password)
 		const userId = user.id
-		console.log('hhii')
 		const accessToken = await this.authService.generateAccessToken(userId)
 		const refreshToken = await this.authService.generateRefreshToken(userId)
-		console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}, userId: ${userId}`)
 		return { accessToken, refreshToken, userId }
 	}
 
@@ -54,8 +53,8 @@ export class UserController {
 		return await this.publishTokens(userId) 
 	}
 
-	// 로그아웃, 
-	// accessToken, RefreshToken 만료
+	// 로그아웃
+	// accessToken, RefreshToken 만료시킴. 
 	@Post('/logout/:id')
 	async logout(@Param('id') id: string) {
 		return await this.authService.removeTokens(parseInt(id))
@@ -74,28 +73,25 @@ export class UserController {
 		}
 	}
 
+
+
 	// user_id 로  genres 가져오기
 	@Get('/:id/genres')
 	@Serialize(UserGenreDTO)
 	async getGenres(@Param('id') id: string) {
 		return await this.userGenreService.getGenresByUserId(parseInt(id))
-	}
+	} 
 
 	// user_id, genre_id 로 user~genre 매칭 table 추가
-	@Post('/:id/genres/:genre_id/connections') 
-	async getUserGenres(@Param('id') id: string, @Param('genre_id') genre_id: string) {
+	@Post('/:id/genre/:genre_id/connection') 
+	async getUserGenres(@Param('id') id: string, @Param('genre_id') genre_id: string) { 
 		return await this.userGenreService.create(parseInt(id), parseInt(genre_id))
 	}
-
-	// @Post('/append/genre')
-	// @Serialize(UserGenreDTO)
-	// async createUserGenres(@Body() body: UserGenreDTO) { 
-	// 	return await this.userGenreService.create(body.user_id, body.genre_id)
-	// }
 	
 	// 특정 유저가 올린 모든 surveys 가져오기! 
 	@Get('/:id/posted-surveys')
-	@Serialize(SurveyDto)
+	// @Serialize(SurveyDto)
+	@Serialize(PostingDTO)
 	async getPostedSurveys(@Param('id') id: string) {
 		return await this.postingService.getPostedSurveysByUserId(parseInt(id))
 	} 

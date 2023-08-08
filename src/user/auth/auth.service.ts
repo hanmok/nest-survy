@@ -10,8 +10,6 @@ import { Repository } from 'typeorm';
 import { AccessToken } from '../accessToken.entity';
 // import { RefreshToken } from '../jwt/refreshToken.entity';
 import { RefreshToken } from '../refreshToken.entity';
-import { PayloadDto } from './payload.dto';
-import { response } from 'express';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
