@@ -15,4 +15,7 @@ export class SurveyDto {
 
 	@Expose()
 	reward_range: string;
+
+	@Expose()
+	is_completed: number;
 }

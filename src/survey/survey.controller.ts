@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SurveyDto } from './survey.dto';
 import { SurveyService } from './survey.service';
@@ -10,13 +10,12 @@ import { UserDto } from 'src/user/dtos/user.dto';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 
 @Controller('/survey')
-// @Serialize(SurveyDto)
 export class SurveyController {
 	constructor(private surveyService: SurveyService, 
 		private surveyGenreService: SurveyGenreService, 
 		private postingService: PostingService, 
 		private participatingService: ParticipatingService) {}
-
+		
 	// survey 생성 및 user_id 로 post 생성. 
 	@Post('/create/user/:user_id')
 	@Serialize(SurveyDto)
@@ -26,12 +25,20 @@ export class SurveyController {
 		return survey
 	}
 
-	// 모든 surveys 가져오기
+	// ADMIN: 모든 surveys 가져오기
 	@Get()
 	@Serialize(SurveyDto)
 	async getAllSurveys() {
-		return this.surveyService.getAll()
+		// return this.surveyService.getAll()
+		return await this.surveyService.getAvailableSurveys(false)
 	}
+
+	@Get('/available')
+	@Serialize(SurveyDto) 
+	async getAvailableSurveys() { 
+		return await this.surveyService.getAvailableSurveys(true)
+	}
+	
 
 	// @Get('/except/participated-user/:user_id')
 	// async getAllSurveysExcept(user_id) {
@@ -69,7 +76,15 @@ export class SurveyController {
 	// survey ~ genre 연결 시키기
 	@Post('/:survey_id/genres/:genre_id/connections')
 	@Serialize(SurveyGenreDTO)
-	async createSurveyGenre(@Param('survey_id') survey_id: string, @Param('genre_id') genre_id: string) {
+	async createSurveyGenre(
+		@Param('survey_id') survey_id: string, 
+		@Param('genre_id') genre_id: string) {
 		return await this.surveyGenreService.create(parseInt(survey_id), parseInt(genre_id))
+	}
+
+	@Patch('/:id/increase_participation')
+	async increateParticipatedUsers(@Param('id') id: string) { 
+		return await this.surveyService.increaseParticipatedNumber(parseInt(id))
+
 	}
 }

@@ -19,6 +19,11 @@ export class Survey {
 	@Column()
 	reward_range: string;
 
+	@Column()
+	is_completed: number;
+
+	
+
 	// @Column()
 	// created_at
 

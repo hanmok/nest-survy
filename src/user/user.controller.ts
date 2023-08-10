@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 // import { AuthService } from './auth.service';
@@ -136,17 +136,21 @@ export class UserController {
 	
 	// 특정 유저가 참여한 모든 surveys 제거. 음.. surveyController 에서 userId 를 받는게 더 낫지 않아? 
 	@Get('/:id/participated-surveys')
-	// @Serialize(SurveyDto)
-	@Serialize(ParticipatingDTO) // 등록하는 API 는 ? 
+	@Serialize(ParticipatingDTO) 
 	async getParticipatedSurveys(@Param('id') id: string) {
 		return await this.participatingService.getParticipatedSurveysByUserId(parseInt(id))
 	}
-
-	@Post(':id/participated-surveys/:survey_id/connection')
-	async createUserParticipation(@Param('id') id: string, @Param('survey_id') survey_id: string) { 
-		return await this.participatingService.create(parseInt(survey_id), parseInt(id))
-	}
-
-
 	
+	// 이거 할 때, survey 에 있는 participation number 도 하나 추가해줘야해.
+	// 이거, survey 에서 처리하기. 
+	// /survey/:survey_id/user/:user_id/connection 그럼 일관성이 깨지잖아. 
+	@Post(':id/participated-surveys/:survey_id/connection')
+	async createUserParticipation(
+		@Param('id') id: string, 
+		@Param('survey_id') survey_id: string) { 
+		return await this.participatingService.create(
+			parseInt(survey_id), 
+			parseInt(id)
+		)
+	}
 }
