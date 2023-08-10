@@ -12,8 +12,10 @@ import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
 import { SurveyDto } from 'src/survey/survey.dto';
 import { PostingDTO } from 'src/posting/posting.dto';
 import { ParticipatingDTO } from 'src/participating/participating.dto';
+import { ApiCreatedResponse, ApiBadRequestResponse, ApiTags } from '@nestjs/swagger'
 
-
+// @ApiTags('User')
+@ApiTags('User')
 @Controller('/user')
 export class UserController {
 	constructor(
@@ -25,6 +27,12 @@ export class UserController {
 
 	// 회원 가입, 
 	@Post('/signup')
+	@ApiCreatedResponse({
+		description: "created description"
+	})
+	@ApiBadRequestResponse({
+		description: "bad Request Response try again"
+	})
 	async createUser(@Body() body: CreateUserDto) {
 		const user = await this.authService.signup(body.username, body.password)
 		const userId = user.id

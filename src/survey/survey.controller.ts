@@ -8,7 +8,9 @@ import { PostingService } from 'src/posting/posting.service';
 import { ParticipatingService } from 'src/participating/participating.service';
 import { UserDto } from 'src/user/dtos/user.dto';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Survey')
 @Controller('/survey')
 export class SurveyController {
 	constructor(private surveyService: SurveyService, 
@@ -61,25 +63,25 @@ export class SurveyController {
 
 	// 특정 survey 에 참여한 사람들 가져오기 (admin)
 	@Serialize(UserDto)
-	@Get('/:survey_id/participated-users')
-	async getParticipatedUsersBySurveyId(@Param('survey_id') survey_id: string) {
-		return await this.participatingService.getParticipatedUsersBySurveyId(parseInt(survey_id))
+	@Get('/:id/participated-users')
+	async getParticipatedUsersBySurveyId(@Param('id') id: string) {
+		return await this.participatingService.getParticipatedUsersBySurveyId(parseInt(id))
 	}
 
 	// 특정 survey 에 있는 genres 가져오기
-	@Get('/:survey_id/genres')
+	@Get('/:id/genres')
 	@Serialize(SurveyGenreDTO)
-	async getGenresBySurveyId(@Param('survey_id') survey_id: string) {
-		return await this.surveyGenreService.getGenresBySurveyId(parseInt(survey_id))
+	async getGenresBySurveyId(@Param('id') id: string) {
+		return await this.surveyGenreService.getGenresBySurveyId(parseInt(id))
 	}
 
 	// survey ~ genre 연결 시키기
-	@Post('/:survey_id/genres/:genre_id/connections')
+	@Post('/:id/genres/:genre_id/connections')
 	@Serialize(SurveyGenreDTO)
 	async createSurveyGenre(
-		@Param('survey_id') survey_id: string, 
+		@Param('id') id: string, 
 		@Param('genre_id') genre_id: string) {
-		return await this.surveyGenreService.create(parseInt(survey_id), parseInt(genre_id))
+		return await this.surveyGenreService.create(parseInt(id), parseInt(genre_id))
 	}
 
 	@Patch('/:id/increase_participation')

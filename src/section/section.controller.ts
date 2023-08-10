@@ -7,7 +7,9 @@ import { SectionBridgeService } from 'src/section-bridge/section-bridge.service'
 import { CreateSectionBridgeDTO } from 'src/section-bridge/createSectionBridge.dto';
 import { SectionBridgeDTO } from 'src/section-bridge/SectionBridge.dto';
 
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Section')
 @Controller('/section')
 export class SectionController {
 	constructor(
@@ -48,8 +50,8 @@ export class SectionController {
 		return await this.sectionBridgeService.getByCurrentId(parseInt(current_id))
 	}
 
-	@Get('/:section_id/questions') 
-	async getQuestionsUsingSectionId(@Param('section_id') section_id: string) { 
-		return await this.sectionService.findQuestionsBySectionId(parseInt(section_id))
+	@Get('/:id/questions') 
+	async getQuestionsUsingSectionId(@Param('id') id: string) { 
+		return await this.sectionService.findQuestionsBySectionId(parseInt(id))
 	}
 }
