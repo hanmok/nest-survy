@@ -22,7 +22,8 @@ export class Survey {
 	@Column()
 	is_completed: number;
 
-	
+	@Column()
+	code: string;
 
 	// @Column()
 	// created_at

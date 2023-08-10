@@ -4,6 +4,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ResponseDTO } from './response.dto';
 import { CreateResponseDTO } from './createResponse.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { SuccessAPIResponse } from 'src/api-response.model';
 
 @ApiTags('Response')
 @Serialize(ResponseDTO)
@@ -14,11 +15,13 @@ export class ResponseController {
 	// ADMIN
 	@Get()
 	async getAllResponses() {
-		return await this.responseService.getAll()
+		const ret = await this.responseService.getAll()
+		return SuccessAPIResponse(ret)
 	}
 
 	@Post()
 	async createResponse(@Body() body: CreateResponseDTO) {
-		return this.responseService.createResponse(body)
+		const ret = this.responseService.createResponse(body)
+		return SuccessAPIResponse(ret, 201)
 	}
 }

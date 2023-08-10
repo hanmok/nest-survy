@@ -10,4 +10,7 @@ export class CreateSurveyDTO {
 
 	@IsNumber()
 	user_id: number;
+
+	@IsString()
+	code: string;
 }

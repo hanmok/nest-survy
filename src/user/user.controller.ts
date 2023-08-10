@@ -12,6 +12,7 @@ import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
 import { PostingDTO } from 'src/posting/posting.dto';
 import { ParticipatingDTO } from 'src/participating/participating.dto';
 import { ApiCreatedResponse, ApiBadRequestResponse, ApiTags, ApiOperation } from '@nestjs/swagger'
+import { FailureAPIResponse, SuccessAPIResponse } from 'src/api-response.model';
 
 // @ApiTags('User')
 @ApiTags('User')
@@ -37,7 +38,8 @@ export class UserController {
 		const userId = user.id
 		const accessToken = await this.authService.generateAccessToken(userId)
 		const refreshToken = await this.authService.generateRefreshToken(userId)
-		return { accessToken, refreshToken, userId }
+		const ret = { accessToken, refreshToken, userId }
+		return SuccessAPIResponse(ret, 201)
 	}
 
 	async publishTokens(userId) { 
@@ -53,19 +55,19 @@ export class UserController {
 		const userId = user.id
 		// 토큰이 둘다 없어야함. 토큰 있으면 Error 출력, 없으면 새로 발급
 		if (this.authService.userHasToken(userId)) {
-			return { 
-				statusCode: 400,
-				message: 'please logout first'
-			}
+			return FailureAPIResponse()
 		}
-		return await this.publishTokens(userId) 
+		const ret = await this.publishTokens(userId) 
+		return SuccessAPIResponse(ret)
 	}
 
 	// 로그아웃
 	// accessToken, RefreshToken 만료시킴. 
 	@Post('/:id/logout')
 	async logout(@Param('id') id: string) {
-		return await this.authService.removeTokens(parseInt(id))
+		// return await this.authService.removeTokens(parseInt(id))
+		const ret = await this.authService.removeTokens(parseInt(id))
+		return SuccessAPIResponse()
 	} 
 
 	@Post('/auto-signin')
@@ -75,9 +77,12 @@ export class UserController {
 			// AccessToken 제거 
 			const _ = await this.authService.removeAccessToken(userId)
 			const accessToken = await this.authService.generateAccessToken(userId)
-			return { accessToken, userId }
+			// return { accessToken, userId }
+			const ret = { accessToken, userId }
+			return SuccessAPIResponse(ret)
 		} else { 
-			return new UnauthorizedException(); // 토큰 없으면 토큰 만료
+			// return new UnauthorizedException(); // 토큰 없으면 토큰 만료
+			throw new UnauthorizedException();
 		}
 	}
 
@@ -88,7 +93,8 @@ export class UserController {
 	@Get()
 	@Serialize(UserDto)
 	async getAllUsers() {
-		return await this.userService.getAll() 
+		const ret = await this.userService.getAll()
+		return SuccessAPIResponse(ret)
 	} 
 
 	// id 로 특정 User 가져오기
@@ -99,15 +105,17 @@ export class UserController {
 		if (!user) { 
 			throw new NotFoundException('user not found');
 		}
-		return user;
+		// return user;
+		return SuccessAPIResponse(user)
 	}
 
 	// id 로 User 제거, 
 	@Delete('/:id')
 	@Serialize(UserDto)
 	async removeUser(@Param('id') id: string) { 
-		const _ = await this.authService.removeTokens(parseInt(id))
-		return await this.userService.remove(parseInt(id));
+		await this.authService.removeTokens(parseInt(id))
+		await this.userService.remove(parseInt(id));
+		return SuccessAPIResponse()
 	}
 	
 	// user_id 로  genres 가져오기
@@ -115,14 +123,16 @@ export class UserController {
 	@Get('/:id/genres')
 	@Serialize(UserGenreDTO)
 	async getGenres(@Param('id') id: string) {
-		return await this.userGenreService.getGenresByUserId(parseInt(id))
+		const ret = await this.userGenreService.getGenresByUserId(parseInt(id))
+		return SuccessAPIResponse(ret)
 	} 
 
 
 	@ApiOperation({summary: 'Remove user_genre'})
 	@Delete('/:id/genre/:genre_id')
 	async deleteUserGenre(@Param('id') id: string, @Param('genre_id') genre_id: string) { 
-		return await this.userGenreService.delete(parseInt(id), parseInt(genre_id))
+		const ret = await this.userGenreService.delete(parseInt(id), parseInt(genre_id))
+		return SuccessAPIResponse(ret)
 	}
 	
 	// 특정 유저가 올린 모든 surveys 가져오기! 
@@ -131,13 +141,15 @@ export class UserController {
 	// @Serialize(SurveyDto)
 	@Serialize(PostingDTO)
 	async getPostedSurveys(@Param('id') id: string) {
-		return await this.postingService.getPostedSurveysByUserId(parseInt(id))
+		const ret = await this.postingService.getPostedSurveysByUserId(parseInt(id))
+		return SuccessAPIResponse(ret)
 	} 
 
 	@ApiOperation({summary: "Get user's participated survey "})
 	@Get('/:id/participated-surveys')
 	@Serialize(ParticipatingDTO) 
 	async getParticipatedSurveys(@Param('id') id: string) {
-		return await this.participatingService.getParticipatedSurveysByUserId(parseInt(id))
+		const ret = await this.participatingService.getParticipatedSurveysByUserId(parseInt(id))
+		return SuccessAPIResponse(ret)
 	}
 }

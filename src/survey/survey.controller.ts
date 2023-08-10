@@ -9,6 +9,7 @@ import { ParticipatingService } from 'src/participating/participating.service';
 import { UserDto } from 'src/user/dtos/user.dto';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { SuccessAPIResponse } from 'src/api-response.model';
 
 @ApiTags('Survey')
 @Controller('/survey')
@@ -18,18 +19,27 @@ export class SurveyController {
 		private postingService: PostingService, 
 		private participatingService: ParticipatingService) {}
 
+	@Post()
+	@Serialize(SurveyDto)
+	async create(@Body() body: CreateSurveyDTO) {
+		const ret = await this.surveyService.create(body.title, body.participationGoal)
+		return SuccessAPIResponse(ret, 201)
+	}
+
 	// ADMIN: 모든 surveys 가져오기
 	@Get()
 	@Serialize(SurveyDto)
 	async getAllSurveys() {
 		// return this.surveyService.getAll()
-		return await this.surveyService.getAvailableSurveys(false)
+		const ret = await this.surveyService.getAvailableSurveys(false)
+		return SuccessAPIResponse(ret)
 	}
 
 	@Get('/available')
 	@Serialize(SurveyDto) 
 	async getAvailableSurveys() { 
-		return await this.surveyService.getAvailableSurveys(true)
+		const ret = await this.surveyService.getAvailableSurveys(true)
+		return SuccessAPIResponse(ret)
 	}
 
 	// id 로 특정 survey 가져오기
@@ -41,27 +51,30 @@ export class SurveyController {
 		if (!survey) { 
 			throw new NotFoundException('survey not found')
 		}
-		return survey
+		return SuccessAPIResponse(survey)
 	}
 
 	// 특정 survey 에 참여한 사람들 가져오기 (admin)
 	@Serialize(UserDto)
 	@Get('/:id/participated-users')
 	async getParticipatedUsersBySurveyId(@Param('id') id: string) {
-		return await this.participatingService.getParticipatedUsersBySurveyId(parseInt(id))
+		const ret = await this.participatingService.getParticipatedUsersBySurveyId(parseInt(id))
+		return SuccessAPIResponse(ret)
 	}
 
 	// 특정 survey 에 있는 genres 가져오기
 	@Get('/:id/genres')
 	@Serialize(SurveyGenreDTO)
 	async getGenresBySurveyId(@Param('id') id: string) {
-		return await this.surveyGenreService.getGenresBySurveyId(parseInt(id))
+		const ret = await this.surveyGenreService.getGenresBySurveyId(parseInt(id))
+		return SuccessAPIResponse(ret)
 	}
 
 
 	@Patch('/:id/increase-participation')
 	async increateParticipatedUsers(@Param('id') id: string) { 
-		return await this.surveyService.increaseParticipatedNumber(parseInt(id))
+		const ret = await this.surveyService.increaseParticipatedNumber(parseInt(id))
+		return SuccessAPIResponse(ret)
 
 	}
 }

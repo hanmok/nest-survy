@@ -2,6 +2,7 @@ import { Controller, Body, Post } from '@nestjs/common';
 import { PostingService } from './posting.service';
 import { PostingDTO } from './posting.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { SuccessAPIResponse } from 'src/api-response.model';
 
 @ApiTags('Posting')
 @Controller('/posting')
@@ -20,6 +21,7 @@ export class PostingController {
 	@ApiOperation({summary: 'Make Posting'})
 	@Post()
 	async createPosting(@Body() body: PostingDTO) {
-		return await this.postingService.create(body.survey_id, body.user_id)
+		const posting = await this.postingService.create(body.survey_id, body.user_id)
+		return SuccessAPIResponse(posting, 201)
 	}
 }

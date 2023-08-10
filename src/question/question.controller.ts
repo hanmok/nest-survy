@@ -6,6 +6,7 @@ import { CreateQuestionTypeDTO } from 'src/question-type/createQuestionType.dto'
 import { CreateQuestionDTO } from './createQuestion.dto';
 import { SelectableOptionDTO } from 'src/selectable-option/selectable-option.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { SuccessAPIResponse } from 'src/api-response.model';
 
 @ApiTags('Question')
 @Controller('question')
@@ -16,29 +17,36 @@ export class QuestionController {
 	@Get()
 	@Serialize(QuestionDTO)
 	async getAllQuestions() {
-		return await this.questionService.getAll()
+		const ret = await this.questionService.getAll()
+		return SuccessAPIResponse(ret)
 	} 
 
 	@Post() 
 	@Serialize(QuestionDTO)
 	async create(@Body() body: CreateQuestionDTO){
-		return await this.questionService.create(body)
+		const question = await this.questionService.create(body)
+		return SuccessAPIResponse(question, 201)
 	}
 
 	@Get('/:id')
 	@Serialize(QuestionDTO)
 	async getQuestionById(@Param('id') id: string) {
-		return await this.questionService.findById(parseInt(id))
+		const ret = await this.questionService.findById(parseInt(id))
+		return SuccessAPIResponse(ret)
 	}
 
 	@Get(':id/selectable-options')
 	@Serialize(SelectableOptionDTO)
 	async getSelectableOptionsByQuestionId(@Param('id') id: string) { 
-		return await this.questionService.getSelectableOptionsByCurrentId(parseInt(id))
+		const ret = await this.questionService.getSelectableOptionsByCurrentId(parseInt(id))
+
+		return SuccessAPIResponse(ret)
 	}
 
 	@Get('/:id/responses')
 	async getResponsesByQuestionId(@Param('id') id: string) { 
-		return await this.questionService.getResponsesByQuestionId(parseInt(id))
+		const ret = await this.questionService.getResponsesByQuestionId(parseInt(id))
+
+		return SuccessAPIResponse(ret)
 	}
 }

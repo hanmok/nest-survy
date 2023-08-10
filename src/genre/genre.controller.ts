@@ -6,6 +6,7 @@ import { GenreDto } from './genre.dto';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { SuccessAPIResponse } from 'src/api-response.model';
 
 @ApiTags('Genre')
 @Controller('/genre')
@@ -18,7 +19,8 @@ export class GenreController {
 	@Get()
 	@Serialize(GenreDto)
 	async getAllGenres() {
-		return this.genreService.getAll()
+		const ret = this.genreService.getAll()
+		return SuccessAPIResponse(ret)
 	}
 
 	@Post()
@@ -26,7 +28,7 @@ export class GenreController {
 	async createGenre(@Body() body: CreateGenreDTO) {
 		console.log(body)
 		const genre = await this.genreService.create(body.name)
-		return genre
+		return SuccessAPIResponse(genre, 201)
 	}
 
 	@Get('/:id')
@@ -36,7 +38,7 @@ export class GenreController {
 		if (!genre) { 
 			throw new NotFoundException('genre not found');
 		}
-		return genre;
+		return SuccessAPIResponse(genre)
 	} 
 
 
@@ -45,6 +47,6 @@ export class GenreController {
 	@Serialize(SurveyGenreDTO)
 	async getSurveysByGenreId(@Param('id') id: string) {
 		const surveyGenres = await this.surveyGenreService.getSurveysByGenreId(parseInt(id))
-		return surveyGenres
+		return SuccessAPIResponse(surveyGenres)
 	}
 }

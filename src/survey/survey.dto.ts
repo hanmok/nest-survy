@@ -18,4 +18,9 @@ export class SurveyDto {
 
 	@Expose()
 	is_completed: number;
+
+	@Expose()
+	code: string;
+
+	
 }

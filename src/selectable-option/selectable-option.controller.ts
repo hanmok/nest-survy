@@ -4,6 +4,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SelectableOptionDTO } from './selectable-option.dto';
 import { CreateSelectableOptionDTO } from './createSelectableOption.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { SuccessAPIResponse } from 'src/api-response.model';
 
 @ApiTags('SelectableOption')
 @Serialize(SelectableOptionDTO)
@@ -13,7 +14,8 @@ export class SelectableOptionController {
 
 	@Get()
 	async getAllSelectableOptions() {
-		return await this.selectableOptionService.adminFindAll()
+		const ret = await this.selectableOptionService.adminFindAll()
+		return SuccessAPIResponse(ret)
 	}
 
 	// 이거 여기있으면 안될 것 같은데? Question 으로 가야지. 
@@ -24,6 +26,7 @@ export class SelectableOptionController {
 
 	@Post()
 	async createSelectableOption(@Body() body: CreateSelectableOptionDTO) {
-		return await this.selectableOptionService.create(body)
+		const ret = await this.selectableOptionService.create(body)
+		return SuccessAPIResponse(ret, 201)
 	}
 }

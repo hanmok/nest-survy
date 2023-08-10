@@ -4,6 +4,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QuestionTypeDTO } from './QuestionType.dto';
 import { CreateQuestionTypeDTO } from './createQuestionType.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { SuccessAPIResponse } from 'src/api-response.model';
 
 @ApiTags('QuestionType')
 @Serialize(QuestionTypeDTO)
@@ -13,7 +14,8 @@ export class QuestionTypeController {
 
 	@Get()
 	async getAllQuestionTypes() {
-		return await this.questionTypeService.getAll()
+		const ret = await this.questionTypeService.getAll()
+		return SuccessAPIResponse(ret)
 	}
 
 	
