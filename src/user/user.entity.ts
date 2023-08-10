@@ -8,7 +8,7 @@ export class User {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ApiProperty({description: " username"})
+	@ApiProperty({description: "username"})
 	@Column()
 	username: string;
 

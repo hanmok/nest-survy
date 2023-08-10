@@ -72,6 +72,8 @@ import { JwtStrategy } from './user/jwt.strategy';
 import { AccessToken } from './user/accessToken.entity';
 // import { RefreshToken } from './user/jwt/refreshToken.entity';
 import { RefreshToken } from './user/refreshToken.entity';
+import { SectionBridgeController } from './section-bridge/section-bridge.controller';
+import { SurveyGenreController } from './survey_genre/survey_genre.controller';
 
 require('dotenv').config();
 
@@ -145,7 +147,9 @@ require('dotenv').config();
     SegmentController,
     SelectableOptionController,
     SurveyController,
-    UserController 
+    SurveyGenreController,
+    UserController,
+    SectionBridgeController
   ],
   providers: [AppService, 
     AuthService, 

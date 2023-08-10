@@ -7,7 +7,7 @@ import { SectionBridgeService } from 'src/section-bridge/section-bridge.service'
 import { CreateSectionBridgeDTO } from 'src/section-bridge/createSectionBridge.dto';
 import { SectionBridgeDTO } from 'src/section-bridge/SectionBridge.dto';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Section')
 @Controller('/section')
@@ -17,7 +17,7 @@ export class SectionController {
 		private sectionBridgeService: SectionBridgeService) {}
 
 	// ADMIN, Get all sections
-	
+	@ApiOperation({summary: "Get All sections, 'ADMIN' "})
 	@Get() 
 	@Serialize(SectionDTO)
 	async getAllSection() {
@@ -38,18 +38,20 @@ export class SectionController {
 	}
 	
 	// current_id, next_id, quesiton_id, selectableOption_id
-	@Post('/connect')
-	@Serialize(SectionBridgeDTO)
-	async connect(@Body() body: CreateSectionBridgeDTO) {
-		return await this.sectionBridgeService.create(body)
-	}
+	// @Post('/connect')
+	// @Serialize(SectionBridgeDTO)
+	// async connect(@Body() body: CreateSectionBridgeDTO) {
+	// 	return await this.sectionBridgeService.create(body)
+	// }
 
-	@Get('/:current_id')
+	@ApiOperation({summary: 'Get next section by current section id'})
+	@Get('/:current_id/next')
 	@Serialize(SectionBridgeDTO)
 	async getNextSectionId(@Param('current_id') current_id: string) { 
 		return await this.sectionBridgeService.getByCurrentId(parseInt(current_id))
 	}
 
+	@ApiOperation({summary: "Get all questions using current section id"})
 	@Get('/:id/questions') 
 	async getQuestionsUsingSectionId(@Param('id') id: string) { 
 		return await this.sectionService.findQuestionsBySectionId(parseInt(id))

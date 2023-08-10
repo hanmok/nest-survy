@@ -1,11 +1,11 @@
 import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { GenreService } from './genre.service';
-import { CreateGenreDto } from './createGenre.dto';
+import { CreateGenreDTO } from './createGenre.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { GenreDto } from './genre.dto';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Genre')
 @Controller('/genre')
@@ -14,6 +14,7 @@ export class GenreController {
 		private genreService: GenreService, 
 		private surveyGenreService: SurveyGenreService) {}
 
+	@ApiOperation({summary: "Get All genres"})
 	@Get()
 	@Serialize(GenreDto)
 	async getAllGenres() {
@@ -22,7 +23,7 @@ export class GenreController {
 
 	@Post()
 	@Serialize(GenreDto)
-	async createGenre(@Body() body: CreateGenreDto) {
+	async createGenre(@Body() body: CreateGenreDTO) {
 		console.log(body)
 		const genre = await this.genreService.create(body.name)
 		return genre
@@ -39,18 +40,11 @@ export class GenreController {
 	} 
 
 
-
+	@ApiOperation({summary: "Get All genres having specific genre "})
 	@Get('/:id/surveys')
 	@Serialize(SurveyGenreDTO)
 	async getSurveysByGenreId(@Param('id') id: string) {
 		const surveyGenres = await this.surveyGenreService.getSurveysByGenreId(parseInt(id))
 		return surveyGenres
-	}
-
-	// Genre ~ survey 간 연결하기. 
-	@Post('/:id/surveys/:survey_id/connection')
-	@Serialize(SurveyGenreDTO)
-	async createSurveyGenre(@Param('id') id: string, @Param('survey_id') survey_id: string) {
-		return await this.surveyGenreService.create(parseInt(survey_id), parseInt(id))
 	}
 }
