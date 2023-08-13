@@ -3,6 +3,8 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'ty
 import { RefreshToken } from './refreshToken.entity';
 import { AccessToken } from './accessToken.entity';
 import { ApiProperty } from '@nestjs/swagger'
+
+
 @Entity()
 export class User { 
 	@PrimaryGeneratedColumn()

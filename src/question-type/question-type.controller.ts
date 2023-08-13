@@ -4,10 +4,12 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QuestionTypeDTO } from './QuestionType.dto';
 import { CreateQuestionTypeDTO } from './createQuestionType.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
 
 @ApiTags('QuestionType')
-@Serialize(QuestionTypeDTO)
+// @SerializeQuestionTypeDTO)
 @Controller('question-type')
 export class QuestionTypeController {
 	constructor(private questionTypeService: QuestionTypeService) {}

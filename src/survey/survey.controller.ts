@@ -9,7 +9,9 @@ import { ParticipatingService } from 'src/participating/participating.service';
 import { UserDto } from 'src/user/dtos/user.dto';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
 
 @ApiTags('Survey')
 @Controller('/survey')
@@ -20,7 +22,7 @@ export class SurveyController {
 		private participatingService: ParticipatingService) {}
 
 	@Post()
-	@Serialize(SurveyDto)
+	// @SerializeSurveyDto)
 	async create(@Body() body: CreateSurveyDTO) {
 		const ret = await this.surveyService.create(body.title, body.participationGoal)
 		return SuccessAPIResponse(ret, 201)
@@ -28,7 +30,7 @@ export class SurveyController {
 
 	// ADMIN: 모든 surveys 가져오기
 	@Get()
-	@Serialize(SurveyDto)
+	// @SerializeSurveyDto)
 	async getAllSurveys() {
 		// return this.surveyService.getAll()
 		const ret = await this.surveyService.getAvailableSurveys(false)
@@ -36,7 +38,7 @@ export class SurveyController {
 	}
 
 	@Get('/available')
-	@Serialize(SurveyDto) 
+	// @SerializeSurveyDto) 
 	async getAvailableSurveys() { 
 		const ret = await this.surveyService.getAvailableSurveys(true)
 		return SuccessAPIResponse(ret)
@@ -44,7 +46,7 @@ export class SurveyController {
 
 	// id 로 특정 survey 가져오기
 	@Get('/:id') 
-	@Serialize(SurveyDto)
+	// @SerializeSurveyDto)
 	async getSurveyById(@Param('id') id: string) {
 		// return this.surveyService.findOne(parseInt(id))
 		const survey = await this.surveyService.findOne(parseInt(id))
@@ -55,7 +57,7 @@ export class SurveyController {
 	}
 
 	// 특정 survey 에 참여한 사람들 가져오기 (admin)
-	@Serialize(UserDto)
+	// @SerializeUserDto)
 	@Get('/:id/participated-users')
 	async getParticipatedUsersBySurveyId(@Param('id') id: string) {
 		const ret = await this.participatingService.getParticipatedUsersBySurveyId(parseInt(id))
@@ -64,7 +66,7 @@ export class SurveyController {
 
 	// 특정 survey 에 있는 genres 가져오기
 	@Get('/:id/genres')
-	@Serialize(SurveyGenreDTO)
+	// @SerializeSurveyGenreDTO)
 	async getGenresBySurveyId(@Param('id') id: string) {
 		const ret = await this.surveyGenreService.getGenresBySurveyId(parseInt(id))
 		return SuccessAPIResponse(ret)

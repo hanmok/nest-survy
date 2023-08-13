@@ -17,6 +17,8 @@ import { ConfigService } from '@nestjs/config';
 import { AccessToken } from './accessToken.entity';
 // import { RefreshToken } from './jwt/refreshToken.entity';
 import { RefreshToken } from './refreshToken.entity';
+import { CustomResponseDto } from 'custom-response.dto';
+import { ApiResponseService } from 'api-response.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -25,7 +27,8 @@ import { RefreshToken } from './refreshToken.entity';
     Posting, 
     Participating, 
   AccessToken, 
-  RefreshToken
+  RefreshToken, 
+  CustomResponseDto
   ]), 
     PassportModule.register({
       defaultStrategy: 'jwt',
@@ -47,7 +50,9 @@ import { RefreshToken } from './refreshToken.entity';
     JwtService,
     UserGenreService, 
     PostingService, 
-    ParticipatingService],
+    ParticipatingService,
+    ApiResponseService
+  ],
   controllers: [UserController]
 })
 

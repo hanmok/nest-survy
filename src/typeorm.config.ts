@@ -10,9 +10,12 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 	createTypeOrmOptions(): TypeOrmModuleOptions { 
 		return {
 			type: 'sqlite',
+			// host: 'us-cdbr-east-06.cleardb.net',
+			// host: this.configService.get<number>('DB_PORT'),
 			synchronize: false, 
 			database: this.configService.get<string>('DB_NAME'),
 			autoLoadEntities: true
 		}
 	}
 }
+

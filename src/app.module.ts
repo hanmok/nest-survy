@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+// import { AppController } from './app.controller';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -74,13 +75,15 @@ import { AccessToken } from './user/accessToken.entity';
 import { RefreshToken } from './user/refreshToken.entity';
 import { SectionBridgeController } from './section-bridge/section-bridge.controller';
 import { SurveyGenreController } from './survey_genre/survey_genre.controller';
+import { CustomResponseDto } from 'custom-response.dto';
+import { ApiResponseService } from 'api-response.service';
 
 require('dotenv').config();
 
 @Module({
   imports: [
   ConfigModule.forRoot({
-    isGlobal: true,
+    isGlobal: true, // no need to import ConfigModule in other modules ince it's been loaded in the root module. 
     load: [config]
   }),
   JwtModule.register({
@@ -97,11 +100,11 @@ require('dotenv').config();
     database: 'heroku_3df4ab91447196b',
     synchronize: false,
     // entities: ['./**/*.entity.js']
-    entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, SelectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken]
+    entities: [Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, SelectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken, CustomResponseDto]
   }),
   
   TypeOrmModule.forFeature([
-    Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, SelectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken
+    Genre, Participating, Posting, Question, QuestionType, Response, Section, SectionBridge, Segment, SelectableOption, Survey, SurveyGenre, User, UserGenre, AccessToken, RefreshToken, CustomResponseDto
   ]),
 
   // 이걸 쓰면 에러가 난다. 왜그럴까 ? 
@@ -169,6 +172,8 @@ require('dotenv').config();
     UserGenreService, 
     SurveyGenreService, 
     PostingService, 
-    ParticipatingService],
+    ParticipatingService,
+    ApiResponseService
+  ],
 })
 export class AppModule {}

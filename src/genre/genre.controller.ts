@@ -6,7 +6,10 @@ import { GenreDto } from './genre.dto';
 import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+import { SuccessAPIResponse } from 'src/success-api-response';
+
+
 
 @ApiTags('Genre')
 @Controller('/genre')
@@ -24,7 +27,7 @@ export class GenreController {
 	}
 
 	@Post()
-	@Serialize(GenreDto)
+	// @SerializeGenreDto)
 	async createGenre(@Body() body: CreateGenreDTO) {
 		console.log(body)
 		const genre = await this.genreService.create(body.name)
@@ -32,7 +35,7 @@ export class GenreController {
 	}
 
 	@Get('/:id')
-	@Serialize(GenreDto)
+	// @SerializeGenreDto)
 	async getGenreById(@Param('id') id: string) {
 		const genre = await this.genreService.findOne(parseInt(id))
 		if (!genre) { 
@@ -44,7 +47,7 @@ export class GenreController {
 
 	@ApiOperation({summary: "Get All genres having specific genre "})
 	@Get('/:id/surveys')
-	@Serialize(SurveyGenreDTO)
+	// @SerializeSurveyGenreDTO)
 	async getSurveysByGenreId(@Param('id') id: string) {
 		const surveyGenres = await this.surveyGenreService.getSurveysByGenreId(parseInt(id))
 		return SuccessAPIResponse(surveyGenres)

@@ -2,7 +2,9 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { UserGenreService } from './user_genre.service';
 import { UserGenreDTO } from './userGenre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
 
 @ApiTags('UserGenre')
 @Controller('user-genre')

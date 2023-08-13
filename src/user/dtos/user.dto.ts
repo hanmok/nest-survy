@@ -20,8 +20,8 @@ export class UserDto {
 	@Expose()
 	birthDate: string;
 
-	@Expose()
-	isMale: number;
+	// @Expose()
+	// isMale: number;
 
 	// @Expose()
 	// @IsString()

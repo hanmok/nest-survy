@@ -2,7 +2,9 @@ import { Controller, Body, Post } from '@nestjs/common';
 import { PostingService } from './posting.service';
 import { PostingDTO } from './posting.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
 
 @ApiTags('Posting')
 @Controller('/posting')
@@ -11,8 +13,8 @@ export class PostingController {
 
 	// @ApiOperation({summary: 'Get all surveys posted by the user'})
 	// @Get('/:id/posted-surveys')
-	// // @Serialize(SurveyDto)
-	// @Serialize(PostingDTO)
+	// // // @SerializeSurveyDto)
+	// // @SerializePostingDTO)
 	// async getPostedSurveys(@Param('id') id: string) {
 	// 	return await this.postingService.getPostedSurveysByUserId(parseInt(id))
 	// } 

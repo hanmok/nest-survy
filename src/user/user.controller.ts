@@ -1,3 +1,5 @@
+import { CustomApiResponse } from 'src/api-response.model';
+// import { ApiResponse } from './../api-response.model';
 import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dtos/createUser.dto';
@@ -12,7 +14,18 @@ import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
 import { PostingDTO } from 'src/posting/posting.dto';
 import { ParticipatingDTO } from 'src/participating/participating.dto';
 import { ApiCreatedResponse, ApiBadRequestResponse, ApiTags, ApiOperation } from '@nestjs/swagger'
-import { FailureAPIResponse, SuccessAPIResponse } from 'src/api-response.model';
+
+import { FailureAPIResponse } from 'src/failure-api-response';
+
+// import { FailureAPIResponse, SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
+
+import { User } from './user.entity';
+import { CustomResponse } from 'src/api-custom-response.dto';
+import { serialize } from 'v8';
+import { ApiResponseService } from 'api-response.service';
+import { CustomResponseDto } from 'custom-response.dto';
 
 // @ApiTags('User')
 @ApiTags('User')
@@ -23,16 +36,28 @@ export class UserController {
 		private authService: AuthService, 
 		private userGenreService: UserGenreService, 
 		private postingService: PostingService, 
-		private participatingService: ParticipatingService) {}
+		private participatingService: ParticipatingService,
+		private readonly apiResponseService: ApiResponseService
+		) {}
+
+	@Post('/transaction')
+	async createTwo() { 
+		// return await this.userService.createTwo('trantest3@naver.com', 'asndkj');
+		
+		// return this.userService.getDBConfiguration()
+		return this.userService.createTwo('mmmmmmmmmm@naver.com', 'password')
+	}
 
 	// 회원 가입, 
 	@Post('/signup')
 	@ApiCreatedResponse({
 		description: "created description"
 	})
+
 	@ApiBadRequestResponse({
 		description: "bad Request Response try again"
 	})
+
 	async createUser(@Body() body: CreateUserDTO) {
 		const user = await this.authService.signup(body.username, body.password)
 		const userId = user.id
@@ -89,29 +114,54 @@ export class UserController {
 	// ADMIN
 
 	// 모든 User 가져오기 (Admin)
+	
+	// @Serialize(CustomResponse<User[]>)
+
+	// async getAllUsers() {
+	// 	const ret = await this.userService.getAll()
+	// 	console.log(`ret : ${ret}`)
+	// 	return SuccessAPIResponse(ret, 200, "")
+	// }
+
+	// async getAllUsers(): Promise<ChatCustomResponseDto<User[]>> { 
+	// 	const users: User[] = await this.userService.getAll()
+	// 	const response = this.apiResponseService.create<ChatCustomResponseDto<User[]>>(200, 'Success', users)
+	// 	return response
+
+	// }
+
 	@ApiOperation({summary: 'Admin, Get all users'})
 	@Get()
-	@Serialize(UserDto)
-	async getAllUsers() {
-		const ret = await this.userService.getAll()
-		return SuccessAPIResponse(ret)
-	} 
+		async getAllUsers() {
+        const users = await this.userService.getAll();
+        // const response = this.apiResponseService.create<UserDto[]>(
+        //     200,
+        //     'Success',
+		// 	users
+        // );
+
+		// return SuccessAPIResponse(users)
+		return SuccessAPIResponse<UserDto[]>(users)
+		// return response
+        // return response;
+
+    }
 
 	// id 로 특정 User 가져오기
 	@Get('/:id')
-	@Serialize(UserDto)
+	// @SerializeUserDto)
 	async getById(@Param('id') id: string) {
 		const user = await this.userService.findByUserId(parseInt(id))
 		if (!user) { 
 			throw new NotFoundException('user not found');
 		}
 		// return user;
-		return SuccessAPIResponse(user)
+		return {response: SuccessAPIResponse(user)}
 	}
 
 	// id 로 User 제거, 
 	@Delete('/:id')
-	@Serialize(UserDto)
+	// @SerializeUserDto)
 	async removeUser(@Param('id') id: string) { 
 		await this.authService.removeTokens(parseInt(id))
 		await this.userService.remove(parseInt(id));
@@ -121,7 +171,7 @@ export class UserController {
 	// user_id 로  genres 가져오기
 	@ApiOperation({summary: "Get user's favorite genres "})
 	@Get('/:id/genres')
-	@Serialize(UserGenreDTO)
+	// @SerializeUserGenreDTO)
 	async getGenres(@Param('id') id: string) {
 		const ret = await this.userGenreService.getGenresByUserId(parseInt(id))
 		return SuccessAPIResponse(ret)
@@ -138,8 +188,8 @@ export class UserController {
 	// 특정 유저가 올린 모든 surveys 가져오기! 
 	@ApiOperation({summary: 'Get all surveys posted by the user'})
 	@Get('/:id/posted-surveys')
-	// @Serialize(SurveyDto)
-	@Serialize(PostingDTO)
+	// // @SerializeSurveyDto)
+	// @SerializePostingDTO)
 	async getPostedSurveys(@Param('id') id: string) {
 		const ret = await this.postingService.getPostedSurveysByUserId(parseInt(id))
 		return SuccessAPIResponse(ret)
@@ -147,7 +197,7 @@ export class UserController {
 
 	@ApiOperation({summary: "Get user's participated survey "})
 	@Get('/:id/participated-surveys')
-	@Serialize(ParticipatingDTO) 
+	// @SerializeParticipatingDTO) 
 	async getParticipatedSurveys(@Param('id') id: string) {
 		const ret = await this.participatingService.getParticipatedSurveysByUserId(parseInt(id))
 		return SuccessAPIResponse(ret)

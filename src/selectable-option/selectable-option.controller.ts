@@ -4,10 +4,12 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SelectableOptionDTO } from './selectable-option.dto';
 import { CreateSelectableOptionDTO } from './createSelectableOption.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
 
 @ApiTags('SelectableOption')
-@Serialize(SelectableOptionDTO)
+// @SerializeSelectableOptionDTO)
 @Controller('selectable-option')
 export class SelectableOptionController {
 	constructor(private selectableOptionService: SelectableOptionService) {}

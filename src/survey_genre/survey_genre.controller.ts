@@ -2,7 +2,9 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { SurveyGenreService } from './survey_genre.service';
 import { SurveyGenreDTO } from './survey_genre.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
 
 @ApiTags('SurveyGenre')
 @Controller('survey-genre')

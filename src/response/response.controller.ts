@@ -4,10 +4,12 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ResponseDTO } from './response.dto';
 import { CreateResponseDTO } from './createResponse.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from 'src/api-response.model';
+
+import { SuccessAPIResponse } from 'src/success-api-response';
 
 @ApiTags('Response')
-@Serialize(ResponseDTO)
+// @SerializeResponseDTO)
 @Controller('response')
 export class ResponseController {
 	constructor(private responseService: ResponseService) {}
