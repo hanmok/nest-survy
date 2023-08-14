@@ -112,44 +112,17 @@ export class UserController {
 	}
 
 	// ADMIN
-
 	// 모든 User 가져오기 (Admin)
-	
 	// @Serialize(CustomResponse<User[]>)
-
-	// async getAllUsers() {
-	// 	const ret = await this.userService.getAll()
-	// 	console.log(`ret : ${ret}`)
-	// 	return SuccessAPIResponse(ret, 200, "")
-	// }
-
-	// async getAllUsers(): Promise<ChatCustomResponseDto<User[]>> { 
-	// 	const users: User[] = await this.userService.getAll()
-	// 	const response = this.apiResponseService.create<ChatCustomResponseDto<User[]>>(200, 'Success', users)
-	// 	return response
-
-	// }
-
 	@ApiOperation({summary: 'Admin, Get all users'})
 	@Get()
 		async getAllUsers() {
         const users = await this.userService.getAll();
-        // const response = this.apiResponseService.create<UserDto[]>(
-        //     200,
-        //     'Success',
-		// 	users
-        // );
-
-		// return SuccessAPIResponse(users)
 		return SuccessAPIResponse<UserDto[]>(users)
-		// return response
-        // return response;
-
     }
 
 	// id 로 특정 User 가져오기
 	@Get('/:id')
-	// @SerializeUserDto)
 	async getById(@Param('id') id: string) {
 		const user = await this.userService.findByUserId(parseInt(id))
 		if (!user) { 
