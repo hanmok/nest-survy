@@ -10,10 +10,29 @@ import { ParticipatingService } from 'src/participating/participating.service';
 import { Posting } from 'src/posting/posting.entity';
 import { Participating } from 'src/participating/participating.entity';
 import { TransactionService } from 'src/transaction/transaction.service';
+import { SectionService } from 'src/section/section.service';
+import { Section } from 'src/section/section.entity';
+import { Question } from 'src/question/question.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Survey, SurveyGenre, Posting, Participating])],
-  providers: [SurveyService, SurveyGenreService, PostingService, ParticipatingService, TransactionService],
-  controllers: [SurveyController]
+  imports: [
+    TypeOrmModule.forFeature([
+      Survey,
+      SurveyGenre,
+      Posting,
+      Participating,
+      Section,
+      Question,
+    ]),
+  ],
+  providers: [
+    SurveyService,
+    SurveyGenreService,
+    PostingService,
+    ParticipatingService,
+    TransactionService,
+    SectionService,
+  ],
+  controllers: [SurveyController],
 })
 export class SurveyModule {}

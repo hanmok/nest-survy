@@ -3,7 +3,7 @@ import { ResponseService } from './response.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ResponseDTO } from './response.dto';
 import { CreateResponseDTO } from './createResponse.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
 import { SuccessAPIResponse } from 'src/success-api-response';
@@ -12,18 +12,20 @@ import { SuccessAPIResponse } from 'src/success-api-response';
 // @SerializeResponseDTO)
 @Controller('response')
 export class ResponseController {
-	constructor(private responseService: ResponseService) {}
+  constructor(private responseService: ResponseService) {}
 
-	// ADMIN
-	@Get()
-	async getAllResponses() {
-		const ret = await this.responseService.getAll()
-		return SuccessAPIResponse(ret)
-	}
+  // ADMIN
+  @ApiOperation({ summary: 'Get all Responses' })
+  @Get()
+  async getAllResponses() {
+    const ret = await this.responseService.getAll();
+    return SuccessAPIResponse(ret);
+  }
 
-	@Post()
-	async createResponse(@Body() body: CreateResponseDTO) {
-		const ret = this.responseService.createResponse(body)
-		return SuccessAPIResponse(ret, 201)
-	}
+  @ApiOperation({ summary: 'Create Response' })
+  @Post()
+  async createResponse(@Body() body: CreateResponseDTO) {
+    const ret = this.responseService.createResponse(body);
+    return SuccessAPIResponse(ret, 201);
+  }
 }

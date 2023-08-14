@@ -64,7 +64,6 @@ export class UserController {
     return this.userService.createTwo('mmmmmmmmmm@naver.com', 'password');
   }
 
-  // 회원 가입,
   @Post('/signup')
   @ApiCreatedResponse({
     description: 'created description',
@@ -100,7 +99,6 @@ export class UserController {
     return SuccessAPIResponse(ret);
   }
 
-  // 로그아웃
   // accessToken, RefreshToken 만료시킴.
   @Post('/:id/logout')
   async logout(@Param('id') id: string) {
@@ -136,6 +134,7 @@ export class UserController {
   }
 
   // id 로 특정 User 가져오기
+
   @Get('/:id')
   async getById(@Param('id') id: string) {
     const user = await this.userService.findByUserId(parseInt(id));

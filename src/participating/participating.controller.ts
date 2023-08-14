@@ -8,12 +8,15 @@ import { SuccessAPIResponse } from 'src/success-api-response';
 @ApiTags('Participating')
 @Controller('participating')
 export class ParticipatingController {
-	constructor(private participatingService: ParticipatingService) {}
+  constructor(private participatingService: ParticipatingService) {}
 
-	@ApiOperation({summary: "Make Participating"})
-	@Post()
-	async createParticipating(@Body() body: ParticipatingDTO) { 
-		const participating = await this.participatingService.create(body.survey_id, body.user_id)
-		return SuccessAPIResponse(participating, 201)
-	}
+  @ApiOperation({ summary: 'Create Participating' })
+  @Post()
+  async createParticipating(@Body() body: ParticipatingDTO) {
+    const participating = await this.participatingService.create(
+      body.survey_id,
+      body.user_id,
+    );
+    return SuccessAPIResponse(participating, 201);
+  }
 }

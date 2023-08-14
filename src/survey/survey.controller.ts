@@ -1,4 +1,12 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SurveyDto } from './survey.dto';
 import { SurveyService } from './survey.service';
@@ -13,72 +21,95 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { SuccessAPIResponse } from 'src/success-api-response';
 import { TransactionService } from 'src/transaction/transaction.service';
+import { SectionService } from 'src/section/section.service';
 
 @ApiTags('Survey')
 @Controller('/survey')
 export class SurveyController {
-	constructor(private surveyService: SurveyService, 
-		private surveyGenreService: SurveyGenreService, 
-		private postingService: PostingService, 
-		private participatingService: ParticipatingService, 
-		private transactionService: TransactionService
-		) {}
+  constructor(
+    private sectionService: SectionService,
+    private surveyService: SurveyService,
+    private surveyGenreService: SurveyGenreService,
+    private postingService: PostingService,
+    private participatingService: ParticipatingService,
+    private transactionService: TransactionService,
+  ) {}
 
-	@Post()
-	// @SerializeSurveyDto)
-	async create(@Body() body: CreateSurveyDTO) {
-		const ret = await this.surveyService.create(body.title, body.participationGoal)
-		return SuccessAPIResponse(ret, 201)
-	}
+  @ApiOperation({ summary: 'Create survey' })
+  @Post()
+  // @SerializeSurveyDto)
+  async create(@Body() body: CreateSurveyDTO) {
+    const ret = await this.surveyService.create(
+      body.title,
+      body.participationGoal,
+    );
+    return SuccessAPIResponse(ret, 201);
+  }
 
-	// ADMIN: 모든 surveys 가져오기
-	@Get()
-	// @SerializeSurveyDto)
-	async getAllSurveys() {
-		// return this.surveyService.getAll()
-		const ret = await this.surveyService.getAvailableSurveys(false)
-		return SuccessAPIResponse(ret)
-	}
+  // ADMIN: 모든 surveys 가져오기
+  @ApiOperation({ summary: "Get all surveys, 'ADMIN'" })
+  @Get()
+  // @SerializeSurveyDto)
+  async getAllSurveys() {
+    // return this.surveyService.getAll()
+    const ret = await this.surveyService.getAvailableSurveys(false);
+    return SuccessAPIResponse(ret);
+  }
 
-	@Get('/available')
-	// @SerializeSurveyDto) 
-	async getAvailableSurveys() { 
-		const ret = await this.surveyService.getAvailableSurveys(true)
-		return SuccessAPIResponse(ret)
-	}
+  @ApiOperation({ summary: 'Get all sections by survey id' })
+  @Get('/:id/sections')
+  async getSectionsBySurveyId(@Param('id') id: string) {
+    const ret = this.sectionService.findSectionBySurveyId(parseInt(id));
+    return SuccessAPIResponse(ret);
+  }
 
-	// id 로 특정 survey 가져오기
-	@Get('/:id') 
-	// @SerializeSurveyDto)
-	async getSurveyById(@Param('id') id: string) {
-		// return this.surveyService.findOne(parseInt(id))
-		const survey = await this.surveyService.findOne(parseInt(id))
-		if (!survey) { 
-			throw new NotFoundException('survey not found')
-		}
-		return SuccessAPIResponse(survey)
-	}
+  // TODO: user_id 이용해서 posting 한 것들 여기서 제거해야함
+  @ApiOperation({ summary: 'Get available surveys only' })
+  @Get('/available')
+  // @SerializeSurveyDto)
+  async getAvailableSurveys() {
+    const ret = await this.surveyService.getAvailableSurveys(true);
+    return SuccessAPIResponse(ret);
+  }
 
-	// 특정 survey 에 참여한 사람들 가져오기 (admin)
-	// @SerializeUserDto)
-	@Get('/:id/participated-users')
-	async getParticipatedUsersBySurveyId(@Param('id') id: string) {
-		const ret = await this.participatingService.getParticipatedUsersBySurveyId(parseInt(id))
-		return SuccessAPIResponse(ret)
-	}
+  @ApiOperation({ summary: 'Get survey by id' })
+  @Get('/:id')
+  // @SerializeSurveyDto)
+  async getSurveyById(@Param('id') id: string) {
+    // return this.surveyService.findOne(parseInt(id))
+    const survey = await this.surveyService.findOne(parseInt(id));
+    if (!survey) {
+      throw new NotFoundException('survey not found');
+    }
+    return SuccessAPIResponse(survey);
+  }
 
-	// 특정 survey 에 있는 genres 가져오기
-	@Get('/:id/genres')
-	// @SerializeSurveyGenreDTO)
-	async getGenresBySurveyId(@Param('id') id: string) {
-		const ret = await this.surveyGenreService.getGenresBySurveyId(parseInt(id))
-		return SuccessAPIResponse(ret)
-	}
+  // 특정 survey 에 참여한 사람들 가져오기 (admin)
+  // @SerializeUserDto)
+  @ApiOperation({ summary: 'Get participated-users by survey id' })
+  @Get('/:id/participated-users')
+  async getParticipatedUsersBySurveyId(@Param('id') id: string) {
+    const ret = await this.participatingService.getParticipatedUsersBySurveyId(
+      parseInt(id),
+    );
+    return SuccessAPIResponse(ret);
+  }
 
+  // 특정 survey 에 있는 genres 가져오기
+  @ApiOperation({ summary: 'Get all related genre ids by survey id' })
+  @Get('/:id/genres')
+  // @SerializeSurveyGenreDTO)
+  async getGenresBySurveyId(@Param('id') id: string) {
+    const ret = await this.surveyGenreService.getGenresBySurveyId(parseInt(id));
+    return SuccessAPIResponse(ret);
+  }
 
-	@Patch('/:id/increase-participation')
-	async increateParticipatedUsers(@Param('id') id: string) { 
-		const ret = await this.surveyService.increaseParticipatedNumber(parseInt(id))
-		return SuccessAPIResponse(ret)
-	}
+  @ApiOperation({ summary: 'Increase the number of participated-user by 1' })
+  @Patch('/:id/increase-participation')
+  async increateParticipatedUsers(@Param('id') id: string) {
+    const ret = await this.surveyService.increaseParticipatedNumber(
+      parseInt(id),
+    );
+    return SuccessAPIResponse(ret);
+  }
 }

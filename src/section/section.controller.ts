@@ -15,53 +15,52 @@ import { SuccessAPIResponse } from 'src/success-api-response';
 @ApiTags('Section')
 @Controller('/section')
 export class SectionController {
-	constructor(
-		private sectionService: SectionService, 
-		private sectionBridgeService: SectionBridgeService) {}
+  constructor(
+    private sectionService: SectionService,
+    private sectionBridgeService: SectionBridgeService,
+  ) {}
 
-	// ADMIN, Get all sections
-	@ApiOperation({summary: "Get All sections, 'ADMIN' "})
-	@Get() 
-	// @SerializeSectionDTO)
-	async getAllSection() {
-		const ret = await this.sectionService.getAllSections()
-		return SuccessAPIResponse(ret)
-	}
+  // ADMIN, Get all sections
+  @ApiOperation({ summary: "Get All sections, 'ADMIN' " })
+  @Get()
+  // @SerializeSectionDTO)
+  async getAllSection() {
+    const ret = await this.sectionService.getAllSections();
+    return SuccessAPIResponse(ret);
+  }
 
+  @ApiOperation({ summary: 'Create Section' })
+  @Post()
+  // @SerializeSectionDTO)
+  async createSection(@Body() body: CreateSectionDTO) {
+    const ret = await this.sectionService.createSection(body);
+    return SuccessAPIResponse(ret, 201);
+  }
 
-	@Post()
-	// @SerializeSectionDTO)
-	async createSection(@Body() body: CreateSectionDTO) {
-		const ret = await this.sectionService.createSection(body)
-		return SuccessAPIResponse(ret, 201)
-	}
+  @ApiOperation({ summary: 'Get section by id' })
+  @Get('/:id')
+  // @SerializeSectionDTO)
+  async getSectionById(@Param('id') id: string) {
+    const ret = await this.sectionService.findSection(parseInt(id));
+    return SuccessAPIResponse(ret);
+  }
 
-	@Get('/:id')
-	// @SerializeSectionDTO)
-	async getSectionById(@Param('id') id: string) {
-		const ret = await this.sectionService.findSection(parseInt(id))
-		return SuccessAPIResponse(ret)
-	}
-	
-	// current_id, next_id, quesiton_id, selectableOption_id
-	// @Post('/connect')
-	// // @SerializeSectionBridgeDTO)
-	// async connect(@Body() body: CreateSectionBridgeDTO) {
-	// 	return await this.sectionBridgeService.create(body)
-	// }
+  @ApiOperation({ summary: 'Get next section by current section id' })
+  @Get('/:current_id/next')
+  // @SerializeSectionBridgeDTO)
+  async getNextSectionId(@Param('current_id') current_id: string) {
+    const ret = await this.sectionBridgeService.getByCurrentId(
+      parseInt(current_id),
+    );
+    return SuccessAPIResponse(ret);
+  }
 
-	@ApiOperation({summary: 'Get next section by current section id'})
-	@Get('/:current_id/next')
-	// @SerializeSectionBridgeDTO)
-	async getNextSectionId(@Param('current_id') current_id: string) { 
-		const ret = await this.sectionBridgeService.getByCurrentId(parseInt(current_id))
-		return SuccessAPIResponse(ret)
-	}
-
-	@ApiOperation({summary: "Get all questions using current section id"})
-	@Get('/:id/questions') 
-	async getQuestionsUsingSectionId(@Param('id') id: string) { 
-		const ret = await this.sectionService.findQuestionsBySectionId(parseInt(id))
-		return SuccessAPIResponse(ret)
-	}
+  @ApiOperation({ summary: 'Get all questions by section id' })
+  @Get('/:id/questions')
+  async getQuestionsUsingSectionId(@Param('id') id: string) {
+    const ret = await this.sectionService.findQuestionsBySectionId(
+      parseInt(id),
+    );
+    return SuccessAPIResponse(ret);
+  }
 }
