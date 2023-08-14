@@ -12,6 +12,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
 import { SuccessAPIResponse } from 'src/success-api-response';
+import { TransactionService } from 'src/transaction/transaction.service';
 
 @ApiTags('Survey')
 @Controller('/survey')
@@ -19,7 +20,9 @@ export class SurveyController {
 	constructor(private surveyService: SurveyService, 
 		private surveyGenreService: SurveyGenreService, 
 		private postingService: PostingService, 
-		private participatingService: ParticipatingService) {}
+		private participatingService: ParticipatingService, 
+		private transactionService: TransactionService
+		) {}
 
 	@Post()
 	// @SerializeSurveyDto)
@@ -77,6 +80,5 @@ export class SurveyController {
 	async increateParticipatedUsers(@Param('id') id: string) { 
 		const ret = await this.surveyService.increaseParticipatedNumber(parseInt(id))
 		return SuccessAPIResponse(ret)
-
 	}
 }

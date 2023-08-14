@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Survey } from './survey.entity';
 import { Repository } from 'typeorm';
+import { createRandomAlphabets } from 'src/util/createRandomAlphabets';
+// import { createRandomAlphabets } from 'src/util/createRandomAlphabets';
+
 const randomString = require('randomstring')
+
+
 
 @Injectable()
 export class SurveyService {
@@ -43,17 +48,15 @@ export class SurveyService {
 		if (survey.numOfParticipation >= survey.participationGoal) { 
 			survey.is_completed = 1
 		}
-
 		return await this.repo.save(survey)
-
 	}
 }
 
-function createRandomAlphabets(length: number): string { 
-	const randomAlphabets = randomString.generate({ 
-		length: length, 
-		charset: 'alphabetic',
-		capitalization: 'uppercase'
-	})
-	return randomAlphabets
-}
+// function createRandomAlphabets(length: number): string { 
+// 	const randomAlphabets = randomString.generate({ 
+// 		length: length, 
+// 		charset: 'alphabetic',
+// 		capitalization: 'uppercase'
+// 	})
+// 	return randomAlphabets
+// }

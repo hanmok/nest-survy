@@ -77,6 +77,7 @@ import { SectionBridgeController } from './section-bridge/section-bridge.control
 import { SurveyGenreController } from './survey_genre/survey_genre.controller';
 import { CustomResponseDto } from 'custom-response.dto';
 import { ApiResponseService } from 'api-response.service';
+import { TransactionService } from './transaction/transaction.service';
 
 require('dotenv').config();
 
@@ -173,7 +174,8 @@ require('dotenv').config();
     SurveyGenreService, 
     PostingService, 
     ParticipatingService,
-    ApiResponseService
+    ApiResponseService,
+    TransactionService
   ],
 })
 export class AppModule {}
