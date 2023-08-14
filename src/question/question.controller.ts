@@ -50,12 +50,10 @@ export class QuestionController {
     return SuccessAPIResponse(ret);
   }
 
-  @ApiOperation({ summary: 'Get all responses by question id' })
-  @Get('/:id/responses')
-  async getResponsesByQuestionId(@Param('id') id: string) {
-    const ret = await this.questionService.getResponsesByQuestionId(
-      parseInt(id),
-    );
+  @ApiOperation({ summary: 'Get all answers by question id' })
+  @Get('/:id/answers')
+  async getAnswersByQuestionId(@Param('id') id: string) {
+    const ret = await this.questionService.getAnswersByQuestionId(parseInt(id));
     return SuccessAPIResponse(ret);
   }
 }

@@ -4,11 +4,11 @@ import { QuestionController } from './question.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from './question.entity';
 import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
-import { Response } from 'src/response/response.entity';
+import { Answer } from 'src/answer/answer.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Question, SelectableOption, Response])],
+  imports: [TypeOrmModule.forFeature([Question, SelectableOption, Answer])],
   providers: [QuestionService],
-  controllers: [QuestionController]
+  controllers: [QuestionController],
 })
 export class QuestionModule {}

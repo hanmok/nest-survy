@@ -3,7 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Survey } from 'src/survey/survey.entity';
 import { createRandomAlphabets } from 'src/util/createRandomAlphabets';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, QueryFailedError } from 'typeorm';
 import { Posting } from 'src/posting/posting.entity';
 
 @Injectable()

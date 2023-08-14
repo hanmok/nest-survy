@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ResponseDTO {
+export class AnswerDTO {
   @ApiProperty()
   @Expose()
   question_id: number; // fk

@@ -9,4 +9,12 @@ export class ParticipatingDTO {
   @ApiProperty()
   @Expose()
   survey_id: number;
+
+  @ApiProperty()
+  @Expose()
+  section_id: number;
+
+  @ApiProperty()
+  @Expose()
+  created_at: string;
 }

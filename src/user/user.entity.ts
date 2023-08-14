@@ -29,15 +29,18 @@ export class User {
   @Column({ default: 0 })
   collectedReward: number; // Int
 
+  // optional
   @Column()
   birthDate: string;
 
+  // optional
   @Column()
   isMale: number;
 
   @ManyToMany(() => Survey, (survey) => survey.users)
   @JoinTable()
   surveys: Survey[];
+
   // @OneToOne(() => RefreshToken, refreshToken => refreshToken.user)
   // @JoinColumn()
   // @Column()

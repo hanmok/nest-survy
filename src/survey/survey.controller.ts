@@ -36,19 +36,6 @@ export class SurveyController {
     private transactionService: TransactionService,
   ) {}
 
-  //   @ApiOperation({ summary: 'Create survey' })
-  //   @Post()
-  //   // @SerializeSurveyDto)
-  //   // userId 도 필요할 것 같은데 ?
-  //   async create(@Body() body: CreateSurveyDTO) {
-  //     const ret = await this.surveyService.create(
-  //       body.title,
-  //       body.participationGoal,
-
-  //     );
-  //     return SuccessAPIResponse(ret, 201);
-  //   }
-
   @ApiOperation({ summary: 'Create survey' })
   @Post()
   async create(@Body() body: CreateSurveyDTO) {
