@@ -1,18 +1,20 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class SelectableOptionDTO { 
-	@Expose()
-	id: number;
+export class SelectableOptionDTO {
+  @ApiProperty()
+  @Expose()
+  id: number;
 
-	@Expose()
-	question_id: number; // fk
-	
-	@Expose()
-	position: number; 
+  @ApiProperty()
+  @Expose()
+  question_id: number; // fk
 
-	@Expose()
-	value: string;
+  @ApiProperty()
+  @Expose()
+  position: number;
 
-	@Expose()
-	placeholder: string;
+  @ApiProperty()
+  @Expose()
+  value: string;
 }

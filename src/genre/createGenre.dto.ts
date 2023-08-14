@@ -1,7 +1,8 @@
-import { IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
-
-export class CreateGenreDTO { 
-	@IsString()
-	name: string;
+export class CreateGenreDTO {
+  @ApiProperty({ example: 'workout' })
+  @IsString()
+  name: string;
 }

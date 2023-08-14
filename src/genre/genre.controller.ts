@@ -41,7 +41,7 @@ export class GenreController {
 		if (!genre) { 
 			throw new NotFoundException('genre not found');
 		}
-		return SuccessAPIResponse(genre)
+		return SuccessAPIResponse(genre) 
 	} 
 
 

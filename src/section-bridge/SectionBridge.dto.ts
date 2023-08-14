@@ -1,15 +1,20 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class SectionBridgeDTO { 
-	@Expose()
-	current_id: number; //fk
+export class SectionBridgeDTO {
+  @ApiProperty()
+  @Expose()
+  current_id: number; //fk
 
-	@Expose()
-	next_id: number; // fk
+  @ApiProperty()
+  @Expose()
+  next_id: number; // fk
 
-	@Expose()
-	question_id: number; //fk
+  @ApiProperty()
+  @Expose()
+  question_id: number; //fk
 
-	@Expose()
-	selectableOption_id: number; //fk
+  @ApiPropertyOptional()
+  @Expose()
+  selectableOption_id: number; //fk
 }

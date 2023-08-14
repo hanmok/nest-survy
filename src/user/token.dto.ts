@@ -1,9 +1,12 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class TokenDTO { 
-	@Expose()
-	accessToken: string;
+export class TokenDTO {
+  @ApiProperty()
+  @Expose()
+  accessToken: string;
 
-	@Expose()
-	refreshToken: string;
+  @ApiProperty()
+  @Expose()
+  refreshToken: string;
 }

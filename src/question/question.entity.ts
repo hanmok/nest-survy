@@ -1,29 +1,30 @@
+import { Optional } from '@nestjs/common';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Question { 
-	@PrimaryGeneratedColumn()
-	id: number;
+export class Question {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@Column()
+  @Column()
+  @Column()
+  position: number;
 
-	@Column()
-	position: number;
+  // Optional
+  @Optional()
+  @Column()
+  text: string;
 
-	// Optional
-	@Column()
-	text: string;
+  @Column()
+  expectedTimeInSec: number;
 
-	@Column()
-	expectedTimeInSec: number;
+  // @Column()
+  // correctAnswer: number;
 
-	// @Column()
-	// correctAnswer: number;
+  // Foreign Keys
+  @Column()
+  questionType_id: number;
 
-	// Foreign Keys
-	@Column()
-	questionType_id: number;
-	
-	@Column()
-	section_id: number;
+  @Column()
+  section_id: number;
 }

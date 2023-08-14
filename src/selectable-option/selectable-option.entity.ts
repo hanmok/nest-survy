@@ -1,24 +1,25 @@
-import { Question } from "src/question/question.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import { Question } from 'src/question/question.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class SelectableOption {
-	@PrimaryGeneratedColumn()
-	id: number;
-	
-	@Column()
-	// @OneToOne(() => Question)
-	// @JoinColumn()
-	question_id: number;
-	
-	@Column()
-	position: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@Column()
-	value: string;
+  @Column()
+  // @OneToOne(() => Question)
+  // @JoinColumn()
+  question_id: number;
 
-	@Column()
-	placeholder: string;
-	
+  @Column()
+  position: number;
+
+  @Column()
+  value: string;
 }

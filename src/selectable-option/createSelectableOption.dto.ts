@@ -1,16 +1,16 @@
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateSelectableOptionDTO { 
-	@IsNumber()
-	question_id: number; // fk
-	
-	@IsNumber()
-	position: number; 
+export class CreateSelectableOptionDTO {
+  @ApiProperty()
+  @IsNumber()
+  question_id: number; // fk
 
-	@IsString()
-	value: string;
+  @ApiProperty({ description: 'sequence within question, begins with 0' })
+  @IsNumber()
+  position: number;
 
-	@IsString()
-	@IsOptional()
-	placeholder: string;
+  @ApiProperty()
+  @IsString()
+  value: string;
 }

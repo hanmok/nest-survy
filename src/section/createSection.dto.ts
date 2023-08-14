@@ -1,21 +1,22 @@
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
+export class CreateSectionDTO {
+  @ApiProperty()
+  @IsNumber()
+  survey_id: number;
 
-export class CreateSectionDTO { 
-	@IsNumber()
-	survey_id: number;
+  @ApiPropertyOptional({ description: 'section title' })
+  @IsString()
+  title: string;
 
-	@IsString()
-	title: string;
+  @ApiPropertyOptional()
+  @IsNumber()
+  @IsOptional()
+  expectedTimeInSec: number;
 
-	@IsNumber()
-	@IsOptional()
-	expectedTimeInSec: number;
-
-	@IsNumber()
-	@IsOptional()
-	reward: number;
-
-	@IsNumber()
-	sequence: number;
+  @ApiPropertyOptional()
+  @IsNumber()
+  @IsOptional()
+  reward: number;
 }

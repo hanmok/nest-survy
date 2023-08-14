@@ -1,18 +1,20 @@
 import { Expose } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 
 import { CustomApiResponse } from "./api-response.model";
 
 export class CustomResponse<T> { 
-	@Expose()
+	@ApiProperty()
+@Expose()
 	statusCode: number;
 
-	@Expose()
+	@ApiProperty()
+@Expose()
 	message: string;
 
-	@Expose()
+	@ApiProperty()
+@Expose()
 	data?: T;
 
-	// @Expose()
-	// response: CustomApiResponse<T>
 }
 

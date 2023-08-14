@@ -1,16 +1,25 @@
-import { IsNumber, IsString } from "class-validator";
+import { Expose } from 'class-transformer';
+import { IsNumber, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
+export class CreateSurveyDTO {
+  @ApiProperty()
+  @Expose()
+  @IsString()
+  title: string;
 
-export class CreateSurveyDTO { 
-	@IsString()
-	title: string;
+  @ApiProperty()
+  @Expose()
+  @IsNumber()
+  participationGoal: number;
 
-	@IsNumber()
-	participationGoal: number;
+  @ApiProperty()
+  @Expose()
+  @IsNumber()
+  user_id: number;
 
-	@IsNumber()
-	user_id: number;
-
-	@IsString()
-	code: string;
+  @ApiProperty()
+  @Expose()
+  @IsString()
+  code: string;
 }

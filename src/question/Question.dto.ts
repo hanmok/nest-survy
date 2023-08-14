@@ -1,21 +1,29 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class QuestionDTO { 
-	@Expose()
-	id: number;
+export class QuestionDTO {
+  @ApiProperty()
+  @Expose()
+  id: number;
 
-	@Expose()
-	questionType_id: number; // fk
+  @ApiProperty({ example: 14 })
+  @Expose()
+  questionType_id: number; // fk
 
-	@Expose()
-	section_id: number; // fk
+  @ApiProperty()
+  @Expose()
+  section_id: number; // fk
 
-	@Expose()
-	position: number; 
+  @ApiProperty({ description: 'sequence within section' })
+  @Expose()
+  position: number;
 
-	@Expose()
-	text: string;
+  @ApiProperty({ example: "what's your name?" })
+  @Expose()
+  text: string;
 
-	@Expose()
-	expectedTimeInSec: number;
+  //   @ApiProperty()
+  @ApiPropertyOptional()
+  @Expose()
+  expectedTimeInSec: number;
 }

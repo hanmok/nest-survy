@@ -1,29 +1,30 @@
-import { Expose } from "class-transformer";
-import { IsEmail, IsNumber, IsString } from "class-validator";
-import { ApiProperty } from '@nestjs/swagger'
+import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNumber, IsString } from 'class-validator';
 
-export class UserDto { 
-	@Expose()
-	id: number;
+export class UserDto {
+  @ApiProperty()
+  @Expose()
+  id: number;
 
-	// @ApiProperty({})
-	@ApiProperty({
-		description: "description",
-		example: 'example'
-	})
-	@Expose()
-	username: string;
+  @ApiProperty({
+    example: 'hanmok@gmail.com',
+  })
+  @Expose()
+  username: string;
 
-	@Expose()
-	collectedReward: number;
+  @ApiProperty()
+  @Expose()
+  collectedReward: number;
 
-	@Expose()
-	birthDate: string;
+  @ApiProperty() // TODO: Date form needed
+  @Expose()
+  birthDate: string;
 
-	// @Expose()
-	// isMale: number;
+  // @Expose()
+  // isMale: number;
 
-	// @Expose()
-	// @IsString()
-	// registeredAt: string;
+  // @Expose()
+  // @IsString()
+  // registeredAt: string;
 }

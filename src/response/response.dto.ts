@@ -1,21 +1,29 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ResponseDTO { 
-	@Expose()
-	question_id: number; // fk 
-	
-	@Expose()
-	survey_id: number; // fk
+export class ResponseDTO {
+  @ApiProperty()
+  @Expose()
+  question_id: number; // fk
 
-	@Expose()
-	selectableOption_id: number; // fk
+  @ApiProperty()
+  @Expose()
+  survey_id: number; // fk
 
-	@Expose()
-	user_id: number; // fk
+  @ApiProperty()
+  @Expose()
+  selectableOption_id: number; // fk
 
-	@Expose()
-	answerText: string; // fk
+  @ApiProperty()
+  @Expose()
+  user_id: number; // fk
 
-	@Expose()
-	timeTookInSec: number;
+  @ApiPropertyOptional()
+  @Expose()
+  answerText: string; // fk
+
+  //   @ApiProperty()
+  @ApiPropertyOptional()
+  @Expose()
+  timeTookInSec: number;
 }

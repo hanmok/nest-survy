@@ -1,26 +1,33 @@
-import { Expose } from "class-transformer";
+import { Expose, Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class SurveyDto { 
-	@Expose()
-	id: number;
+export class SurveyDto {
+  @ApiProperty()
+  @Expose()
+  id: number;
 
-	@Expose()
-	title: string;
+  @ApiProperty()
+  @Expose()
+  title: string;
 
-	@Expose()
-	numOfParticipation: number;
+  @ApiProperty()
+  @Expose()
+  numOfParticipation: number;
 
-	@Expose()
-	participationGoal: number; 
+  @ApiProperty()
+  @Expose()
+  participationGoal: number;
 
-	@Expose()
-	reward_range: string;
+  @ApiProperty()
+  @Expose()
+  reward_range: string;
 
-	@Expose()
-	is_completed: number;
+  @Transform(({ value }) => value % 2 !== 0)
+  @ApiProperty()
+  @Expose()
+  is_completed: boolean; // 이거.. boolean 으로 바꿔야 하는거 아니야? 음..
 
-	@Expose()
-	code: string;
-
-	
+  @ApiProperty()
+  @Expose()
+  code: string;
 }

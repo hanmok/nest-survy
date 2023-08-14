@@ -1,9 +1,12 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class QuestionTypeDTO { 
-	@Expose()
-	id: number;
+export class QuestionTypeDTO {
+  @ApiProperty()
+  @Expose()
+  id: number;
 
-	@Expose()
-	description: string;
+  @ApiProperty()
+  @Expose()
+  description: string;
 }

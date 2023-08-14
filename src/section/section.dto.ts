@@ -1,21 +1,24 @@
-import { Expose } from "class-transformer"
+import { Expose } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class SectionDTO { 
-	@Expose()
-	id: number;
+export class SectionDTO {
+  @ApiProperty()
+  @Expose()
+  id: number;
 
-	@Expose()
-	survey_id: number;
+  @ApiProperty()
+  @Expose()
+  survey_id: number;
 
-	@Expose()
-	title: string;
+  @ApiProperty()
+  @Expose()
+  title: string = '';
 
-	@Expose()
-	expectedTimeInSec: number;
+  @ApiPropertyOptional()
+  @Expose()
+  expectedTimeInSec: number;
 
-	@Expose()
-	reward: number;
-
-	@Expose()
-	sequence: number;
+  @ApiPropertyOptional()
+  @Expose()
+  reward: number;
 }
