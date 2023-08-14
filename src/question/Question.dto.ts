@@ -1,14 +1,11 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { QuestionType } from 'src/util/QuestionType';
 
 export class QuestionDTO {
   @ApiProperty()
   @Expose()
   id: number;
-
-  @ApiProperty({ example: 14 })
-  @Expose()
-  questionType_id: number; // fk
 
   @ApiProperty()
   @Expose()
@@ -26,4 +23,10 @@ export class QuestionDTO {
   @ApiPropertyOptional()
   @Expose()
   expectedTimeInSec: number;
+
+  @Expose()
+  required: number;
+
+  @Expose()
+  question_type: QuestionType;
 }

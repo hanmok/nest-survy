@@ -16,13 +16,12 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './user/auth/auth.service';
 import { SelectableOptionModule } from './selectable-option/selectable-option.module';
 import { SectionBridgeModule } from './section-bridge/section-bridge.module';
-import { QuestionTypeModule } from './question-type/question-type.module';
 
 import { UserService } from './user/user.service';
 import { User } from './user/user.entity';
 import { Genre } from './genre/genre.entity';
 import { Question } from './question/question.entity';
-import { QuestionType } from './question-type/questionType.entity';
+
 import { Answer } from './answer/answer.entity';
 import { Section } from './section/section.entity';
 import { SectionBridge } from './section-bridge/section-bridge.entity';
@@ -46,14 +45,14 @@ import { PostingModule } from './posting/posting.module';
 import { ParticipatingService } from './participating/participating.service';
 import { ParticipatingModule } from './participating/participating.module';
 import { QuestionController } from './question/question.controller';
-import { QuestionTypeController } from './question-type/question-type.controller';
+
 import { AnswerController } from './answer/answer.controller';
 import { SectionController } from './section/section.controller';
 import { SegmentController } from './segment/segment.controller';
 import { SelectableOptionController } from './selectable-option/selectable-option.controller';
 import { SurveyController } from './survey/survey.controller';
 import { QuestionService } from './question/question.service';
-import { QuestionTypeService } from './question-type/question-type.service';
+
 import { AnswerService } from './answer/answer.service';
 import { SectionService } from './section/section.service';
 import { SectionBridgeService } from './section-bridge/section-bridge.service';
@@ -104,7 +103,6 @@ require('dotenv').config();
         Participating,
         Posting,
         Question,
-        QuestionType,
         Answer,
         Section,
         SectionBridge,
@@ -125,7 +123,6 @@ require('dotenv').config();
       Participating,
       Posting,
       Question,
-      QuestionType,
       Answer,
       Section,
       SectionBridge,
@@ -151,7 +148,6 @@ require('dotenv').config();
 
     GenreModule,
     QuestionModule,
-    QuestionTypeModule,
     AnswerModule,
     SectionModule,
     SectionBridgeModule,
@@ -175,7 +171,6 @@ require('dotenv').config();
     AppController,
     GenreController,
     QuestionController,
-    QuestionTypeController,
     AnswerController,
     SectionController,
     SegmentController,
@@ -190,7 +185,6 @@ require('dotenv').config();
     AuthService,
     GenreService,
     QuestionService,
-    QuestionTypeService,
     AnswerService,
     SectionService,
     SectionBridgeService,

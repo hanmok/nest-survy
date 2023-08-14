@@ -1,14 +1,10 @@
+// import { QuestionType } from './../question-type/questionType.entity';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsNumber, IsString, isNumber } from 'class-validator';
+import { QuestionType } from 'src/util/QuestionType';
 
 export class CreateQuestionDTO {
-  @ApiProperty({ example: '14' })
-  @IsNumber()
-  questionType_id: number;
-
-  // questionType_id, section_id 는 어떻게 알아?
-
   @ApiProperty()
   @IsNumber()
   section_id: number;
@@ -25,4 +21,10 @@ export class CreateQuestionDTO {
   @ApiPropertyOptional()
   @IsNumber()
   expectedTimeInSec: number;
+
+  @ApiProperty()
+  @IsString()
+  //   question_type: QuestionType;
+  //   question_type: QuestionType;
+  question_type: QuestionType;
 }

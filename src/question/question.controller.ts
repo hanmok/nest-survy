@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QuestionDTO } from './Question.dto';
-import { CreateQuestionTypeDTO } from 'src/question-type/createQuestionType.dto';
+
 import { CreateQuestionDTO } from './createQuestion.dto';
 import { SelectableOptionDTO } from 'src/selectable-option/selectable-option.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
