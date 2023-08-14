@@ -22,6 +22,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SuccessAPIResponse } from 'src/success-api-response';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { SectionService } from 'src/section/section.service';
+import { FailureAPIResponse } from 'src/failure-api-response';
 
 @ApiTags('Survey')
 @Controller('/survey')
@@ -35,13 +36,26 @@ export class SurveyController {
     private transactionService: TransactionService,
   ) {}
 
+  //   @ApiOperation({ summary: 'Create survey' })
+  //   @Post()
+  //   // @SerializeSurveyDto)
+  //   // userId 도 필요할 것 같은데 ?
+  //   async create(@Body() body: CreateSurveyDTO) {
+  //     const ret = await this.surveyService.create(
+  //       body.title,
+  //       body.participationGoal,
+
+  //     );
+  //     return SuccessAPIResponse(ret, 201);
+  //   }
+
   @ApiOperation({ summary: 'Create survey' })
   @Post()
-  // @SerializeSurveyDto)
   async create(@Body() body: CreateSurveyDTO) {
-    const ret = await this.surveyService.create(
+    const ret = await this.transactionService.createSurvey(
       body.title,
       body.participationGoal,
+      body.user_id,
     );
     return SuccessAPIResponse(ret, 201);
   }

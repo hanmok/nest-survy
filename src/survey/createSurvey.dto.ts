@@ -17,9 +17,4 @@ export class CreateSurveyDTO {
   @Expose()
   @IsNumber()
   user_id: number;
-
-  @ApiProperty()
-  @Expose()
-  @IsString()
-  code: string;
 }
