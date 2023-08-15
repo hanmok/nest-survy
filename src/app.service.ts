@@ -12,8 +12,8 @@ export class AppService {
   // getHello(): string {
   getHello() {
     const returnValue = 'Hello world!!!';
-    const some = new QuestionPair(1, 'test');
-    return some;
+    // const some = new QuestionPair(1, 'test');
+    // return some;
     console.log(returnValue);
     return returnValue;
   }

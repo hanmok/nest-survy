@@ -84,8 +84,6 @@ export class AnswerService {
       );
     });
     return matchedAnswers;
-
-    console.log(selectableDictionary);
   }
 
   async getAnswerBySurveyId(survey_id: number) {
@@ -99,8 +97,11 @@ export class AnswerService {
       await this.questionService.findBySurveyId(survey_id)
     ).sort((a, b) => a.position - b.position);
 
+    // section 별로는 안나눠?
     const questionIds = questions.map((q) => q.id);
-    const questionPairs = questions.map((q) => new QuestionPair(q.id, q.text));
+    const questionPairs = questions.map(
+      (q) => new QuestionPair(q.id, q.text, q.section_id),
+    );
 
     // 답변들
     const answers = await this.answerRepo.findBy({
@@ -114,21 +115,15 @@ export class AnswerService {
       uniqueSelectableOptionIds,
     );
 
-    console.log(`selectableOptionIds: ${selectableOptionIds}`);
-
     let selectableDictionary = {}; // selectableOption, [id: value]
     selectableOptions.forEach((selectableOption) => {
       selectableDictionary[selectableOption.id] = selectableOption.value;
     });
 
-    // userAnswers
-    // let userAnswersDic = {}
     let userAnswersDic: Record<number, AnswerPair[]> = {};
 
     uniqueUserIds.forEach((user_id) => {
-      // answer.user_id
       userAnswersDic[user_id] = [];
-      console.log(`looping dic, user_id: ${user_id}`);
     });
 
     answers.forEach((answer) => {
