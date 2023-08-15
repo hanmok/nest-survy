@@ -9,6 +9,10 @@ export class CreateQuestionDTO {
   @IsNumber()
   section_id: number;
 
+  @ApiProperty()
+  @IsNumber()
+  survey_id: number;
+
   @ApiProperty({ example: '0', description: 'starts from 0' })
   @IsNumber()
   position: number;

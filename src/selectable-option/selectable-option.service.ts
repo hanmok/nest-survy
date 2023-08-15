@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SelectableOption } from './selectable-option.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { SelectableOptionDTO } from './selectable-option.dto';
 import { CreateSelectableOptionDTO } from './createSelectableOption.dto';
 
@@ -15,6 +15,11 @@ export class SelectableOptionService {
   async create(selectableOptionDTO: CreateSelectableOptionDTO) {
     const selectableOption = this.repo.create(selectableOptionDTO);
     return await this.repo.save(selectableOption);
+  }
+
+  async findByIds(ids: number[]) {
+    const selectableOptions = await this.repo.findBy({ id: In(ids) });
+    return selectableOptions;
   }
 
   async findByQuestionId(question_id) {

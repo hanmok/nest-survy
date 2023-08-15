@@ -16,11 +16,13 @@ export class ParticipatingService {
 
   // SurveyId 로 조회하는거 필요해. admin 에게
   async getParticipatedUsersBySurveyId(survey_id: number) {
-    return await this.repo.find({ where: { survey_id } });
+    const participatings = await this.repo.find({ where: { survey_id } });
+    return participatings.map((participating) => participating.user_id);
   }
 
   // UserId 로 조회하는거 필요함. (참여한 것들 sort out)
   async getParticipatedSurveysByUserId(user_id: number) {
-    return await this.repo.find({ where: { user_id } });
+    const participatings = await this.repo.find({ where: { user_id } });
+    return participatings.map((participating) => participating.survey_id);
   }
 }

@@ -12,10 +12,18 @@ import { QuestionService } from 'src/question/question.service';
 import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
 import { SelectableOptionService } from 'src/selectable-option/selectable-option.service';
 import { ValidateQuestionTypePipe } from 'src/question/validate-question-type.pipe';
+import { ParticipatingService } from 'src/participating/participating.service';
+import { Participating } from 'src/participating/participating.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Answer, Section, Question, SelectableOption]),
+    TypeOrmModule.forFeature([
+      Answer,
+      Section,
+      Question,
+      SelectableOption,
+      Participating,
+    ]),
   ],
   providers: [
     AnswerService,
@@ -23,6 +31,7 @@ import { ValidateQuestionTypePipe } from 'src/question/validate-question-type.pi
     QuestionService,
     SelectableOptionService,
     ValidateQuestionTypePipe,
+    ParticipatingService,
   ],
   controllers: [AnswerController],
 })
