@@ -1,10 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Question } from './question.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateQuestionDTO } from './createQuestion.dto';
 import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
 import { Answer } from 'src/answer/answer.entity';
+import { QuestionType } from 'src/util/QuestionType';
+import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
 
 @Injectable()
 export class QuestionService {
@@ -13,6 +15,7 @@ export class QuestionService {
     @InjectRepository(SelectableOption)
     private selectableOptionRepo: Repository<SelectableOption>,
     @InjectRepository(Answer) private answerRepo: Repository<Answer>,
+    private readonly questionTypeValidationPipe: ValidateQuestionTypePipe,
   ) {}
 
   async getAll() {

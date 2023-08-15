@@ -19,10 +19,10 @@ import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
-import { SuccessAPIResponse } from 'src/success-api-response';
+import { SuccessAPIResponse } from 'src/util/success-api-response';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { SectionService } from 'src/section/section.service';
-import { FailureAPIResponse } from 'src/failure-api-response';
+import { FailureAPIResponse } from 'src/util/failure-api-response';
 
 @ApiTags('Survey')
 @Controller('/survey')

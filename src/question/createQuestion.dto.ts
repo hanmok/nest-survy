@@ -1,7 +1,7 @@
 // import { QuestionType } from './../question-type/questionType.entity';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsNumber, IsString, isNumber } from 'class-validator';
+import { IsEnum, IsNumber, IsString, isNumber } from 'class-validator';
 import { QuestionType } from 'src/util/QuestionType';
 
 export class CreateQuestionDTO {
@@ -23,8 +23,7 @@ export class CreateQuestionDTO {
   expectedTimeInSec: number;
 
   @ApiProperty()
-  @IsString()
-  //   question_type: QuestionType;
-  //   question_type: QuestionType;
+  //   @IsString()
+  @IsEnum(QuestionType)
   question_type: QuestionType;
 }

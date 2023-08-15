@@ -14,7 +14,7 @@ import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
 import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
-import { SuccessAPIResponse } from 'src/success-api-response';
+import { SuccessAPIResponse } from 'src/util/success-api-response';
 
 @ApiTags('Genre')
 @Controller('/genre')

@@ -1,4 +1,4 @@
-import { CustomApiResponse } from 'src/api-response.model';
+import { CustomApiResponse } from 'src/util/api-response.model';
 // import { ApiResponse } from './../api-response.model';
 import {
   BadRequestException,
@@ -31,14 +31,14 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { FailureAPIResponse } from 'src/failure-api-response';
+import { FailureAPIResponse } from 'src/util/failure-api-response';
 
 // import { FailureAPIResponse, SuccessAPIResponse } from 'src/api-response.model';
 
-import { SuccessAPIResponse } from 'src/success-api-response';
+import { SuccessAPIResponse } from 'src/util/success-api-response';
 
 import { User } from './user.entity';
-import { CustomResponse } from 'src/api-custom-response.dto';
+import { CustomResponse } from 'src/util/api-custom-response.dto';
 import { serialize } from 'v8';
 import { ApiResponseService } from 'api-response.service';
 import { CustomResponseDto } from 'custom-response.dto';

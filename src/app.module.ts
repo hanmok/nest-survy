@@ -75,6 +75,7 @@ import { SurveyGenreController } from './survey_genre/survey_genre.controller';
 import { CustomResponseDto } from 'custom-response.dto';
 import { ApiResponseService } from 'api-response.service';
 import { TransactionService } from './transaction/transaction.service';
+import { ValidateQuestionTypePipe } from './question/validate-question-type.pipe';
 
 require('dotenv').config();
 
@@ -200,6 +201,8 @@ require('dotenv').config();
     ParticipatingService,
     ApiResponseService,
     TransactionService,
+
+    ValidateQuestionTypePipe,
   ],
 })
 export class AppModule {}

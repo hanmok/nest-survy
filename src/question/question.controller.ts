@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QuestionDTO } from './Question.dto';
@@ -8,7 +8,8 @@ import { SelectableOptionDTO } from 'src/selectable-option/selectable-option.dto
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
-import { SuccessAPIResponse } from 'src/success-api-response';
+import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
 
 @ApiTags('Question')
 @Controller('question')
@@ -25,7 +26,7 @@ export class QuestionController {
 
   @ApiOperation({ summary: 'Create Question' })
   @Post()
-  // @SerializeQuestionDTO)
+  @UsePipes(ValidateQuestionTypePipe)
   async create(@Body() body: CreateQuestionDTO) {
     const question = await this.questionService.create(body);
     return SuccessAPIResponse(question, 201);
