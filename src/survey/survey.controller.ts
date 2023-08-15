@@ -1,3 +1,4 @@
+import { QuestionService } from './../question/question.service';
 import {
   Body,
   Controller,
@@ -34,6 +35,7 @@ export class SurveyController {
     private postingService: PostingService,
     private participatingService: ParticipatingService,
     private transactionService: TransactionService,
+    private questionService: QuestionService,
   ) {}
 
   @ApiOperation({ summary: 'Create survey' })
@@ -61,6 +63,13 @@ export class SurveyController {
   @Get('/:id/sections')
   async getSectionsBySurveyId(@Param('id') id: string) {
     const ret = this.sectionService.findSectionBySurveyId(parseInt(id));
+    return SuccessAPIResponse(ret);
+  }
+
+  @ApiOperation({ summary: 'Get all questions by survey id' })
+  @Get('/:id/questions')
+  async getQuestionsBySurveyId(@Param('id') id: string) {
+    const ret = await this.questionService.findBySurveyId(parseInt(id));
     return SuccessAPIResponse(ret);
   }
 

@@ -13,6 +13,10 @@ import { TransactionService } from 'src/transaction/transaction.service';
 import { SectionService } from 'src/section/section.service';
 import { Section } from 'src/section/section.entity';
 import { Question } from 'src/question/question.entity';
+import { QuestionService } from 'src/question/question.service';
+import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
+import { Answer } from 'src/answer/answer.entity';
+import { ValidateQuestionTypePipe } from 'src/question/validate-question-type.pipe';
 
 @Module({
   imports: [
@@ -23,6 +27,8 @@ import { Question } from 'src/question/question.entity';
       Participating,
       Section,
       Question,
+      SelectableOption,
+      Answer,
     ]),
   ],
   providers: [
@@ -32,6 +38,8 @@ import { Question } from 'src/question/question.entity';
     ParticipatingService,
     TransactionService,
     SectionService,
+    QuestionService,
+    ValidateQuestionTypePipe,
   ],
   controllers: [SurveyController],
 })

@@ -10,6 +10,9 @@ export class Question {
   @Column()
   position: number;
 
+  @Column()
+  survey_id: number;
+
   // Optional
   @Optional()
   @Column()

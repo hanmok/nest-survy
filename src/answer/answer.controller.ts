@@ -29,4 +29,7 @@ export class AnswerController {
     const ret = this.answerService.createAnswer(body);
     return SuccessAPIResponse(ret, 201);
   }
+
+  @Get()
+  async getAnswers(section_id: number, user_id: number, survey_id) {}
 }

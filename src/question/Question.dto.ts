@@ -11,6 +11,9 @@ export class QuestionDTO {
   @Expose()
   section_id: number; // fk
 
+  @Expose()
+  survey_id: number;
+
   @ApiProperty({ description: 'sequence within section' })
   @Expose()
   position: number;

@@ -31,6 +31,13 @@ export class QuestionService {
     return await this.repo.findOneBy({ id });
   }
 
+  async findBySurveyId(survey_id: number) {
+    // return await this.repo.find({ where: { survey_id } });
+    const questions = await this.repo.find({ where: { survey_id } });
+    console.log(`questions: ${questions}, number: ${questions.length}`);
+    return questions;
+  }
+
   async getSelectableOptionsByCurrentId(question_id: number) {
     return await this.selectableOptionRepo.find({ where: { question_id } });
   }
