@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { QuestionDTO } from './Question.dto';
+import { QuestionDTO } from './question.dto';
 
 import { CreateQuestionDTO } from './createQuestion.dto';
 import { SelectableOptionDTO } from 'src/selectable-option/selectable-option.dto';

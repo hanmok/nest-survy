@@ -6,7 +6,7 @@ import {
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
-import { QuestionType } from 'src/util/QuestionType';
+import { QuestionType } from 'src/util/questionType';
 import { CreateQuestionDTO } from './createQuestion.dto';
 
 @Injectable()

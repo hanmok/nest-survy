@@ -10,16 +10,14 @@ import { SectionService } from 'src/section/section.service';
 // import { MatchedAnswer } from 'src/util/MatchedAnswer';
 import { MatchedAnswer } from 'src/util/matchedAnswer';
 import { ParticipatingService } from 'src/participating/participating.service';
-import { Participating } from 'src/participating/participating.entity';
 import { UserAnswer } from 'src/util/userAnswer';
-import { AnswerPair } from 'src/util/AnswerPair';
+import { AnswerPair } from 'src/util/answerPair';
 import { QuestionPair } from 'src/util/questionPair';
 
 @Injectable()
 export class AnswerService {
   constructor(
     @InjectRepository(Answer) private answerRepo: Repository<Answer>,
-    private sectionService: SectionService,
     private questionService: QuestionService,
     private selectableOptionService: SelectableOptionService,
     private participatingService: ParticipatingService,

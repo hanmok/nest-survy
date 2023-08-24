@@ -2,7 +2,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsEnum, IsNumber, IsString, isNumber } from 'class-validator';
-import { QuestionType } from 'src/util/QuestionType';
+import { QuestionType } from 'src/util/questionType';
 
 export class CreateQuestionDTO {
   @ApiProperty()

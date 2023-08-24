@@ -1,6 +1,6 @@
 import { Optional } from '@nestjs/common';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { QuestionType } from 'src/util/QuestionType';
+import { QuestionType } from 'src/util/questionType';
 
 @Entity()
 export class Question {

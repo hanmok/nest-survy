@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateQuestionDTO } from './createQuestion.dto';
 import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
 import { Answer } from 'src/answer/answer.entity';
-import { QuestionType } from 'src/util/QuestionType';
+import { QuestionType } from 'src/util/questionType';
 import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
 
 @Injectable()
