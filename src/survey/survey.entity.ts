@@ -29,6 +29,9 @@ export class Survey {
   is_completed: number;
 
   @Column()
+  is_public: number;
+
+  @Column()
   code: string;
 
   @ManyToMany(() => User, (user) => user.surveys)

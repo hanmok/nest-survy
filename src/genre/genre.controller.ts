@@ -26,9 +26,9 @@ export class GenreController {
 
   @ApiOperation({ summary: 'Get All genres' })
   @Get()
-  @Serialize(GenreDto)
+  // @Serialize(GenreDto)
   async getAllGenres() {
-    const ret = this.genreService.getAll();
+    const ret = await this.genreService.getAll();
     return SuccessAPIResponse(ret);
   }
 

@@ -17,4 +17,9 @@ export class CreateSurveyDTO {
   @Expose()
   @IsNumber()
   user_id: number;
+
+  // TODO: 추가하기.
+  // @Expose()
+  // @IsNumber()
+  // is_public: number;
 }
