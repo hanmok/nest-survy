@@ -4,12 +4,15 @@ import { Section } from './section.entity';
 import { Repository } from 'typeorm';
 import { CreateSectionDTO } from './createSection.dto';
 import { Question } from 'src/question/question.entity';
+import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
 
 @Injectable()
 export class SectionService {
   constructor(
     @InjectRepository(Section) private repo: Repository<Section>,
     @InjectRepository(Question) private questionRepo: Repository<Question>,
+    @InjectRepository(SelectableOption)
+    private selectableOptionRepo: Repository<SelectableOption>,
   ) {}
 
   async getAllSections() {
@@ -33,5 +36,9 @@ export class SectionService {
 
   async findQuestionsBySectionId(section_id: number) {
     return await this.questionRepo.find({ where: { section_id } });
+  }
+
+  async findSelectableOptionsBySectionId(section_id: number) {
+    return await this.selectableOptionRepo.find({ where: { section_id } });
   }
 }

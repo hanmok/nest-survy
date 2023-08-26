@@ -72,4 +72,13 @@ export class SectionController {
     );
     return SuccessAPIResponse(ret);
   }
+
+  @ApiOperation({ summary: 'Get all selectable-option by section id' })
+  @Get('/:id/selectable-options')
+  async getSelectableOptionsUsingSectionId(@Param('id') id: string) {
+    const ret = await this.sectionService.findSelectableOptionsBySectionId(
+      parseInt(id),
+    );
+    return SuccessAPIResponse(ret);
+  }
 }

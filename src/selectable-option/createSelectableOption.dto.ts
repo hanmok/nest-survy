@@ -13,4 +13,8 @@ export class CreateSelectableOptionDTO {
   @ApiProperty()
   @IsString()
   value: string;
+
+  @ApiProperty()
+  @IsNumber()
+  section_id: number;
 }

@@ -22,4 +22,7 @@ export class SelectableOption {
 
   @Column()
   value: string;
+
+  @Column()
+  section_id: number;
 }
