@@ -1,12 +1,14 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { ParticipatingService } from './participating.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ParticipatingDTO } from './participating.dto';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 @ApiTags('Participating')
 @Controller('participating')
+@UseInterceptors(CamelCaseInterceptor)
 export class ParticipatingController {
   constructor(private participatingService: ParticipatingService) {}
 

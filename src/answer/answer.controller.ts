@@ -1,3 +1,4 @@
+import { UseInterceptors } from '@nestjs/common';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AnswerService } from './answer.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
@@ -8,10 +9,12 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
 import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 @ApiTags('Answer')
 // @SerializeResponseDTO)
 @Controller('answer')
+@UseInterceptors(CamelCaseInterceptor)
 export class AnswerController {
   constructor(private answerService: AnswerService) {}
 

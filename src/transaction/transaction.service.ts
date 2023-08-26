@@ -21,7 +21,10 @@ export class TransactionService {
     user_id: number,
   ) {
     // create Survey
-    const tempSurvey = this.surveyRepo.create({ title, participationGoal });
+    const tempSurvey = this.surveyRepo.create({
+      title,
+      participation_goal: participationGoal,
+    });
     tempSurvey.code = createRandomAlphabets(7);
 
     const queryRunner = this.dataSource.createQueryRunner();

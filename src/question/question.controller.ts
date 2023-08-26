@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+  UsePipes,
+} from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { QuestionDTO } from './question.dto';
@@ -10,9 +18,11 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { SuccessAPIResponse } from 'src/util/success-api-response';
 import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 @ApiTags('Question')
 @Controller('question')
+@UseInterceptors(CamelCaseInterceptor)
 export class QuestionController {
   constructor(private questionService: QuestionService) {}
 

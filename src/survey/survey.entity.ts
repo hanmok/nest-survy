@@ -14,10 +14,10 @@ export class Survey {
   id: number;
 
   @Column({ default: 0 })
-  numOfParticipation: number;
+  current_participation: number;
 
   @Column()
-  participationGoal: number;
+  participation_goal: number;
 
   @Column()
   title: string;
@@ -37,6 +37,9 @@ export class Survey {
   @ManyToMany(() => User, (user) => user.surveys)
   @JoinTable()
   users: User[];
+
+  @Column()
+  initial_section_id: number | undefined;
 
   // @Column()
   // created_at

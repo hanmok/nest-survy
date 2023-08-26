@@ -11,6 +11,7 @@ import {
   Patch,
   Post,
   UnauthorizedException,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dtos/createUser.dto';
@@ -42,10 +43,12 @@ import { CustomResponse } from 'src/util/api-custom-response.dto';
 import { serialize } from 'v8';
 import { ApiResponseService } from 'api-response.service';
 import { CustomResponseDto } from 'custom-response.dto';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 // @ApiTags('User')
 @ApiTags('User')
 @Controller('/user')
+@UseInterceptors(CamelCaseInterceptor)
 export class UserController {
   constructor(
     private userService: UserService,

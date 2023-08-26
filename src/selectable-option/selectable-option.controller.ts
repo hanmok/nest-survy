@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { SelectableOptionService } from './selectable-option.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SelectableOptionDTO } from './selectable-option.dto';
@@ -7,10 +14,12 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
 import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 @ApiTags('SelectableOption')
 // @SerializeSelectableOptionDTO)
 @Controller('selectable-option')
+@UseInterceptors(CamelCaseInterceptor)
 export class SelectableOptionController {
   constructor(private selectableOptionService: SelectableOptionService) {}
 

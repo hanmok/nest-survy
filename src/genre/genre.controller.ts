@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { GenreService } from './genre.service';
 import { CreateGenreDTO } from './createGenre.dto';
@@ -15,9 +16,11 @@ import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 @ApiTags('Genre')
 @Controller('/genre')
+@UseInterceptors(CamelCaseInterceptor)
 export class GenreController {
   constructor(
     private genreService: GenreService,

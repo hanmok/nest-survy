@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  UseInterceptors, //
 } from '@nestjs/common';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { SurveyDto } from './survey.dto';
@@ -24,9 +25,11 @@ import { SuccessAPIResponse } from 'src/util/success-api-response';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { SectionService } from 'src/section/section.service';
 import { FailureAPIResponse } from 'src/util/failure-api-response';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 @ApiTags('Survey')
 @Controller('/survey')
+@UseInterceptors(CamelCaseInterceptor)
 export class SurveyController {
   constructor(
     private sectionService: SectionService,
@@ -119,6 +122,19 @@ export class SurveyController {
   async increateParticipatedUsers(@Param('id') id: string) {
     const ret = await this.surveyService.increaseParticipatedNumber(
       parseInt(id),
+    );
+    return SuccessAPIResponse(ret);
+  }
+
+  @ApiOperation({ summary: 'add initial section id' })
+  @Patch('/:id/add-initial-section/:section_id')
+  async addInitialSectionId(
+    @Param('id') id: string,
+    @Param('section_id') section_id: string,
+  ) {
+    const ret = await this.surveyService.addInitialSectionId(
+      parseInt(id),
+      parseInt(section_id),
     );
     return SuccessAPIResponse(ret);
   }

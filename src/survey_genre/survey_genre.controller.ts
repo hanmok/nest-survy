@@ -1,13 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { SurveyGenreService } from './survey_genre.service';
 import { SurveyGenreDTO } from './survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
 import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
 
 @ApiTags('SurveyGenre')
 @Controller('survey-genre')
+@UseInterceptors(CamelCaseInterceptor)
 export class SurveyGenreController {
   constructor(private surveyGenreService: SurveyGenreService) {}
 
