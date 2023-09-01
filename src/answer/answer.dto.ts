@@ -12,7 +12,7 @@ export class AnswerDTO {
 
   @ApiProperty()
   @Expose()
-  selectableOption_id: number; // fk
+  selectable_option_id: number; // fk
 
   @ApiProperty()
   @Expose()
@@ -20,10 +20,10 @@ export class AnswerDTO {
 
   @ApiPropertyOptional()
   @Expose()
-  answerText: string; // fk
+  answer_text: string; // fk
 
   //   @ApiProperty()
   @ApiPropertyOptional()
   @Expose()
-  timeTookInSec: number;
+  time_took_in_sec: number;
 }

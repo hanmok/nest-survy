@@ -43,12 +43,12 @@ import { CustomResponse } from 'src/util/api-custom-response.dto';
 import { serialize } from 'v8';
 import { ApiResponseService } from 'api-response.service';
 import { CustomResponseDto } from 'custom-response.dto';
-import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
+import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
 
 // @ApiTags('User')
 @ApiTags('User')
 @Controller('/user')
-@UseInterceptors(CamelCaseInterceptor)
+@UseInterceptors(ToCamelCaseInterceptor)
 export class UserController {
   constructor(
     private userService: UserService,
@@ -94,10 +94,14 @@ export class UserController {
     // id, password 확인
     const user = await this.authService.signin(body.username, body.password);
     const userId = user.id;
+
+    // Test 용으로 잠시 Comment 처리. 다시 활성화 시킬 것.
+
     // 토큰이 둘다 없어야함. 토큰 있으면 Error 출력, 없으면 새로 발급
-    if (this.authService.userHasToken(userId)) {
-      return FailureAPIResponse();
-    }
+    // if (this.authService.userHasToken(userId)) {
+    //   return FailureAPIResponse();
+    // }
+
     const ret = await this.publishTokens(userId);
     return SuccessAPIResponse(ret);
   }

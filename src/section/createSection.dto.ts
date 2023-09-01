@@ -13,7 +13,7 @@ export class CreateSectionDTO {
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
-  expectedTimeInSec: number;
+  expected_time_in_sec: number;
 
   @ApiPropertyOptional()
   @IsNumber()

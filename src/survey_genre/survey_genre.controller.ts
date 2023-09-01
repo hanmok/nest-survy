@@ -5,11 +5,11 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';
 
 import { SuccessAPIResponse } from 'src/util/success-api-response';
-import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
+import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
 
 @ApiTags('SurveyGenre')
 @Controller('survey-genre')
-@UseInterceptors(CamelCaseInterceptor)
+@UseInterceptors(ToCamelCaseInterceptor)
 export class SurveyGenreController {
   constructor(private surveyGenreService: SurveyGenreService) {}
 

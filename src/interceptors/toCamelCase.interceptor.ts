@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { camelCase } from 'lodash'; // lodash의 camelCase 함수 사용
 
 @Injectable()
-export class CamelCaseInterceptor implements NestInterceptor {
+export class ToCamelCaseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next
       .handle()
@@ -17,6 +17,7 @@ export class CamelCaseInterceptor implements NestInterceptor {
   }
 
   private transformKeysToCamelCase(data: any): any {
+    // console.log('transformKeysToCamelCase called');
     if (Array.isArray(data)) {
       return data.map((item) => this.transformKeysToCamelCase(item));
     } else if (data !== null && typeof data === 'object') {

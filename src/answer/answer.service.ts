@@ -43,13 +43,17 @@ export class AnswerService {
     // .map((question) => question.id);
 
     // 2. Answer 중 survey_id, user_id 에 해당하는 것들 가져오기.
+    // const answers = await this.answerRepo.find({
+    //   where: { survey_id, user_id },
+    // }); // questions 와 매칭시키기. How ?? answer -> question_id
     const answers = await this.answerRepo.find({
-      where: { survey_id, user_id },
+      // where: { survey_id, user_id },
+      where: { user_id },
     }); // questions 와 매칭시키기. How ?? answer -> question_id
 
     // const ansSelectableOptions = answers.map((ans) => ans.selectableOption_id);
 
-    const selectableIds = answers.map((answer) => answer.selectableOption_id);
+    const selectableIds = answers.map((answer) => answer.selectable_option_id);
     // const uniqueSelectableIds = selectableIds.filter( // 할필요 없음.
     //   (item, index) => selectableIds.indexOf(item) === index,
     // );
@@ -108,7 +112,7 @@ export class AnswerService {
     });
 
     // SelectableOptions 모두 받기
-    const selectableOptionIds = answers.map((a) => a.selectableOption_id);
+    const selectableOptionIds = answers.map((a) => a.selectable_option_id);
     const uniqueSelectableOptionIds = [...new Set(selectableOptionIds)];
     const selectableOptions = await this.selectableOptionService.findByIds(
       uniqueSelectableOptionIds,
@@ -126,7 +130,7 @@ export class AnswerService {
     });
 
     answers.forEach((answer) => {
-      let answerText = selectableDictionary[answer.selectableOption_id];
+      let answerText = selectableDictionary[answer.selectable_option_id];
       userAnswersDic[answer.user_id].push(
         new AnswerPair(answer.question_id, answerText),
       );

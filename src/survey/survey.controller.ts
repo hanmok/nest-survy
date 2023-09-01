@@ -25,11 +25,11 @@ import { SuccessAPIResponse } from 'src/util/success-api-response';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { SectionService } from 'src/section/section.service';
 import { FailureAPIResponse } from 'src/util/failure-api-response';
-import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
+import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
 
 @ApiTags('Survey')
 @Controller('/survey')
-@UseInterceptors(CamelCaseInterceptor)
+@UseInterceptors(ToCamelCaseInterceptor)
 export class SurveyController {
   constructor(
     private sectionService: SectionService,
@@ -46,7 +46,7 @@ export class SurveyController {
   async create(@Body() body: CreateSurveyDTO) {
     const ret = await this.transactionService.createSurvey(
       body.title,
-      body.participationGoal,
+      body.participation_goal,
       body.user_id,
     );
     return SuccessAPIResponse(ret, 201);

@@ -11,7 +11,7 @@ export class CreateSurveyDTO {
   @ApiProperty()
   @Expose()
   @IsNumber()
-  participationGoal: number;
+  participation_goal: number;
 
   @ApiProperty()
   @Expose()

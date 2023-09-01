@@ -25,7 +25,7 @@ export class QuestionDTO {
   //   @ApiProperty()
   @ApiPropertyOptional()
   @Expose()
-  expectedTimeInSec: number;
+  expected_time_in_sec: number;
 
   @Expose()
   required: number;

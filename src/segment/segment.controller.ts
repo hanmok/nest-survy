@@ -1,8 +1,8 @@
 import { Controller, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
+import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
 
 @ApiTags('Segment')
 @Controller('segment')
-@UseInterceptors(CamelCaseInterceptor)
+@UseInterceptors(ToCamelCaseInterceptor)
 export class SegmentController {}

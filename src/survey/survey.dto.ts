@@ -17,7 +17,7 @@ export class SurveyDto {
   @Transform(({ value }) => value === 1)
   @ApiProperty()
   @Expose()
-  isCompleted: boolean; // 이거.. boolean 으로 바꿔야 하는거 아니야? 음..
+  is_completed: boolean; // 이거.. boolean 으로 바꿔야 하는거 아니야? 음..
 
   @ApiProperty()
   @Expose()
@@ -27,21 +27,21 @@ export class SurveyDto {
   @Transform(({ value }) => value === 1)
   @ApiProperty()
   @Expose()
-  isPublic: boolean;
+  is_public: boolean;
 
   @ApiProperty()
   @Expose()
-  currentParticipation: number;
+  current_participation: number;
 
   @ApiProperty()
   @Expose()
-  participationGoal: number;
+  participation_goal: number;
 
   @ApiProperty()
   @Expose()
-  rewardRange: string;
+  reward_range: string;
 
   @ApiProperty()
   @Expose()
-  initialSectionId: number | undefined;
+  initial_section_id: number | undefined;
 }

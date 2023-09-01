@@ -27,15 +27,15 @@ export class User {
   password: string;
 
   @Column({ default: 0 })
-  collectedReward: number; // Int
+  collected_reward: number; // Int
 
   // optional
   @Column()
-  birthDate: string;
+  birth_date: string;
 
   // optional
   @Column()
-  isMale: number;
+  is_male: number;
 
   @ManyToMany(() => Survey, (survey) => survey.users)
   @JoinTable()

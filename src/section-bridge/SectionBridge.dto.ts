@@ -16,5 +16,5 @@ export class SectionBridgeDTO {
 
   @ApiPropertyOptional()
   @Expose()
-  selectableOption_id: number; //fk
+  selectable_option_id: number; //fk
 }

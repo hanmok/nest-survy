@@ -14,6 +14,7 @@ import { SelectableOptionService } from 'src/selectable-option/selectable-option
 import { ValidateQuestionTypePipe } from 'src/question/validate-question-type.pipe';
 import { ParticipatingService } from 'src/participating/participating.service';
 import { Participating } from 'src/participating/participating.entity';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -32,6 +33,10 @@ import { Participating } from 'src/participating/participating.entity';
     SelectableOptionService,
     ValidateQuestionTypePipe,
     ParticipatingService,
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   // useClass: toSnakeCaseInterceptor,
+    // },
   ],
   controllers: [AnswerController],
 })

@@ -15,11 +15,11 @@ export class UserDto {
 
   @ApiProperty()
   @Expose()
-  collectedReward: number;
+  collected_reward: number;
 
   @ApiProperty() // TODO: Date form needed
   @Expose()
-  birthDate: string;
+  birth_date: string;
 
   // @Expose()
   // isMale: number;

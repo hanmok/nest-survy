@@ -16,5 +16,5 @@ export class CreateSectionBridgeDTO {
 
   @ApiPropertyOptional()
   @IsNumber()
-  selectableOption_id: number;
+  selectable_option_id: number;
 }

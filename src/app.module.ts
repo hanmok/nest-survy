@@ -76,6 +76,11 @@ import { CustomResponseDto } from 'custom-response.dto';
 import { ApiResponseService } from 'api-response.service';
 import { TransactionService } from './transaction/transaction.service';
 import { ValidateQuestionTypePipe } from './question/validate-question-type.pipe';
+import { CustomAnswerModule } from './custom_answer/custom_answer.module';
+import { CreateCustomAnswerDto } from './custom_answer/createCustomAnswer.dto';
+import { CustomAnswer } from './custom_answer/custom_answer.entity';
+import { CustomAnswerController } from './custom_answer/custom_answer.controller';
+import { CustomAnswerService } from './custom_answer/custom_answer.service';
 
 require('dotenv').config();
 
@@ -116,10 +121,12 @@ require('dotenv').config();
         AccessToken,
         RefreshToken,
         CustomResponseDto,
+        CustomAnswer,
       ],
     }),
 
     TypeOrmModule.forFeature([
+      CustomAnswer,
       Genre,
       Participating,
       Posting,
@@ -146,7 +153,7 @@ require('dotenv').config();
     // }),
 
     SegmentModule,
-
+    CustomAnswerModule,
     GenreModule,
     QuestionModule,
     AnswerModule,
@@ -162,6 +169,7 @@ require('dotenv').config();
     ParticipatingModule,
     AuthModule,
     JwtModule,
+    CustomAnswerModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService
@@ -180,6 +188,7 @@ require('dotenv').config();
     SurveyGenreController,
     UserController,
     SectionBridgeController,
+    CustomAnswerController,
   ],
   providers: [
     AppService,
@@ -191,6 +200,7 @@ require('dotenv').config();
     SectionBridgeService,
     SegmentService,
     SelectableOptionService,
+    CustomAnswerService,
     JwtService,
     JwtStrategy,
     SurveyService,

@@ -19,7 +19,7 @@ export class Question {
   text: string;
 
   @Column()
-  expectedTimeInSec: number;
+  expected_time_in_sec: number;
 
   // @Column()
   // correctAnswer: number;

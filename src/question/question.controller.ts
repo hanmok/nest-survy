@@ -18,11 +18,11 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { SuccessAPIResponse } from 'src/util/success-api-response';
 import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
-import { CamelCaseInterceptor } from 'src/interceptors/camelCase.interceptor';
+import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
 
 @ApiTags('Question')
 @Controller('question')
-@UseInterceptors(CamelCaseInterceptor)
+@UseInterceptors(ToCamelCaseInterceptor)
 export class QuestionController {
   constructor(private questionService: QuestionService) {}
 

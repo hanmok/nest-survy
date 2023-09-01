@@ -1,25 +1,31 @@
 import { Survey } from 'src/survey/survey.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
-export class Section { 
-	@PrimaryGeneratedColumn()
-	id: number;
+export class Section {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	// Foreign Key
-	// @Column()
-	// @OneToOne(() => Survey)
-	// @JoinColumn()
-	
-	@Column()
-	survey_id: number;
+  // Foreign Key
+  // @Column()
+  // @OneToOne(() => Survey)
+  // @JoinColumn()
 
-	@Column()
-	expectedTimeInSec: number;
-	
-	@Column()
-	reward: number;
+  @Column()
+  survey_id: number;
 
-	@Column()
-	title: string;	
+  @Column()
+  expected_time_in_sec: number;
+
+  @Column()
+  reward: number;
+
+  @Column()
+  title: string;
 }
