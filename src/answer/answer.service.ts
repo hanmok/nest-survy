@@ -11,7 +11,7 @@ import { SectionService } from 'src/section/section.service';
 import { MatchedAnswer } from 'src/util/matchedAnswer';
 import { ParticipatingService } from 'src/participating/participating.service';
 import { UserAnswer } from 'src/util/userAnswer';
-import { AnswerPair } from 'src/util/answerPair';
+import { AnswerPair } from 'src/util/AnswerPair';
 import { QuestionPair } from 'src/util/questionPair';
 
 @Injectable()

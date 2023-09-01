@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { QuestionType } from 'src/util/questionType';
+import { QuestionType } from 'src/util/QuestionType';
 
 export class QuestionDTO {
   @ApiProperty()

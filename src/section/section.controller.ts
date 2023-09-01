@@ -12,7 +12,7 @@ import { SectionService } from './section.service';
 import { CreateSectionDTO } from './createSection.dto';
 import { SectionBridgeService } from 'src/section-bridge/section-bridge.service';
 import { CreateSectionBridgeDTO } from 'src/section-bridge/createSectionBridge.dto';
-import { SectionBridgeDTO } from 'src/section-bridge/sectionBridge.dto';
+import { SectionBridgeDTO } from 'src/section-bridge/SectionBridge.dto';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from 'src/api-response.model';

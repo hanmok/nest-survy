@@ -1,4 +1,4 @@
-import { AnswerPair } from './answerPair';
+import { AnswerPair } from './AnswerPair';
 
 export class UserAnswer {
   user_id: number;
