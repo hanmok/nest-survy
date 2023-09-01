@@ -35,4 +35,4 @@ __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", Number)
 ], SectionBridgeDTO.prototype, "selectable_option_id", void 0);
-//# sourceMappingURL=sectionBridge.dto.js.map
+//# sourceMappingURL=SectionBridge.dto.js.map

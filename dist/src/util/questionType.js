@@ -8,4 +8,4 @@ var QuestionType;
     QuestionType["ShortText"] = "SHORT_TEXT";
     QuestionType["LongText"] = "LONG_TEXT";
 })(QuestionType || (exports.QuestionType = QuestionType = {}));
-//# sourceMappingURL=questionType.js.map
+//# sourceMappingURL=QuestionType.js.map

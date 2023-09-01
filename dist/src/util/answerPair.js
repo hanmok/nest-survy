@@ -8,4 +8,4 @@ class AnswerPair {
     }
 }
 exports.AnswerPair = AnswerPair;
-//# sourceMappingURL=answerPair.js.map
+//# sourceMappingURL=AnswerPair.js.map
