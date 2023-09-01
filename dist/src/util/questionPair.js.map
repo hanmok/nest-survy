@@ -1,0 +1,1 @@
+{"version":3,"file":"questionPair.js","sourceRoot":"","sources":["../../../src/util/questionPair.ts"],"names":[],"mappings":";;;AAAA,MAAa,YAAY;IAIvB,YAAY,WAAmB,EAAE,aAAqB,EAAE,UAAkB;QACxE,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;QAC/B,IAAI,CAAC,aAAa,GAAG,aAAa,CAAC;QACnC,IAAI,CAAC,UAAU,GAAG,UAAU,CAAC;IAC/B,CAAC;CACF;AATD,oCASC"}
