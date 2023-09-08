@@ -24,7 +24,7 @@ export class CreateQuestionDTO {
   //   @ApiProperty()
   @ApiPropertyOptional()
   @IsNumber()
-  expectedTimeInSec: number;
+  expected_time_in_sec: number;
 
   @ApiProperty()
   //   @IsString()
