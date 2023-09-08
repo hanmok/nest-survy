@@ -4,6 +4,11 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateSectionDTO {
   @ApiProperty()
   @IsNumber()
+  @IsOptional()
+  id: number;
+
+  @ApiProperty()
+  @IsNumber()
   survey_id: number;
 
   @ApiPropertyOptional({ description: 'section title' })

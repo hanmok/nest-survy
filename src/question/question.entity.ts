@@ -27,9 +27,6 @@ export class Question {
   @Column()
   section_id: number;
 
-  @Column()
-  required: number;
-
   @Column({
     type: 'enum',
     enum: QuestionType,

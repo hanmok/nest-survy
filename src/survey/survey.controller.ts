@@ -7,8 +7,9 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors, //
+  UseInterceptors,
 } from '@nestjs/common';
+
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { SurveyDto } from './survey.dto';
 import { SurveyService } from './survey.service';
@@ -26,6 +27,7 @@ import { TransactionService } from '../transaction/transaction.service';
 import { SectionService } from '../section/section.service';
 import { FailureAPIResponse } from '../util/failure-api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
+import { CreateWholeSurveyDTO } from './createWholeSurvey.dto';
 
 @ApiTags('Survey')
 @Controller('/survey')
@@ -50,6 +52,14 @@ export class SurveyController {
       body.user_id,
     );
     return SuccessAPIResponse(ret, 201);
+  }
+
+  @ApiOperation({ summary: 'Create Whole Survey' })
+  @Post('/whole')
+  async createWholeSurvey(@Body() body: CreateWholeSurveyDTO) {
+    console.log(`hi, whole api called`);
+    const ret = await this.transactionService.createWholeSurvey(body);
+    return SuccessAPIResponse(ret);
   }
 
   // ADMIN: 모든 surveys 가져오기

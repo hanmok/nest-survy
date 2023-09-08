@@ -4,6 +4,11 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateSelectableOptionDTO {
   @ApiProperty()
   @IsNumber()
+  @IsOptional()
+  id: number;
+
+  @ApiProperty()
+  @IsNumber()
   question_id: number; // fk
 
   @ApiProperty({ description: 'sequence within question, begins with 0' })

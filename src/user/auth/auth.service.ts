@@ -1,3 +1,4 @@
+// import { logObject } from './../../util/Log';
 import {
   BadRequestException,
   Injectable,
@@ -15,6 +16,10 @@ import { Repository } from 'typeorm';
 import { AccessToken } from '../accessToken.entity';
 // import { RefreshToken } from '../jwt/refreshToken.entity';
 import { RefreshToken } from '../refreshToken.entity';
+// import { logObject } from 'src/util/log';
+// import logObject from '../../util/logObject'
+// import { logObject } from '../../logObject';
+import logObject from '../../util/logObject';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
@@ -39,7 +44,8 @@ export class AuthService {
       user_id: userId,
     });
     const newAccessToken = await this.accessTokenRepo.save(newToken);
-    console.log(`newAccessToken saved: ${newAccessToken}`);
+    // console.log(`newAccessToken saved: ${newAccessToken}`);
+    logObject('newAccessToken saved', newAccessToken);
     return newAccessToken.token;
   }
 
@@ -55,7 +61,7 @@ export class AuthService {
       user_id: userId,
     });
     const newRefreshToken = await this.refreshTokenRepo.save(newToken);
-    console.log(`newRefreshToken saved: ${newRefreshToken}`);
+    logObject('newRefreshToken saved:', newRefreshToken);
     return newRefreshToken.token;
     // return refreshToken
   }

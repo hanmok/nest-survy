@@ -1,10 +1,21 @@
 // import { QuestionType } from './../question-type/questionType.entity';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsEnum, IsNumber, IsString, isNumber } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  isNumber,
+} from 'class-validator';
 import { QuestionType } from '../util/QuestionType';
 
 export class CreateQuestionDTO {
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  id: number;
+
   @ApiProperty()
   @IsNumber()
   section_id: number;

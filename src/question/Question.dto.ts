@@ -28,8 +28,5 @@ export class QuestionDTO {
   expected_time_in_sec: number;
 
   @Expose()
-  required: number;
-
-  @Expose()
   question_type: QuestionType;
 }
