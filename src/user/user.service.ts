@@ -5,9 +5,9 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
-// import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { SuccessAPIResponse } from '../util/success-api-response';
 import { UserDto } from './dtos/user.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
 

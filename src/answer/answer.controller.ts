@@ -1,15 +1,15 @@
 import { UseInterceptors } from '@nestjs/common';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AnswerService } from './answer.service';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 // import { AnswerDTO as AnswerDTO } from './answer.dto';
 import { AnswerDTO } from './answer.dto';
 import { CreateAnswerDTO } from './createAnswer.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+import { SuccessAPIResponse } from '../util/success-api-response';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('Answer')
 @Controller('/answer')

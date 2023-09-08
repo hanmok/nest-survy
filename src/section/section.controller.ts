@@ -6,19 +6,19 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { SectionDTO } from './section.dto';
 import { SectionService } from './section.service';
 import { CreateSectionDTO } from './createSection.dto';
-import { SectionBridgeService } from 'src/section-bridge/section-bridge.service';
-import { CreateSectionBridgeDTO } from 'src/section-bridge/createSectionBridge.dto';
-import { SectionBridgeDTO } from 'src/section-bridge/SectionBridge.dto';
+import { SectionBridgeService } from '../section-bridge/section-bridge.service';
+import { CreateSectionBridgeDTO } from '../section-bridge/createSectionBridge.dto';
+import { SectionBridgeDTO } from '../section-bridge/SectionBridge.dto';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+import { SuccessAPIResponse } from '../util/success-api-response';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('Section')
 @Controller('/section')

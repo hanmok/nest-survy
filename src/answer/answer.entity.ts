@@ -1,7 +1,7 @@
-import { Question } from 'src/question/question.entity';
-import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
-import { Survey } from 'src/survey/survey.entity';
-import { User } from 'src/user/user.entity';
+import { Question } from '../question/question.entity';
+import { SelectableOption } from '../selectable-option/selectable-option.entity';
+import { Survey } from '../survey/survey.entity';
+import { User } from '../user/user.entity';
 import {
   Entity,
   Column,

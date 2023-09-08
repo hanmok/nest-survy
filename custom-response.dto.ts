@@ -1,13 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
+// import { ApiProperty } from "@nestjs/swagger";
 
-export class CustomResponseDto<T> { 
-	@ApiProperty()
-	statusCode: number;
+// export class CustomResponseDto<T> {
+// 	@ApiProperty()
+// 	statusCode: number;
 
-	@ApiProperty()
-	message: string;
+// 	@ApiProperty()
+// 	message: string;
 
-	// @ApiProperty({required: false})
-	@ApiProperty({required: false})
-	data: T;
-}
+// 	// @ApiProperty({required: false})
+// 	@ApiProperty({required: false})
+// 	data: T;
+// }

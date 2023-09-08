@@ -7,14 +7,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { SelectableOptionService } from './selectable-option.service';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { SelectableOptionDTO } from './selectable-option.dto';
 import { CreateSelectableOptionDTO } from './createSelectableOption.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+import { SuccessAPIResponse } from '../util/success-api-response';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('SelectableOption')
 // @SerializeSelectableOptionDTO)

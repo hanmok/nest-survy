@@ -9,23 +9,23 @@ import {
   Post,
   UseInterceptors, //
 } from '@nestjs/common';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { SurveyDto } from './survey.dto';
 import { SurveyService } from './survey.service';
 import { CreateSurveyDTO } from './createSurvey.dto';
-import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
-import { PostingService } from 'src/posting/posting.service';
-import { ParticipatingService } from 'src/participating/participating.service';
-import { UserDto } from 'src/user/dtos/user.dto';
-import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
+import { SurveyGenreService } from '../survey_genre/survey_genre.service';
+import { PostingService } from '../posting/posting.service';
+import { ParticipatingService } from '../participating/participating.service';
+import { UserDto } from '../user/dtos/user.dto';
+import { SurveyGenreDTO } from '../survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
-import { TransactionService } from 'src/transaction/transaction.service';
-import { SectionService } from 'src/section/section.service';
-import { FailureAPIResponse } from 'src/util/failure-api-response';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+import { SuccessAPIResponse } from '../util/success-api-response';
+import { TransactionService } from '../transaction/transaction.service';
+import { SectionService } from '../section/section.service';
+import { FailureAPIResponse } from '../util/failure-api-response';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('Survey')
 @Controller('/survey')

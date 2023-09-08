@@ -1,4 +1,4 @@
-import { CustomApiResponse } from 'src/util/api-response.model';
+import { CustomApiResponse } from '../util/api-response.model';
 
 export function SuccessAPIResponse<T>(
   data?: T,

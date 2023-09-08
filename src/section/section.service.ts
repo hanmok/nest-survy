@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Section } from './section.entity';
 import { Repository } from 'typeorm';
 import { CreateSectionDTO } from './createSection.dto';
-import { Question } from 'src/question/question.entity';
-import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
+import { Question } from '../question/question.entity';
+import { SelectableOption } from '../selectable-option/selectable-option.entity';
 
 @Injectable()
 export class SectionService {

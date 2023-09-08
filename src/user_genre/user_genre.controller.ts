@@ -2,10 +2,10 @@ import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { UserGenreService } from './user_genre.service';
 import { UserGenreDTO } from './userGenre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+import { SuccessAPIResponse } from '../util/success-api-response';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('UserGenre')
 @Controller('user-genre')

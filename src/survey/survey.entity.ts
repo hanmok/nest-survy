@@ -1,5 +1,5 @@
 import { IsOptional } from 'class-validator';
-import { User } from 'src/user/user.entity';
+// import { User } from '../user/user.entity';
 import {
   Entity,
   Column,
@@ -34,9 +34,9 @@ export class Survey {
   @Column()
   code: string;
 
-  @ManyToMany(() => User, (user) => user.surveys)
-  @JoinTable()
-  users: User[];
+  // @ManyToMany(() => User, (user) => user.surveys)
+  // @JoinTable()
+  // users: User[];
 
   @Column()
   initial_section_id: number | undefined;

@@ -42,31 +42,31 @@
        > nest build
        
 src/answer/answer.service.ts:14:28 - error TS2307: Cannot find module 'src/util/answerPair' or its corresponding type declarations.
-14 import { AnswerPair } from 'src/util/answerPair';
+14 import { AnswerPair } from '../util/answerPair';
                               ~~~~~~~~~~~~~~~~~~~~~
 src/question/Question.dto.ts:3:30 - error TS2307: Cannot find module 'src/util/questionType' or its corresponding type declarations.
-3 import { QuestionType } from 'src/util/questionType';
+3 import { QuestionType } from '../util/questionType';
                                ~~~~~~~~~~~~~~~~~~~~~~~
 src/question/createQuestion.dto.ts:5:30 - error TS2307: Cannot find module 'src/util/questionType' or its corresponding type declarations.
-5 import { QuestionType } from 'src/util/questionType';
+5 import { QuestionType } from '../util/questionType';
                                ~~~~~~~~~~~~~~~~~~~~~~~
 src/question/question.controller.ts:12:29 - error TS2307: Cannot find module './question.dto' or its corresponding type declarations.
 12 import { QuestionDTO } from './question.dto';
                                ~~~~~~~~~~~~~~~~
 src/question/question.entity.ts:3:30 - error TS2307: Cannot find module 'src/util/questionType' or its corresponding type declarations.
-3 import { QuestionType } from 'src/util/questionType';
+3 import { QuestionType } from '../util/questionType';
                                ~~~~~~~~~~~~~~~~~~~~~~~
 src/question/question.service.ts:8:30 - error TS2307: Cannot find module 'src/util/questionType' or its corresponding type declarations.
-8 import { QuestionType } from 'src/util/questionType';
+8 import { QuestionType } from '../util/questionType';
                                ~~~~~~~~~~~~~~~~~~~~~~~
 src/question/validate-question-type.pipe.ts:9:30 - error TS2307: Cannot find module 'src/util/questionType' or its corresponding type declarations.
-9 import { QuestionType } from 'src/util/questionType';
+9 import { QuestionType } from '../util/questionType';
                                ~~~~~~~~~~~~~~~~~~~~~~~
 src/section-bridge/section-bridge.controller.ts:3:34 - error TS2307: Cannot find module './sectionBridge.dto' or its corresponding type declarations.
 3 import { SectionBridgeDTO } from './sectionBridge.dto';
                                    ~~~~~~~~~~~~~~~~~~~~~
 src/section/section.controller.ts:15:34 - error TS2307: Cannot find module 'src/section-bridge/sectionBridge.dto' or its corresponding type declarations.
-15 import { SectionBridgeDTO } from 'src/section-bridge/sectionBridge.dto';
+15 import { SectionBridgeDTO } from '../section-bridge/sectionBridge.dto';
                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 src/util/userAnswer.ts:1:28 - error TS2307: Cannot find module './answerPair' or its corresponding type declarations.
 1 import { AnswerPair } from './answerPair';

@@ -11,7 +11,7 @@ import {
 import { RefreshToken } from './refreshToken.entity';
 import { AccessToken } from './accessToken.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Survey } from 'src/survey/survey.entity';
+// import { Survey } from '../survey/survey.entity';
 
 @Entity()
 export class User {
@@ -37,9 +37,9 @@ export class User {
   @Column()
   is_male: number;
 
-  @ManyToMany(() => Survey, (survey) => survey.users)
-  @JoinTable()
-  surveys: Survey[];
+  // @ManyToMany(() => Survey, (survey) => survey.users)
+  // @JoinTable()
+  // surveys: Survey[];
 
   // @OneToOne(() => RefreshToken, refreshToken => refreshToken.user)
   // @JoinColumn()

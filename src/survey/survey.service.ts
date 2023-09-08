@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Survey } from './survey.entity';
 import { Repository } from 'typeorm';
-import { createRandomAlphabets } from 'src/util/createRandomAlphabets';
+import { createRandomAlphabets } from '../util/createRandomAlphabets';
 import { SurveyDto } from './survey.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
-// import { createRandomAlphabets } from 'src/util/createRandomAlphabets';
+// import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
 

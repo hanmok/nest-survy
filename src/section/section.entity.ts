@@ -1,4 +1,4 @@
-import { Survey } from 'src/survey/survey.entity';
+import { Survey } from '../survey/survey.entity';
 import {
   Entity,
   Column,

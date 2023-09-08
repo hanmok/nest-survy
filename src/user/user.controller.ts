@@ -1,4 +1,4 @@
-import { CustomApiResponse } from 'src/util/api-response.model';
+import { CustomApiResponse } from '../util/api-response.model';
 // import { ApiResponse } from './../api-response.model';
 import {
   BadRequestException,
@@ -17,14 +17,14 @@ import { UserService } from './user.service';
 import { CreateUserDTO } from './dtos/createUser.dto';
 // import { AuthService } from './auth.service';
 import { AuthService } from './auth/auth.service';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
-import { UserGenreService } from 'src/user_genre/user_genre.service';
-import { PostingService } from 'src/posting/posting.service';
-import { ParticipatingService } from 'src/participating/participating.service';
-import { UserGenreDTO } from 'src/user_genre/userGenre.dto';
-import { PostingDTO } from 'src/posting/posting.dto';
-import { ParticipatingDTO } from 'src/participating/participating.dto';
+import { UserGenreService } from '../user_genre/user_genre.service';
+import { PostingService } from '../posting/posting.service';
+import { ParticipatingService } from '../participating/participating.service';
+import { UserGenreDTO } from '../user_genre/userGenre.dto';
+import { PostingDTO } from '../posting/posting.dto';
+import { ParticipatingDTO } from '../participating/participating.dto';
 import {
   ApiCreatedResponse,
   ApiBadRequestResponse,
@@ -32,18 +32,19 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { FailureAPIResponse } from 'src/util/failure-api-response';
+import { FailureAPIResponse } from '../util/failure-api-response';
 
-// import { FailureAPIResponse, SuccessAPIResponse } from 'src/api-response.model';
+// import { FailureAPIResponse, SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { SuccessAPIResponse } from '../util/success-api-response';
 
 import { User } from './user.entity';
-import { CustomResponse } from 'src/util/api-custom-response.dto';
+import { CustomResponse } from '../util/api-custom-response.dto';
 import { serialize } from 'v8';
-import { ApiResponseService } from 'api-response.service';
-import { CustomResponseDto } from 'custom-response.dto';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+// import { ApiResponseService } from 'api-response.service';
+// import { ApiResponseService } from 'api-response.service';
+// import { CustomResponseDto } from 'custom-response.dto';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 // @ApiTags('User')
 @ApiTags('User')
@@ -55,8 +56,7 @@ export class UserController {
     private authService: AuthService,
     private userGenreService: UserGenreService,
     private postingService: PostingService,
-    private participatingService: ParticipatingService,
-    private readonly apiResponseService: ApiResponseService,
+    private participatingService: ParticipatingService, // private readonly apiResponseService: ApiResponseService,
   ) {}
 
   @Post('/transaction')

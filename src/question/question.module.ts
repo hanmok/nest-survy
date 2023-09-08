@@ -3,8 +3,8 @@ import { QuestionService } from './question.service';
 import { QuestionController } from './question.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from './question.entity';
-import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
-import { Answer } from 'src/answer/answer.entity';
+import { SelectableOption } from '../selectable-option/selectable-option.entity';
+import { Answer } from '../answer/answer.entity';
 import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
 
 @Module({

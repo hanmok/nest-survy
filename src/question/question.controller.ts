@@ -8,17 +8,17 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { QuestionDTO } from './Question.dto';
 
 import { CreateQuestionDTO } from './createQuestion.dto';
-import { SelectableOptionDTO } from 'src/selectable-option/selectable-option.dto';
+import { SelectableOptionDTO } from '../selectable-option/selectable-option.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from 'src/api-response.model';
+// import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { SuccessAPIResponse } from '../util/success-api-response';
 import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('Question')
 @Controller('question')

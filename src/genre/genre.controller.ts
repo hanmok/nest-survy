@@ -9,14 +9,14 @@ import {
 } from '@nestjs/common';
 import { GenreService } from './genre.service';
 import { CreateGenreDTO } from './createGenre.dto';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { GenreDto } from './genre.dto';
-import { SurveyGenreService } from 'src/survey_genre/survey_genre.service';
-import { SurveyGenreDTO } from 'src/survey_genre/survey_genre.dto';
+import { SurveyGenreService } from '../survey_genre/survey_genre.service';
+import { SurveyGenreDTO } from '../survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from 'src/api-response.model';
-import { SuccessAPIResponse } from 'src/util/success-api-response';
-import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
+// import { SuccessAPIResponse } from '../api-response.model';
+import { SuccessAPIResponse } from '../util/success-api-response';
+import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('Genre')
 @Controller('/genre')

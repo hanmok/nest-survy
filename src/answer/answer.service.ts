@@ -1,18 +1,18 @@
-import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
+import { SelectableOption } from '../selectable-option/selectable-option.entity';
 import { SelectableOptionService } from './../selectable-option/selectable-option.service';
-import { QuestionService } from 'src/question/question.service';
+import { QuestionService } from '../question/question.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Answer } from './answer.entity';
 import { In, Repository } from 'typeorm';
 import { CreateAnswerDTO } from './createAnswer.dto';
-import { SectionService } from 'src/section/section.service';
-// import { MatchedAnswer } from 'src/util/MatchedAnswer';
-import { MatchedAnswer } from 'src/util/matchedAnswer';
-import { ParticipatingService } from 'src/participating/participating.service';
-import { UserAnswer } from 'src/util/userAnswer';
-import { AnswerPair } from 'src/util/AnswerPair';
-import { QuestionPair } from 'src/util/questionPair';
+import { SectionService } from '../section/section.service';
+// import { MatchedAnswer } from '../util/MatchedAnswer';
+import { MatchedAnswer } from '../util/matchedAnswer';
+import { ParticipatingService } from '../participating/participating.service';
+import { UserAnswer } from '../util/userAnswer';
+import { AnswerPair } from '../util/AnswerPair';
+import { QuestionPair } from '../util/questionPair';
 
 @Injectable()
 export class AnswerService {
