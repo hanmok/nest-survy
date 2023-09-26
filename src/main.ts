@@ -23,7 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   console.log(`port number: ${process.env.PORT}`);
-  await app.listen(process.env.PORT || 3300);
+  await app.listen(process.env.PORT || 3000);
   const some = process.env.PORT;
   const gqlServer = new ApolloServer({ typeDefs, resolvers });
   const { url } = await startStandaloneServer(gqlServer, {

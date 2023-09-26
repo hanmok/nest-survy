@@ -5,10 +5,17 @@ type Query {
   surveys: [Survey!]
   user(id: ID!): User
   postings(user_id: ID!): [Posting]
+  participatings(user_id: ID!): [Participating]
   survey(id: ID!): Survey
 }
 
 type Posting { 
+	id: ID
+	user_id: ID
+	survey_id: ID
+}
+
+type Participating { 
 	id: ID
 	user_id: ID
 	survey_id: ID
@@ -36,8 +43,8 @@ type User {
   nickname: String
   is_male: Int
   device_token: String
-  postedSurveys: [Survey]
-  participatedSurveys: [Survey]
+  postedSurveys: [Survey!]
+  participatedSurveys: [Survey!]
 }
 
 type Survey { 

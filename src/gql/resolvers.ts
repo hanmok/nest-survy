@@ -1,8 +1,11 @@
 // import { getCompany } from './db/companies.js';
 // import { getJobs } from './db/jobs.js';
 // import { getUsers } from './/db/users';
-import { getParticipatedSurveysByUserId } from './db/participatings';
-import { getPostingsByUserId, getPostings } from './db/postings';
+import {
+  getParticipatedSurveys,
+  getParticipatedSurveysByUserId,
+} from './db/participatings';
+import { getPostedSurveysByUserId, getPostings } from './db/postings';
 import { getSurvey, getSurveys } from './db/surveys';
 import { getUser, getUsers } from './db/users';
 
@@ -37,11 +40,15 @@ export const resolvers = {
       //   throw notFoundError('No posting found with id ' + user_id);
       // }
       // return postings;
+
       return await getPostings();
+    },
+    participatings: async (_root, { user_id }) => {
+      return await getParticipatedSurveys();
     },
   },
   User: {
-    postedSurveys: (user) => getPostingsByUserId(user.id),
+    postedSurveys: (user) => getPostedSurveysByUserId(user.id),
     participatedSurveys: (user) => getParticipatedSurveysByUserId(user.id),
   },
 };
