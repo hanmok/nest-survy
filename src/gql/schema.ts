@@ -7,6 +7,11 @@ type Query {
   postings(user_id: ID!): [Posting]
   participatings(user_id: ID!): [Participating]
   survey(id: ID!): Survey
+  selectableOptions(question_id: ID!): [SelectableOption]
+  sections(survey_id: ID!): [Section!]
+  section(id: ID!): Section!
+  questions(section_id: ID!): [Question!]
+  
 }
 
 type Posting { 
@@ -21,11 +26,38 @@ type Participating {
 	survey_id: ID
 }
 
+type Section { 
+	id: ID!
+	survey: Survey
+	title: String
+	reward: Int
+	questions: [Question]
+}
+
+type Question { 
+	id: ID!
+	section: Section!
+	position: Int!
+	text: String!
+	question_type: String!
+	survey: Survey
+	selectableOptions: [SelectableOption]
+}
+
+type SelectableOption {
+	id: ID!
+	question: Question!
+	position: Int!
+	value: String!
+	section: Section!
+}
+
 type Company {
   id: ID!
   name: String!
   description: String
 }
+
 
 type Job {
   id: ID!
@@ -58,7 +90,7 @@ reward_range: String
 code: String
 is_public: Int
 is_completed: Int
-
+sections: [Section]
 }
 
 

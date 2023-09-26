@@ -6,6 +6,9 @@ import {
   getParticipatedSurveysByUserId,
 } from './db/participatings';
 import { getPostedSurveysByUserId, getPostings } from './db/postings';
+import { getQuestionsBySectionId } from './db/questions';
+import { getSectionById, getSectionsBySurveyId } from './db/sections';
+import { getSelectableOptionByQuestionId } from './db/selectableOptions';
 import { getSurvey, getSurveys } from './db/surveys';
 import { getUser, getUsers } from './db/users';
 
@@ -34,22 +37,38 @@ export const resolvers = {
     surveys: async (_root) => {
       return await getSurveys();
     },
-    postings: async (_root, { user_id }) => {
-      // const postings = await getPostingByUserId(user_id);
-      // if (postings.length === 0) {
-      //   throw notFoundError('No posting found with id ' + user_id);
-      // }
-      // return postings;
-
-      return await getPostings();
+    postings: async (_root, { user_id }: { user_id: string }) => {
+      return await getPostedSurveysByUserId(user_id);
     },
     participatings: async (_root, { user_id }) => {
       return await getParticipatedSurveys();
+    },
+    sections: async (_root, { survey_id }) => {
+      return await getSectionsBySurveyId(survey_id);
+    },
+    section: async (_root, { id }) => {
+      return await getSectionById(id);
+    },
+    questions: async (_root, { section_id }) => {
+      return await getQuestionsBySectionId(section_id);
+    },
+    selectableOptions: async (_root, { question_id }) => {
+      return await getSelectableOptionByQuestionId(question_id);
     },
   },
   User: {
     postedSurveys: (user) => getPostedSurveysByUserId(user.id),
     participatedSurveys: (user) => getParticipatedSurveysByUserId(user.id),
+  },
+  Survey: {
+    sections: (survey) => getSectionsBySurveyId(survey.id),
+  },
+  Section: {
+    questions: (section) => getQuestionsBySectionId(section.id),
+  },
+  Question: {
+    selectableOptions: (question) =>
+      getSelectableOptionByQuestionId(question.id),
   },
 };
 

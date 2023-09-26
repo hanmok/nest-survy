@@ -2,7 +2,7 @@ access_token
 answer
 custom_answer
 genre
-participating
+
 
 
 
@@ -19,3 +19,10 @@ user_genre
 user
 
 posting - user_id, survey_id // PK 다시 설정해야함
+participating
+
+꼭 모든 API 를 gql 로 해야해? No.
+
+section, Question, Selectableoption 은 해야해. 
+
+genre, user_genre, survey_genre 도.. 
