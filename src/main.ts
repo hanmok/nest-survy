@@ -3,10 +3,12 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ApolloServer } from '@apollo/server';
-import fs from 'fs';
+// import fs from 'fs';
+const fs = require('fs');
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { readFile, readFileSync } from 'fs';
-
+// import { resolvers } from './resolvers.js';
+import { resolvers } from './gql/resolvers';
 import { getUsers } from './gql/db/users';
 
 async function bootstrap() {
@@ -59,16 +61,6 @@ async function bootstrap() {
   `;
 
   console.log(typeDefs);
-
-  const resolvers = {
-    Query: {
-      greeting: () => 'Hello world!',
-      users: async (_root, { id }) => {
-        const user = await getUsers();
-        return user;
-      },
-    },
-  };
 
   const gqlServer = new ApolloServer({ typeDefs, resolvers });
   const { url } = await startStandaloneServer(gqlServer, {
