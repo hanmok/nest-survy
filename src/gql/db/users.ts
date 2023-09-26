@@ -9,5 +9,5 @@ export async function getUsers() {
 
 export async function getUser(id) {
   const sth = await getUserTable().first();
-  return await getUserTable().first();
+  return await getUserTable().first().where({ id });
 }

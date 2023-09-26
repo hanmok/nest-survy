@@ -1,0 +1,21 @@
+access_token
+answer
+custom_answer
+genre
+participating
+
+
+
+question
+refresh_token
+section
+section_bridge
+selectable_option
+survey
+survey_genre
+user_genre
+
+
+user
+
+posting - user_id, survey_id // PK 다시 설정해야함
