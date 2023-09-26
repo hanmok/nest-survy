@@ -3,10 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ApolloServer } from '@apollo/server';
-// import fs from 'fs';
-const fs = require('fs');
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { readFile, readFileSync } from 'fs';
 // import { resolvers } from './resolvers.js';
 import { resolvers } from './gql/resolvers';
 import { typeDefs } from './gql/schema';
@@ -27,7 +24,7 @@ async function bootstrap() {
 
   console.log(`port number: ${process.env.PORT}`);
   await app.listen(process.env.PORT || 3300);
-
+  const some = process.env.PORT;
   const gqlServer = new ApolloServer({ typeDefs, resolvers });
   const { url } = await startStandaloneServer(gqlServer, {
     listen: { port: 4000 },
