@@ -9,7 +9,7 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import { readFile, readFileSync } from 'fs';
 // import { resolvers } from './resolvers.js';
 import { resolvers } from './gql/resolvers';
-import { getUsers } from './gql/db/users';
+import { typeDefs } from './gql/schema';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,48 +27,12 @@ async function bootstrap() {
 
   console.log(`port number: ${process.env.PORT}`);
   await app.listen(process.env.PORT || 3300);
-  console.log('hi');
-
-  // const typeDefs = readFileSync('./schema.graphql', 'utf8');
-  const typeDefs = `#gql
-  type Query {
-    jobs: [Job!]
-    users: [User!]
-  }
-  
-  type Company {
-    id: ID!
-    name: String!
-    description: String
-  }
-  
-  type Job {
-    id: ID!
-    date: String!
-    title: String!
-    company: Company!
-    description: String
-  }
-  
-  type User {
-    id: ID!
-    username: String!
-  }
-  
-  type Query {
-    greeting: String
-  }
-  `;
-
-  console.log(typeDefs);
 
   const gqlServer = new ApolloServer({ typeDefs, resolvers });
   const { url } = await startStandaloneServer(gqlServer, {
     listen: { port: 4000 },
   });
-  console.log('gql started');
-  // 어? 됐다..
-  // asdmakjsd
+  console.log('gql started, url:', url); // http://localhost:4000/
 }
 
 bootstrap();
