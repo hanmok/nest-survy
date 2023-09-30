@@ -26,8 +26,9 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3000);
   const some = process.env.PORT;
   const gqlServer = new ApolloServer({ typeDefs, resolvers });
+  const gqlPort = Number.parseInt(process.env.PORT) || 4000;
   const { url } = await startStandaloneServer(gqlServer, {
-    listen: { port: 4000 },
+    listen: { port: gqlPort },
   });
   console.log('gql started, url:', url); // http://localhost:4000/
 }
