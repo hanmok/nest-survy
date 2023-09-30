@@ -100,6 +100,7 @@ export class TransactionService {
 
     currentUser.collected_reward += totalReward;
     currentUser.reputation += 1;
+    currentUser.fatigue += 1;
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();

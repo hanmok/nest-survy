@@ -40,6 +40,9 @@ export class User {
   @Column({ default: 0 })
   reputation: number;
 
+  @Column()
+  fatigue: number;
+
   // @ManyToMany(() => Survey, (survey) => survey.users)
   // @JoinTable()
   // surveys: Survey[];

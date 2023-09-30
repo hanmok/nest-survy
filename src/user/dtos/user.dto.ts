@@ -21,6 +21,10 @@ export class UserDto {
   @Expose()
   birth_date: string;
 
+  // @ApiProperty()
+  // @Expose()
+  // fatigue: number;
+
   // @Expose()
   // isMale: number;
 
