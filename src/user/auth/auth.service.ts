@@ -1,16 +1,15 @@
-// import { logObject } from './../../util/Log';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-// import { UserService } from './user.service';
+
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-// import { User } from './user.entity';
+
 import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { AccessToken } from '../accessToken.entity';

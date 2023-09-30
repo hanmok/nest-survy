@@ -10,7 +10,6 @@ import { SelectableOption } from '../selectable-option/selectable-option.entity'
 import { CreateWholeSurveyDTO } from '../survey/createWholeSurvey.dto';
 import logObject from '../util/logObject';
 import { SetDictionary } from '../util/SetDictionary';
-import { log } from '../util/Log';
 
 @Injectable()
 export class TransactionService {
