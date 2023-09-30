@@ -11,7 +11,7 @@ type Query {
   sections(survey_id: ID!): [Section!]
   section(id: ID!): Section!
   questions(section_id: ID!): [Question!]
-  
+  greeting: String
 }
 
 type Posting { 
@@ -93,8 +93,4 @@ is_completed: Int
 sections: [Section]
 }
 
-
-type Query {
-  greeting: String
-}
 `;

@@ -10,12 +10,19 @@ import { SelectableOption } from '../selectable-option/selectable-option.entity'
 import { CreateWholeSurveyDTO } from '../survey/createWholeSurvey.dto';
 import logObject from '../util/logObject';
 import { SetDictionary } from '../util/SetDictionary';
+import { CreateParticipationDTO } from 'src/survey/CreateParticipation.dto';
+import { In } from 'typeorm';
+import { Participating } from 'src/participating/participating.entity';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class TransactionService {
   constructor(
     @InjectRepository(Survey) private surveyRepo: Repository<Survey>,
     @InjectRepository(Posting) private postingRepo: Repository<Posting>,
+    @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Participating)
+    private participatingRepo: Repository<Participating>,
     @InjectRepository(Section) private sectionRepo: Repository<Section>,
     @InjectRepository(Question) private questionRepo: Repository<Question>,
     @InjectRepository(SelectableOption)
@@ -24,42 +31,95 @@ export class TransactionService {
   ) {}
 
   // Create Survey, connect using 'Posting'
-  async createSurvey(
-    title: string,
-    participationGoal: number,
-    user_id: number,
-  ) {
-    // create Survey
-    const tempSurvey = this.surveyRepo.create({
-      title,
-      participation_goal: participationGoal,
+  // async createSurvey(
+  //   title: string,
+  //   participationGoal: number,
+  //   user_id: number,
+  // ) {
+  //   // create Survey
+  //   const tempSurvey = this.surveyRepo.create({
+  //     title,
+  //     participation_goal: participationGoal,
+  //   });
+  //   tempSurvey.code = createRandomAlphabets(7);
+
+  //   const queryRunner = this.dataSource.createQueryRunner();
+  //   await queryRunner.connect();
+  //   await queryRunner.startTransaction();
+
+  //   try {
+  //     // 여기서 실패할 수도 있어? 음.. 불가능할텐데 ?
+  //     // queryRunner.manager.save: DB 에 저장
+  //     const survey = await queryRunner.manager.save(Survey, tempSurvey);
+
+  //     // create Posting
+  //     const posting = await this.postingRepo.create({
+  //       survey_id: survey.id,
+  //       user_id,
+  //     });
+
+  //     await queryRunner.manager.save(Posting, posting);
+  //     console.log(`transaction committed!!`);
+  //     await queryRunner.commitTransaction();
+  //   } catch (err) {
+  //     console.log(`err: ${err}`);
+  //     await queryRunner.rollbackTransaction();
+  //     throw new BadRequestException();
+  //   } finally {
+  //     await queryRunner.release();
+  //   }
+  // }
+
+  // 나중에, Response 와 통합될 수 있음.
+  async participateToSurvey(participationDTO: CreateParticipationDTO) {
+    let { survey_id, section_ids, user_id } = participationDTO;
+
+    const sections = await this.sectionRepo.findBy({ id: In(section_ids) });
+    const participatings: Participating[] = [];
+
+    let totalReward = 0;
+    sections.forEach((section) => {
+      let participating = this.participatingRepo.create({
+        survey_id,
+        section_id: section.id,
+        user_id,
+      });
+      participatings.push(participating);
+
+      totalReward += section.reward;
     });
-    tempSurvey.code = createRandomAlphabets(7);
+    const currentUser = await this.userRepo.findOneBy({ id: user_id });
+    const currentSurvey = await this.surveyRepo.findOneBy({ id: survey_id });
+    currentSurvey.current_participation += 1;
+
+    if (
+      currentSurvey.current_participation >= currentSurvey.participation_goal
+    ) {
+      currentSurvey.is_completed = 1;
+    }
+
+    currentUser.collected_reward += totalReward;
+    currentUser.reputation += 1;
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      // 여기서 실패할 수도 있어? 음.. 불가능할텐데 ?
-      // queryRunner.manager.save: DB 에 저장
-      const survey = await queryRunner.manager.save(Survey, tempSurvey);
-
-      // create Posting
-      const posting = await this.postingRepo.create({
-        survey_id: survey.id,
-        user_id,
-      });
-
-      await queryRunner.manager.save(Posting, posting);
-      console.log(`transaction committed!!`);
+      await queryRunner.manager.save(User, currentUser);
+      await queryRunner.manager.save(Survey, currentSurvey);
+      const participatingPromises = Array.from(participatings).map(
+        async (participating) => {
+          await queryRunner.manager.save(Participating, participating);
+        },
+      );
+      await Promise.all(participatingPromises);
       await queryRunner.commitTransaction();
+      await queryRunner.release();
+      return 'Success';
     } catch (err) {
-      console.log(`err: ${err}`);
       await queryRunner.rollbackTransaction();
       throw new BadRequestException();
-    } finally {
-      await queryRunner.release();
     }
   }
 
