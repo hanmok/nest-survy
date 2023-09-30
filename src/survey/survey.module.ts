@@ -17,6 +17,7 @@ import { QuestionService } from '../question/question.service';
 import { SelectableOption } from '../selectable-option/selectable-option.entity';
 import { Answer } from '../answer/answer.entity';
 import { ValidateQuestionTypePipe } from '../question/validate-question-type.pipe';
+import { User } from 'src/user/user.entity';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ValidateQuestionTypePipe } from '../question/validate-question-type.pip
       Question,
       SelectableOption,
       Answer,
+      User,
     ]),
   ],
   providers: [
