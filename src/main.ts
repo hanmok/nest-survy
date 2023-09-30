@@ -35,9 +35,9 @@ async function bootstrap() {
   const expressApp = express();
   gqlServer.applyMiddleware({ app: expressApp });
 
-  await app.listen(process.env.port || 3000);
-
-  const gqlPort = Number.parseInt(process.env.PORT) || 3000;
+  await app.listen(process.env.PORT || 3000);
+  // console.log(`port: ${process.env.port}`)
+  // const gqlPort = Number.parseInt(process.env.PORT) || 3000;
 
   // const { url } = await startStandaloneServer(gqlServer, {
   //   listen: { port: gqlPort },
