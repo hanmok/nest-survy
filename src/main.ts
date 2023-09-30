@@ -11,6 +11,7 @@ import { typeDefs } from './gql/schema';
 // import { Express } from 'express';
 // const express = require('express')
 // import express from 'express';
+import { Express } from 'express';
 const express = require('express');
 
 async function bootstrap() {
@@ -31,7 +32,15 @@ async function bootstrap() {
   const gqlServer = new ApolloServer({ typeDefs, resolvers });
   await gqlServer.start();
   const expressApp = express();
-  gqlServer.applyMiddleware({ app: expressApp });
+  // gqlServer.applyMiddleware({ app: expressApp });
+
+  gqlServer.applyMiddleware({
+    app: app as unknown as Express,
+    path: '/graphql',
+  });
+
+  app.setGlobalPrefix('api');
+
   await app.listen(process.env.PORT || 3000);
 
   // separate two servers
