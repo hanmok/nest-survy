@@ -26,22 +26,23 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  // combine two servers
+  // import { ApolloServer } from 'apollo-server-express';
   // const gqlServer = new ApolloServer({ typeDefs, resolvers });
   // await gqlServer.start();
-
   // const expressApp = express();
   // gqlServer.applyMiddleware({ app: expressApp });
-
   // await app.listen(process.env.PORT || 3000);
 
+  // separate two servers
+  // import { ApolloServer } from '@apollo/server';
   await app.listen(process.env.PORT || 3000);
   const gqlServer = new ApolloServer({ typeDefs, resolvers });
-  const gqlPort = Number.parseInt(process.env.PORT) || 4000;
+  // const gqlPort = Number.parseInt(process.env.PORT) || 4000;
+  const gqlPort = 4000;
   const { url } = await startStandaloneServer(gqlServer, {
     listen: { port: gqlPort },
   });
-
-  // console.log('gql started, url:', url); // http://localhost:4000/
 }
 
 bootstrap();
