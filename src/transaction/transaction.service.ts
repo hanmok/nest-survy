@@ -10,12 +10,19 @@ import { SelectableOption } from '../selectable-option/selectable-option.entity'
 import { CreateWholeSurveyDTO } from '../survey/createWholeSurvey.dto';
 import logObject from '../util/logObject';
 import { SetDictionary } from '../util/SetDictionary';
+import { CreateParticipationDTO } from 'src/survey/CreateParticipation.dto';
+import { In } from 'typeorm';
+import { Participating } from 'src/participating/participating.entity';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class TransactionService {
   constructor(
     @InjectRepository(Survey) private surveyRepo: Repository<Survey>,
     @InjectRepository(Posting) private postingRepo: Repository<Posting>,
+    @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Participating)
+    private participatingRepo: Repository<Participating>,
     @InjectRepository(Section) private sectionRepo: Repository<Section>,
     @InjectRepository(Question) private questionRepo: Repository<Question>,
     @InjectRepository(SelectableOption)
@@ -62,6 +69,59 @@ export class TransactionService {
   //     await queryRunner.release();
   //   }
   // }
+
+  // 나중에, Response 와 통합될 수 있음.
+  async participateToSurvey(participationDTO: CreateParticipationDTO) {
+    let { survey_id, section_ids, user_id } = participationDTO;
+
+    const sections = await this.sectionRepo.findBy({ id: In(section_ids) });
+    const participatings: Participating[] = [];
+
+    let totalReward = 0;
+    sections.forEach((section) => {
+      let participating = this.participatingRepo.create({
+        survey_id,
+        section_id: section.id,
+        user_id,
+      });
+      participatings.push(participating);
+
+      totalReward += section.reward;
+    });
+    const currentUser = await this.userRepo.findOneBy({ id: user_id });
+    const currentSurvey = await this.surveyRepo.findOneBy({ id: survey_id });
+    currentSurvey.current_participation += 1;
+
+    if (
+      currentSurvey.current_participation >= currentSurvey.participation_goal
+    ) {
+      currentSurvey.is_completed = 1;
+    }
+
+    currentUser.collected_reward += totalReward;
+    currentUser.reputation += 1;
+
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      await queryRunner.manager.save(User, currentUser);
+      await queryRunner.manager.save(Survey, currentSurvey);
+      const participatingPromises = Array.from(participatings).map(
+        async (participating) => {
+          await queryRunner.manager.save(Participating, participating);
+        },
+      );
+      await Promise.all(participatingPromises);
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+      return 'Success';
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw new BadRequestException();
+    }
+  }
 
   async createWholeSurvey(wholeSurvey: CreateWholeSurveyDTO) {
     console.log(`passed object: ${JSON.stringify(wholeSurvey)}`);

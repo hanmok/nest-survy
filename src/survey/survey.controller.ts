@@ -28,6 +28,7 @@ import { SectionService } from '../section/section.service';
 import { FailureAPIResponse } from '../util/failure-api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 import { CreateWholeSurveyDTO } from './createWholeSurvey.dto';
+import { CreateParticipationDTO } from './CreateParticipation.dto';
 
 @ApiTags('Survey')
 @Controller('/survey')
@@ -59,6 +60,13 @@ export class SurveyController {
   async createWholeSurvey(@Body() body: CreateWholeSurveyDTO) {
     console.log(`hi, whole api called`);
     const ret = await this.transactionService.createWholeSurvey(body);
+    return SuccessAPIResponse(ret);
+  }
+
+  @ApiOperation({ summary: 'Participate' })
+  @Post('/participated')
+  async participate(@Body() body: CreateParticipationDTO) {
+    const ret = await this.transactionService.participateToSurvey(body);
     return SuccessAPIResponse(ret);
   }
 
@@ -127,14 +135,15 @@ export class SurveyController {
     return SuccessAPIResponse(ret);
   }
 
-  @ApiOperation({ summary: 'Increase the number of participated-user by 1' })
-  @Patch('/:id/increase-participation')
-  async increateParticipatedUsers(@Param('id') id: string) {
-    const ret = await this.surveyService.increaseParticipatedNumber(
-      parseInt(id),
-    );
-    return SuccessAPIResponse(ret);
-  }
+  // Transaction 에 통합시킴
+  // @ApiOperation({ summary: 'Increase the number of participated-user by 1' })
+  // @Patch('/:id/increase-participation')
+  // async increateParticipatedUsers(@Param('id') id: string) {
+  //   const ret = await this.surveyService.increaseParticipatedNumber(
+  //     parseInt(id),
+  //   );
+  //   return SuccessAPIResponse(ret);
+  // }
 
   @ApiOperation({ summary: 'add initial section id' })
   @Patch('/:id/add-initial-section/:section_id')

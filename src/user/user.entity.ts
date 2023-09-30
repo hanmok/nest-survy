@@ -37,6 +37,9 @@ export class User {
   @Column()
   is_male: number;
 
+  @Column({ default: 0 })
+  reputation: number;
+
   // @ManyToMany(() => Survey, (survey) => survey.users)
   // @JoinTable()
   // surveys: Survey[];

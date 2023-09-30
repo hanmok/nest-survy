@@ -57,14 +57,14 @@ export class SurveyService {
     return await this.repo.save(survey);
   }
 
-  async increaseParticipatedNumber(id) {
-    const survey = await this.repo.findOne({ where: { id } });
-    survey.current_participation += 1;
-    if (survey.current_participation >= survey.participation_goal) {
-      survey.is_completed = 1;
-    }
-    return await this.repo.save(survey);
-  }
+  // async increaseParticipatedNumber(id) {
+  //   const survey = await this.repo.findOne({ where: { id } });
+  //   survey.current_participation += 1;
+  //   if (survey.current_participation >= survey.participation_goal) {
+  //     survey.is_completed = 1;
+  //   }
+  //   return await this.repo.save(survey);
+  // }
 
   async addInitialSectionId(survey_id, section_id) {
     const survey = await this.repo.findOne({ where: { id: survey_id } });
