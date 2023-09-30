@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ApolloServer } from '@apollo/server';
-// import { ApolloServer } from 'apollo-server-express';
+// import { ApolloServer } from '@apollo/server';
+import { ApolloServer } from 'apollo-server-express';
 import { startStandaloneServer } from '@apollo/server/standalone';
 // import { resolvers } from './resolvers.js';
 import { resolvers } from './gql/resolvers';
@@ -28,21 +28,21 @@ async function bootstrap() {
 
   // combine two servers
   // import { ApolloServer } from 'apollo-server-express';
-  // const gqlServer = new ApolloServer({ typeDefs, resolvers });
-  // await gqlServer.start();
-  // const expressApp = express();
-  // gqlServer.applyMiddleware({ app: expressApp });
-  // await app.listen(process.env.PORT || 3000);
+  const gqlServer = new ApolloServer({ typeDefs, resolvers });
+  await gqlServer.start();
+  const expressApp = express();
+  gqlServer.applyMiddleware({ app: expressApp });
+  await app.listen(process.env.PORT || 3000);
 
   // separate two servers
   // import { ApolloServer } from '@apollo/server';
-  await app.listen(process.env.PORT || 3000);
-  const gqlServer = new ApolloServer({ typeDefs, resolvers });
-  // const gqlPort = Number.parseInt(process.env.PORT) || 4000;
-  const gqlPort = 4000;
-  const { url } = await startStandaloneServer(gqlServer, {
-    listen: { port: gqlPort },
-  });
+  // await app.listen(process.env.PORT || 3000);
+  // const gqlServer = new ApolloServer({ typeDefs, resolvers });
+  // // const gqlPort = Number.parseInt(process.env.PORT) || 4000;
+  // const gqlPort = 4000;
+  // const { url } = await startStandaloneServer(gqlServer, {
+  //   listen: { port: gqlPort },
+  // });
 }
 
 bootstrap();
