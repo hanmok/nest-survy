@@ -10,7 +10,6 @@ import { SelectableOption } from '../selectable-option/selectable-option.entity'
 import { CreateWholeSurveyDTO } from '../survey/createWholeSurvey.dto';
 import logObject from '../util/logObject';
 import { SetDictionary } from '../util/SetDictionary';
-import { log } from '../util/Log';
 
 @Injectable()
 export class TransactionService {
@@ -25,44 +24,44 @@ export class TransactionService {
   ) {}
 
   // Create Survey, connect using 'Posting'
-  async createSurvey(
-    title: string,
-    participationGoal: number,
-    user_id: number,
-  ) {
-    // create Survey
-    const tempSurvey = this.surveyRepo.create({
-      title,
-      participation_goal: participationGoal,
-    });
-    tempSurvey.code = createRandomAlphabets(7);
+  // async createSurvey(
+  //   title: string,
+  //   participationGoal: number,
+  //   user_id: number,
+  // ) {
+  //   // create Survey
+  //   const tempSurvey = this.surveyRepo.create({
+  //     title,
+  //     participation_goal: participationGoal,
+  //   });
+  //   tempSurvey.code = createRandomAlphabets(7);
 
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
+  //   const queryRunner = this.dataSource.createQueryRunner();
+  //   await queryRunner.connect();
+  //   await queryRunner.startTransaction();
 
-    try {
-      // 여기서 실패할 수도 있어? 음.. 불가능할텐데 ?
-      // queryRunner.manager.save: DB 에 저장
-      const survey = await queryRunner.manager.save(Survey, tempSurvey);
+  //   try {
+  //     // 여기서 실패할 수도 있어? 음.. 불가능할텐데 ?
+  //     // queryRunner.manager.save: DB 에 저장
+  //     const survey = await queryRunner.manager.save(Survey, tempSurvey);
 
-      // create Posting
-      const posting = await this.postingRepo.create({
-        survey_id: survey.id,
-        user_id,
-      });
+  //     // create Posting
+  //     const posting = await this.postingRepo.create({
+  //       survey_id: survey.id,
+  //       user_id,
+  //     });
 
-      await queryRunner.manager.save(Posting, posting);
-      console.log(`transaction committed!!`);
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      console.log(`err: ${err}`);
-      await queryRunner.rollbackTransaction();
-      throw new BadRequestException();
-    } finally {
-      await queryRunner.release();
-    }
-  }
+  //     await queryRunner.manager.save(Posting, posting);
+  //     console.log(`transaction committed!!`);
+  //     await queryRunner.commitTransaction();
+  //   } catch (err) {
+  //     console.log(`err: ${err}`);
+  //     await queryRunner.rollbackTransaction();
+  //     throw new BadRequestException();
+  //   } finally {
+  //     await queryRunner.release();
+  //   }
+  // }
 
   async createWholeSurvey(wholeSurvey: CreateWholeSurveyDTO) {
     console.log(`passed object: ${JSON.stringify(wholeSurvey)}`);

@@ -43,16 +43,16 @@ export class SurveyController {
     private questionService: QuestionService,
   ) {}
 
-  @ApiOperation({ summary: 'Create survey' })
-  @Post()
-  async create(@Body() body: CreateSurveyDTO) {
-    const ret = await this.transactionService.createSurvey(
-      body.title,
-      body.participation_goal,
-      body.user_id,
-    );
-    return SuccessAPIResponse(ret, 201);
-  }
+  // @ApiOperation({ summary: 'Create survey' })
+  // @Post()
+  // async create(@Body() body: CreateSurveyDTO) {
+  //   const ret = await this.transactionService.createSurvey(
+  //     body.title,
+  //     body.participation_goal,
+  //     body.user_id,
+  //   );
+  //   return SuccessAPIResponse(ret, 201);
+  // }
 
   @ApiOperation({ summary: 'Create Whole Survey' })
   @Post('/whole')
