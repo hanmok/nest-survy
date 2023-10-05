@@ -39,7 +39,7 @@ type Question {
 	section: Section!
 	position: Int!
 	text: String!
-	question_type: String!
+  question_type_id: Int!
 	survey: Survey
 	selectableOptions: [SelectableOption]
 }
@@ -86,7 +86,7 @@ current_participation: Int!
 participation_goal: Int!
 created_at: String
 ended_at: String
-reward_range: String
+reward: Int
 code: String
 is_public: Int
 is_completed: Int

@@ -23,7 +23,8 @@ export class Survey {
   title: string;
 
   @Column()
-  reward_range: string;
+  // reward_range: string;
+  reward: number;
 
   @Column()
   is_completed: number;
@@ -41,6 +42,8 @@ export class Survey {
   @Column()
   initial_section_id: number | undefined;
 
+  @Column()
+  expected_time_in_sec: number;
   // @Column()
   // created_at
 

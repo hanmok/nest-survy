@@ -37,9 +37,12 @@ export class SurveyDto {
   @Expose()
   participation_goal: number;
 
+  // @ApiProperty()
+  // @Expose()
+  // reward_range: string;
   @ApiProperty()
   @Expose()
-  reward_range: string;
+  reward: number;
 
   @ApiProperty()
   @Expose()

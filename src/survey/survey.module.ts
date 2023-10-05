@@ -18,6 +18,7 @@ import { SelectableOption } from '../selectable-option/selectable-option.entity'
 import { Answer } from '../answer/answer.entity';
 // import { ValidateQuestionTypePipe } from '../question/validate-question-type.pipe';
 import { User } from 'src/user/user.entity';
+import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.entity';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { User } from 'src/user/user.entity';
       SelectableOption,
       Answer,
       User,
+      ExpectedTimeSpent,
     ]),
   ],
   providers: [

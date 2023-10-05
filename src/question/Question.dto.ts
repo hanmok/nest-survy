@@ -28,5 +28,6 @@ export class QuestionDTO {
   expected_time_in_sec: number;
 
   @Expose()
-  question_type: QuestionType;
+  // question_type: QuestionType;
+  question_type_id: number;
 }

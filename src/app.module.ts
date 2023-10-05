@@ -90,6 +90,7 @@ import { CustomAnswer } from './custom_answer/custom_answer.entity';
 import { CustomAnswerController } from './custom_answer/custom_answer.controller';
 import { CustomAnswerService } from './custom_answer/custom_answer.service';
 import { ExpectedTimeSpentModule } from './expected-time-spent/expected-time-spent.module';
+import { ExpectedTimeSpent } from './expected-time-spent/ExpectedTimeSpent.entity';
 
 require('dotenv').config();
 
@@ -151,6 +152,7 @@ require('dotenv').config();
       UserGenre,
       AccessToken,
       RefreshToken,
+      ExpectedTimeSpent,
       // CustomResponseDto,
     ]),
 
