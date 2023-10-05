@@ -163,6 +163,7 @@ export class TransactionService {
 
     try {
       // Survey, Posting
+      logObject('tempSurvey: ', tempSurvey);
       const mysurvey = await queryRunner.manager.save(Survey, tempSurvey);
       console.log(`[createWholeSurvey] flag 10`);
       const posting = await this.postingRepo.create({
