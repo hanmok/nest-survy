@@ -9,4 +9,7 @@ export class ExpectedTimeSpent {
 
   @Column()
   time_take_in_sec: number;
+
+  @Column()
+  id: number;
 }

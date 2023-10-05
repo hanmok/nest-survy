@@ -23,8 +23,8 @@ export class Section {
   @Column()
   expected_time_in_sec: number;
 
-  @Column()
-  reward: number;
+  // @Column()
+  // reward: number;
 
   @Column()
   title: string;

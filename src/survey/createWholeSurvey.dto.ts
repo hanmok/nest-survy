@@ -9,7 +9,6 @@ import { CreateSelectableOptionDTO } from 'src/selectable-option/createSelectabl
 export class CreateWholeSurveyDTO {
   @ApiProperty()
   @Expose()
-  //   createSurvey: CreateSurveyDTO;
   survey: CreateSurveyDTO;
 
   @ApiProperty()
@@ -23,4 +22,21 @@ export class CreateWholeSurveyDTO {
   @ApiProperty()
   @Expose()
   selectable_options: CreateSelectableOptionDTO[];
+
+  // FIXME: array 이어야함..
+  // @ApiProperty()
+  // @Expose()
+  // geo_code: number;
+
+  // @ApiProperty()
+  // @Expose()
+  // target_min_age: number;
+
+  // @ApiProperty()
+  // @Expose()
+  // target_max_age: number;
+
+  // @ApiProperty()
+  // @Expose()
+  // genre_ids: number[];
 }

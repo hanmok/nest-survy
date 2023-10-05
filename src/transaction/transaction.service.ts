@@ -33,47 +33,7 @@ export class TransactionService {
     private dataSource: DataSource,
   ) {}
 
-  // Create Survey, connect using 'Posting'
-  // async createSurvey(
-  //   title: string,
-  //   participationGoal: number,
-  //   user_id: number,
-  // ) {
-  //   // create Survey
-  //   const tempSurvey = this.surveyRepo.create({
-  //     title,
-  //     participation_goal: participationGoal,
-  //   });
-  //   tempSurvey.code = createRandomAlphabets(7);
-
-  //   const queryRunner = this.dataSource.createQueryRunner();
-  //   await queryRunner.connect();
-  //   await queryRunner.startTransaction();
-
-  //   try {
-  //     // 여기서 실패할 수도 있어? 음.. 불가능할텐데 ?
-  //     // queryRunner.manager.save: DB 에 저장
-  //     const survey = await queryRunner.manager.save(Survey, tempSurvey);
-
-  //     // create Posting
-  //     const posting = await this.postingRepo.create({
-  //       survey_id: survey.id,
-  //       user_id,
-  //     });
-
-  //     await queryRunner.manager.save(Posting, posting);
-  //     console.log(`transaction committed!!`);
-  //     await queryRunner.commitTransaction();
-  //   } catch (err) {
-  //     console.log(`err: ${err}`);
-  //     await queryRunner.rollbackTransaction();
-  //     throw new BadRequestException();
-  //   } finally {
-  //     await queryRunner.release();
-  //   }
-  // }
-
-  // 나중에, Response 와 통합될 수 있음.
+  // 나중에, Response 와 통합될 수 있음. 수정할 것. section_ids 는 받지 않아야함.
   async participateToSurvey(participationDTO: CreateParticipationDTO) {
     let { survey_id, section_ids, user_id } = participationDTO;
 
@@ -89,8 +49,9 @@ export class TransactionService {
       });
       participatings.push(participating);
 
-      totalReward += section.reward;
+      // totalReward += section.reward;
     });
+
     const currentUser = await this.userRepo.findOneBy({ id: user_id });
     const currentSurvey = await this.surveyRepo.findOneBy({ id: survey_id });
     currentSurvey.current_participation += 1;
@@ -101,7 +62,9 @@ export class TransactionService {
       currentSurvey.is_completed = 1;
     }
 
+    totalReward += currentSurvey.reward;
     currentUser.collected_reward += totalReward;
+
     currentUser.reputation += 1;
     currentUser.fatigue += 1;
 
@@ -127,14 +90,30 @@ export class TransactionService {
     }
   }
 
+  //
+  // 현재, 값 중복이 너무 많아. 이것들이 다 따로 존재..
+  // section 안에 q 있고 그 q 안에 so 있음
+  // q 안에 so 있음
+  // so 있음
   async createWholeSurvey(wholeSurvey: CreateWholeSurveyDTO) {
     console.log(`passed object: ${JSON.stringify(wholeSurvey)}`);
-
+    // TODO: expectedTime 계산해서 반영하기.
     let { survey, sections, questions, selectable_options } = wholeSurvey;
-
+    console.log(`[createWholeSurvey] flag 1`);
     const tempSurvey = this.surveyRepo.create({ ...survey });
-    tempSurvey.code = createRandomAlphabets(7);
 
+    const timeSpents = await this.timeSpentRepo.find();
+    // dictionary 로 만들기.
+    const timeSpentDic = {};
+
+    let expectedTimeInSec = 0;
+    console.log(`[createWholeSurvey] flag 2`);
+    timeSpents.forEach((el) => {
+      timeSpentDic[el.id] = el.time_take_in_sec;
+    });
+
+    tempSurvey.code = createRandomAlphabets(7);
+    console.log(`[createWholeSurvey] flag 3`);
     let tempSections: Section[] = [];
     sections.forEach((section) => {
       const tempSection = this.sectionRepo.create({ ...section });
@@ -142,33 +121,38 @@ export class TransactionService {
     });
 
     logObject('tempSections: ', tempSections);
-
+    console.log(`[createWholeSurvey] flag 4`);
     let tempQuestions: Question[] = [];
+
     questions.forEach((q) => {
+      expectedTimeInSec += timeSpentDic[q.question_type_id];
       const tempQ = this.questionRepo.create({ ...q });
       tempQuestions.push(tempQ);
     });
+    console.log(`[createWholeSurvey] flag 5`);
+    tempSurvey.expected_time_in_sec = expectedTimeInSec;
     logObject('tempQuestions: ', tempQuestions);
 
     let tempSelectableOptions: SelectableOption[] = [];
+
     selectable_options.forEach((so) => {
       const tempSelectableOption = this.selectableOptionRepo.create({ ...so });
       tempSelectableOptions.push(tempSelectableOption);
     });
-
+    console.log(`[createWholeSurvey] flag 6`);
     const sToQDic: SetDictionary<Question> = {};
     const qToSODic: SetDictionary<SelectableOption> = {};
 
     sections.forEach((s) => {
       sToQDic[s.id] = new Set<Question>();
     });
-
+    console.log(`[createWholeSurvey] flag 7`);
     questions.forEach((q) => {
       qToSODic[q.id] = new Set<SelectableOption>();
       const question: Question = { ...q };
       sToQDic[q.section_id].add(question);
     });
-
+    console.log(`[createWholeSurvey] flag 8`);
     selectable_options.forEach((so) => {
       qToSODic[so.question_id].add(so);
     });
@@ -185,6 +169,7 @@ export class TransactionService {
         user_id: survey.user_id,
       });
       await queryRunner.manager.save(Posting, posting);
+      console.log(`[createWholeSurvey] flag 9`);
 
       // Process sections, questions, and selectable options using Promise.all
       const sectionPromises = sections.map(async (s) => {
@@ -210,6 +195,7 @@ export class TransactionService {
               Question,
               tempQuestion,
             );
+            console.log(`[createWholeSurvey] flag 10`);
             console.log(`myQuestion's id: ${myQuestion.id}`);
             const soPromises = Array.from(matchingSelectableOptions).map(
               async (so) => {

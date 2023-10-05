@@ -18,7 +18,7 @@ export class SectionDTO {
   @Expose()
   expected_time_in_sec: number;
 
-  @ApiPropertyOptional()
-  @Expose()
-  reward: number;
+  // @ApiPropertyOptional()
+  // @Expose()
+  // reward: number;
 }

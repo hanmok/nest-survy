@@ -24,6 +24,22 @@ export class CreateSurveyDTO {
   @IsNumber()
   user_id: number;
 
+  @ApiProperty()
+  @Expose()
+  geo_code: number;
+
+  @ApiProperty()
+  @Expose()
+  target_min_age: number;
+
+  @ApiProperty()
+  @Expose()
+  target_max_age: number;
+
+  @ApiProperty()
+  @Expose()
+  genre_ids: number[];
+
   // TODO: 추가하기.
   // @Expose()
   // @IsNumber()
