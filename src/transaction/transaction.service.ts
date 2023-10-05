@@ -156,7 +156,7 @@ export class TransactionService {
     selectable_options.forEach((so) => {
       qToSODic[so.question_id].add(so);
     });
-
+    console.log(`[createWholeSurvey] flag 9`);
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -164,12 +164,13 @@ export class TransactionService {
     try {
       // Survey, Posting
       const mysurvey = await queryRunner.manager.save(Survey, tempSurvey);
+      console.log(`[createWholeSurvey] flag 10`);
       const posting = await this.postingRepo.create({
         survey_id: mysurvey.id,
         user_id: survey.user_id,
       });
       await queryRunner.manager.save(Posting, posting);
-      console.log(`[createWholeSurvey] flag 9`);
+      console.log(`[createWholeSurvey] flag 11`);
 
       // Process sections, questions, and selectable options using Promise.all
       const sectionPromises = sections.map(async (s) => {
@@ -177,15 +178,16 @@ export class TransactionService {
 
         const tempSection = this.sectionRepo.create(s);
         let matchingQuestions = sToQDic[s.id];
-
+        console.log(`[createWholeSurvey] flag 12`);
         tempSection.id = null;
         const mySection = await queryRunner.manager.save(Section, tempSection);
+        console.log(`[createWholeSurvey] flag 13`);
 
         const questionPromises = Array.from(matchingQuestions).map(
           async (q) => {
             q.section_id = mySection.id;
             q.survey_id = mysurvey.id;
-
+            console.log(`[createWholeSurvey] flag 14`);
             let matchingSelectableOptions = qToSODic[q.id];
 
             let tempQuestion = this.questionRepo.create(q);
@@ -195,7 +197,7 @@ export class TransactionService {
               Question,
               tempQuestion,
             );
-            console.log(`[createWholeSurvey] flag 10`);
+            console.log(`[createWholeSurvey] flag 15`);
             console.log(`myQuestion's id: ${myQuestion.id}`);
             const soPromises = Array.from(matchingSelectableOptions).map(
               async (so) => {
@@ -206,19 +208,20 @@ export class TransactionService {
                 await queryRunner.manager.save(SelectableOption, tempSO);
               },
             );
-
+            console.log(`[createWholeSurvey] flag 16`);
             await Promise.all(soPromises);
           },
         );
 
         await Promise.all(questionPromises);
+        console.log(`[createWholeSurvey] flag 17`);
       });
 
       await Promise.all(sectionPromises);
 
       // "flag 7" 출력
       console.log('flag 7');
-
+      console.log(`[createWholeSurvey] flag 18`);
       await queryRunner.commitTransaction();
       await queryRunner.release();
       return 'Success';
