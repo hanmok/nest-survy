@@ -1,5 +1,5 @@
 import { QuestionType } from 'src/util/QuestionType';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class ExpectedTimeSpent {
@@ -9,6 +9,7 @@ export class ExpectedTimeSpent {
   @Column()
   time_take_in_sec: number;
 
-  @Column()
+  //   @Column()
+  @PrimaryColumn()
   id: number;
 }
