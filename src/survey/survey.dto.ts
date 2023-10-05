@@ -47,4 +47,20 @@ export class SurveyDto {
   @ApiProperty()
   @Expose()
   initial_section_id: number | undefined;
+
+  @ApiProperty()
+  @Expose()
+  geo_code: number;
+
+  @ApiProperty()
+  @Expose()
+  target_min_age: number;
+
+  @ApiProperty()
+  @Expose()
+  target_max_age: number;
+
+  @ApiProperty()
+  @Expose()
+  expected_time_in_sec: number;
 }
