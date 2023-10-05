@@ -17,7 +17,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from '../api-response.model';
 
 import { SuccessAPIResponse } from '../util/success-api-response';
-import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
+// import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('Question')
@@ -36,7 +36,7 @@ export class QuestionController {
 
   @ApiOperation({ summary: 'Create Question' })
   @Post()
-  @UsePipes(ValidateQuestionTypePipe)
+  // @UsePipes(ValidateQuestionTypePipe)
   async create(@Body() body: CreateQuestionDTO) {
     const question = await this.questionService.create(body);
     return SuccessAPIResponse(question, 201);

@@ -42,16 +42,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   await app.listen(process.env.PORT || 3000);
-
-  // separate two servers
-  // import { ApolloServer } from '@apollo/server';
-  // await app.listen(process.env.PORT || 3000);
-  // const gqlServer = new ApolloServer({ typeDefs, resolvers });
-  // // const gqlPort = Number.parseInt(process.env.PORT) || 4000;
-  // const gqlPort = 4000;
-  // const { url } = await startStandaloneServer(gqlServer, {
-  //   listen: { port: gqlPort },
-  // });
 }
 
 bootstrap();

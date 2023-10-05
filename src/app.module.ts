@@ -81,7 +81,7 @@ import { SurveyGenreController } from './survey_genre/survey_genre.controller';
 // import { ApiResponseService } from 'api-response.service';
 
 import { TransactionService } from './transaction/transaction.service';
-import { ValidateQuestionTypePipe } from './question/validate-question-type.pipe';
+// import { ValidateQuestionTypePipe } from './question/validate-question-type.pipe';
 import { CustomAnswerModule } from './custom_answer/custom_answer.module';
 
 import { CreateCustomAnswerDto } from './custom_answer/createCustomAnswer.dto';
@@ -89,6 +89,7 @@ import { CreateCustomAnswerDto } from './custom_answer/createCustomAnswer.dto';
 import { CustomAnswer } from './custom_answer/custom_answer.entity';
 import { CustomAnswerController } from './custom_answer/custom_answer.controller';
 import { CustomAnswerService } from './custom_answer/custom_answer.service';
+import { ExpectedTimeSpentModule } from './expected-time-spent/expected-time-spent.module';
 
 require('dotenv').config();
 
@@ -178,6 +179,7 @@ require('dotenv').config();
     AuthModule,
     JwtModule,
     CustomAnswerModule,
+    ExpectedTimeSpentModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService
@@ -219,7 +221,7 @@ require('dotenv').config();
     ParticipatingService,
     // ApiResponseService,
     TransactionService,
-    ValidateQuestionTypePipe,
+    // ValidateQuestionTypePipe,
   ],
 })
 export class AppModule {}

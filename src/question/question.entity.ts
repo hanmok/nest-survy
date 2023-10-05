@@ -27,9 +27,12 @@ export class Question {
   @Column()
   section_id: number;
 
-  @Column({
-    type: 'enum',
-    enum: QuestionType,
-  })
-  question_type: QuestionType;
+  // @Column({
+  //   type: 'enum',
+  //   enum: QuestionType,
+  // })
+  // question_type: QuestionType;
+
+  @Column()
+  question_type_id: number;
 }

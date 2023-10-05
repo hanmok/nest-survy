@@ -14,6 +14,7 @@ import { CreateParticipationDTO } from 'src/survey/CreateParticipation.dto';
 import { In } from 'typeorm';
 import { Participating } from 'src/participating/participating.entity';
 import { User } from 'src/user/user.entity';
+import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.entity';
 
 @Injectable()
 export class TransactionService {
@@ -27,6 +28,8 @@ export class TransactionService {
     @InjectRepository(Question) private questionRepo: Repository<Question>,
     @InjectRepository(SelectableOption)
     private selectableOptionRepo: Repository<SelectableOption>,
+    @InjectRepository(ExpectedTimeSpent)
+    private timeSpentRepo: Repository<ExpectedTimeSpent>,
     private dataSource: DataSource,
   ) {}
 
@@ -137,6 +140,7 @@ export class TransactionService {
       const tempSection = this.sectionRepo.create({ ...section });
       tempSections.push(tempSection);
     });
+
     logObject('tempSections: ', tempSections);
 
     let tempQuestions: Question[] = [];

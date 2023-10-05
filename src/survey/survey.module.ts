@@ -16,7 +16,7 @@ import { Question } from '../question/question.entity';
 import { QuestionService } from '../question/question.service';
 import { SelectableOption } from '../selectable-option/selectable-option.entity';
 import { Answer } from '../answer/answer.entity';
-import { ValidateQuestionTypePipe } from '../question/validate-question-type.pipe';
+// import { ValidateQuestionTypePipe } from '../question/validate-question-type.pipe';
 import { User } from 'src/user/user.entity';
 
 @Module({
@@ -41,7 +41,7 @@ import { User } from 'src/user/user.entity';
     TransactionService,
     SectionService,
     QuestionService,
-    ValidateQuestionTypePipe,
+    // ValidateQuestionTypePipe,
   ],
   controllers: [SurveyController],
 })

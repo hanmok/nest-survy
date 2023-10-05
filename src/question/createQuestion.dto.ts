@@ -37,8 +37,12 @@ export class CreateQuestionDTO {
   @IsNumber()
   expected_time_in_sec: number;
 
+  // @ApiProperty()
+  // //   @IsString()
+  // @IsEnum(QuestionType)
+  // question_type: QuestionType;
+
   @ApiProperty()
-  //   @IsString()
-  @IsEnum(QuestionType)
-  question_type: QuestionType;
+  @IsNumber()
+  question_type_id: number;
 }

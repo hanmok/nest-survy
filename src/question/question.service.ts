@@ -6,7 +6,7 @@ import { CreateQuestionDTO } from './createQuestion.dto';
 import { SelectableOption } from '../selectable-option/selectable-option.entity';
 import { Answer } from '../answer/answer.entity';
 import { QuestionType } from '../util/QuestionType';
-import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
+// import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
 
 @Injectable()
 export class QuestionService {
@@ -15,8 +15,8 @@ export class QuestionService {
     @InjectRepository(SelectableOption)
     private selectableOptionRepo: Repository<SelectableOption>,
     @InjectRepository(Answer) private answerRepo: Repository<Answer>,
-    private readonly questionTypeValidationPipe: ValidateQuestionTypePipe,
-  ) {}
+  ) // private readonly questionTypeValidationPipe: ValidateQuestionTypePipe,
+  {}
 
   async getAll() {
     return await this.repo.find();
