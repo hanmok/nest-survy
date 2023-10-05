@@ -4,7 +4,6 @@ import { Column, Entity } from 'typeorm';
 @Entity()
 export class ExpectedTimeSpent {
   @Column()
-  //   question_type: QuestionType;
   question_type_id: number;
 
   @Column()

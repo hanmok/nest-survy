@@ -91,6 +91,8 @@ import { CustomAnswerController } from './custom_answer/custom_answer.controller
 import { CustomAnswerService } from './custom_answer/custom_answer.service';
 import { ExpectedTimeSpentModule } from './expected-time-spent/expected-time-spent.module';
 import { ExpectedTimeSpent } from './expected-time-spent/ExpectedTimeSpent.entity';
+import { ExpectedTimeSpentService } from './expected-time-spent/expected-time-spent.service';
+import { ExpectedTimeSpentController } from './expected-time-spent/expected-time-spent.controller';
 
 require('dotenv').config();
 
@@ -132,6 +134,7 @@ require('dotenv').config();
         RefreshToken,
         // CustomResponseDto,
         CustomAnswer,
+        ExpectedTimeSpent,
       ],
     }),
 
@@ -201,6 +204,7 @@ require('dotenv').config();
     UserController,
     SectionBridgeController,
     CustomAnswerController,
+    ExpectedTimeSpentController,
   ],
   providers: [
     AppService,
@@ -223,6 +227,7 @@ require('dotenv').config();
     ParticipatingService,
     // ApiResponseService,
     TransactionService,
+    ExpectedTimeSpentService,
     // ValidateQuestionTypePipe,
   ],
 })
