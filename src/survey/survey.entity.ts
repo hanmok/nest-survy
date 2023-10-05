@@ -52,7 +52,7 @@ export class Survey {
   target_min_age: number;
 
   @Column()
-  taret_max_age: number;
+  target_max_age: number;
 
   // @Column()
   // created_at
