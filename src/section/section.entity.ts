@@ -28,4 +28,7 @@ export class Section {
 
   @Column()
   title: string;
+
+  @Column()
+  sequence: number;
 }

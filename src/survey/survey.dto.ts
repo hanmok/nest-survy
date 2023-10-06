@@ -46,6 +46,10 @@ export class SurveyDto {
 
   @ApiProperty()
   @Expose()
+  cost: number;
+
+  @ApiProperty()
+  @Expose()
   initial_section_id: number | undefined;
 
   @ApiProperty()
@@ -63,4 +67,12 @@ export class SurveyDto {
   @ApiProperty()
   @Expose()
   expected_time_in_sec: number;
+
+  @ApiProperty()
+  @Expose()
+  is_target_male: number;
+
+  @ApiProperty()
+  @Expose()
+  num_of_sections: number;
 }

@@ -54,6 +54,14 @@ export class Survey {
   @Column()
   target_max_age: number;
 
+  @Column()
+  cost: number;
+
+  @Column()
+  is_target_male: number;
+
+  @Column()
+  num_of_sections: number;
   // @Column()
   // created_at
 

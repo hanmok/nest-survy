@@ -15,6 +15,8 @@ import { In } from 'typeorm';
 import { Participating } from 'src/participating/participating.entity';
 import { User } from 'src/user/user.entity';
 import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.entity';
+import { error } from 'console';
+import { SurveyGenre } from 'src/survey_genre/survey_genre.entity';
 
 @Injectable()
 export class TransactionService {
@@ -30,6 +32,8 @@ export class TransactionService {
     private selectableOptionRepo: Repository<SelectableOption>,
     @InjectRepository(ExpectedTimeSpent)
     private timeSpentRepo: Repository<ExpectedTimeSpent>,
+    @InjectRepository(SurveyGenre)
+    private surveyGenreRepo: Repository<SurveyGenre>,
     private dataSource: DataSource,
   ) {}
 
@@ -85,6 +89,7 @@ export class TransactionService {
       await queryRunner.release();
       return 'Success';
     } catch (err) {
+      console.error('Error occurred', err);
       await queryRunner.rollbackTransaction();
       throw new BadRequestException();
     }
@@ -99,6 +104,9 @@ export class TransactionService {
     console.log(`passed object: ${JSON.stringify(wholeSurvey)}`);
     // TODO: expectedTime 계산해서 반영하기.
     let { survey, sections, questions, selectable_options } = wholeSurvey;
+    const genreIds = survey.genre_ids;
+    // survey.num_of_sections = sections.length;
+    // survey.genre_ids
     console.log(`[createWholeSurvey] flag 1`);
     const tempSurvey = this.surveyRepo.create({ ...survey });
 
@@ -110,11 +118,16 @@ export class TransactionService {
     console.log(`[createWholeSurvey] flag 2`);
     timeSpents.forEach((el) => {
       timeSpentDic[el.id] = el.time_take_in_sec;
+      logObject('timeSpentDic:', timeSpentDic);
+      logObject('el.id: ', el.id);
+      logObject('el.time_take_in_sec:', el.time_take_in_sec);
     });
+    // timeSpentDic:: {"100":5,"200":10,"300":20}
 
     tempSurvey.code = createRandomAlphabets(7);
     console.log(`[createWholeSurvey] flag 3`);
     let tempSections: Section[] = [];
+    // Section 이 없는 경우는 ? 말이 안됨
     sections.forEach((section) => {
       const tempSection = this.sectionRepo.create({ ...section });
       tempSections.push(tempSection);
@@ -122,14 +135,26 @@ export class TransactionService {
 
     logObject('tempSections: ', tempSections);
     console.log(`[createWholeSurvey] flag 4`);
+
     let tempQuestions: Question[] = [];
 
     questions.forEach((q) => {
+      console.log(
+        `timeSpentDic[${q.question_type_id}] == ${
+          timeSpentDic[q.question_type_id]
+        }`,
+      );
       expectedTimeInSec += timeSpentDic[q.question_type_id];
       const tempQ = this.questionRepo.create({ ...q });
       tempQuestions.push(tempQ);
     });
+
     console.log(`[createWholeSurvey] flag 5`);
+    if (expectedTimeInSec) {
+      tempSurvey.expected_time_in_sec = expectedTimeInSec;
+    } else {
+      tempSurvey.expected_time_in_sec = 100;
+    }
     tempSurvey.expected_time_in_sec = expectedTimeInSec;
     logObject('tempQuestions: ', tempQuestions);
 
@@ -165,11 +190,30 @@ export class TransactionService {
       // Survey, Posting
       logObject('tempSurvey: ', tempSurvey);
       const mysurvey = await queryRunner.manager.save(Survey, tempSurvey);
+
+      // genreIds.forEach(async (genreId) => {
+      //   const surveyGenre = this.surveyGenreRepo.create({
+      //     genre_id: genreId,
+      //     survey_id: mysurvey.id,
+      //   });
+      //   await queryRunner.manager.save(SurveyGenre, surveyGenre);
+      // });
+
+      const surveyGenrePromises = Array.from(genreIds).map(async (genreId) => {
+        const surveyGenre = this.surveyGenreRepo.create({
+          genre_id: genreId,
+          survey_id: mysurvey.id,
+        });
+        await queryRunner.manager.save(SurveyGenre, surveyGenre);
+      });
+      await Promise.all(surveyGenrePromises);
+
       console.log(`[createWholeSurvey] flag 10`);
       const posting = await this.postingRepo.create({
         survey_id: mysurvey.id,
         user_id: survey.user_id,
       });
+
       await queryRunner.manager.save(Posting, posting);
       console.log(`[createWholeSurvey] flag 11`);
 
@@ -200,6 +244,7 @@ export class TransactionService {
             );
             console.log(`[createWholeSurvey] flag 15`);
             console.log(`myQuestion's id: ${myQuestion.id}`);
+
             const soPromises = Array.from(matchingSelectableOptions).map(
               async (so) => {
                 so.question_id = myQuestion.id;
@@ -227,6 +272,7 @@ export class TransactionService {
       await queryRunner.release();
       return 'Success';
     } catch (err) {
+      console.error('Error occurred', err);
       await queryRunner.rollbackTransaction();
       throw new BadRequestException();
     }

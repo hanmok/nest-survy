@@ -52,7 +52,8 @@ export class UserService {
       await queryRunner.commitTransaction();
       console.log(some);
     } catch (err) {
-      console.log(`error!!! ${err}`);
+      // console.log(`error!!! ${err}`);
+      console.error('Error occurred', err);
       await queryRunner.rollbackTransaction();
     } finally {
       await queryRunner.release();

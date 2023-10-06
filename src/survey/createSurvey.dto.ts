@@ -38,7 +38,23 @@ export class CreateSurveyDTO {
 
   @ApiProperty()
   @Expose()
+  is_target_male: number;
+
+  @ApiProperty()
+  @Expose()
   genre_ids: number[];
+
+  @ApiProperty()
+  @Expose()
+  cost: number;
+
+  @ApiProperty()
+  @Expose()
+  reward: number;
+
+  @ApiProperty()
+  @Expose()
+  num_of_sections: number;
 
   // TODO: 추가하기.
   // @Expose()
