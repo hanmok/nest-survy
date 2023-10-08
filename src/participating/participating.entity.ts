@@ -2,13 +2,15 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Participating {
-  @PrimaryColumn()
-  section_id: number;
+  // @PrimaryColumn()
 
   @PrimaryColumn()
+  id: number;
+
+  @Column()
   user_id: number; //fk
 
-  @PrimaryColumn()
+  @Column()
   survey_id: number; // fk
 
   @Column()

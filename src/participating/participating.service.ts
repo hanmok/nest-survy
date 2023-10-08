@@ -10,8 +10,9 @@ export class ParticipatingService {
   ) {}
 
   // 이거, Transaction 으로 하는게 좋겠는데? 반드시.
-  async create(survey_id: number, user_id: number, section_id: number) {
-    const participating = this.repo.create({ survey_id, user_id, section_id });
+  // async create(survey_id: number, user_id: number, section_id: number) {
+  async create(survey_id: number, user_id: number) {
+    const participating = this.repo.create({ survey_id, user_id });
     return await this.repo.save(participating);
   }
 

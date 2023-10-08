@@ -48,7 +48,7 @@ export class TransactionService {
     sections.forEach((section) => {
       let participating = this.participatingRepo.create({
         survey_id,
-        section_id: section.id,
+        // section_id: section.id,
         user_id,
       });
       participatings.push(participating);
@@ -213,6 +213,7 @@ export class TransactionService {
         survey_id: mysurvey.id,
         user_id: survey.user_id,
       });
+      // 'participating', 'CREATE TABLE `participating` (\n  `user_id` int(11) DEFAULT NULL,\n  `survey_id` int(11) DEFAULT NULL,\n  `section_id` int(11) DEFAULT NULL,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  `id` int(11) DEFAULT NULL,\n  UNIQUE KEY `user_id` (`user_id`,`survey_id`,`section_id`),\n  KEY `survey_id` (`survey_id`),\n  KEY `section_id` (`section_id`),\n  CONSTRAINT `participating_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),\n  CONSTRAINT `participating_ibfk_2` FOREIGN KEY (`survey_id`) REFERENCES `survey` (`id`),\n  CONSTRAINT `participating_ibfk_3` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8'
 
       await queryRunner.manager.save(Posting, posting);
       console.log(`[createWholeSurvey] flag 11`);

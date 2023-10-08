@@ -18,7 +18,6 @@ export class ParticipatingController {
     const participating = await this.participatingService.create(
       body.survey_id,
       body.user_id,
-      body.section_id,
     );
     return SuccessAPIResponse(participating, 201);
   }
