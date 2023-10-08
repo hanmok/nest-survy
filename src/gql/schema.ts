@@ -18,6 +18,7 @@ type Posting {
 	id: ID
 	user_id: ID
 	survey_id: ID
+  surveys: [Survey]
 }
 
 type Participating { 
