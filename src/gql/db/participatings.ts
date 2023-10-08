@@ -5,6 +5,8 @@ import { Participating } from 'src/participating/participating.entity';
 import { connection } from './connection';
 import { getMatchedSurveys } from './surveys';
 
+// 이전: 2afe386a37ef6b5448657983612ff05b8781df90
+// 이후: 3c1f102ddfc29a54f2c203cd793c9c4358a889f5
 const getParticipatingTable = () =>
   connection.table<Participating>('participating');
 

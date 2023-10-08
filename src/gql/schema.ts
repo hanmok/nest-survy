@@ -32,6 +32,7 @@ type Section {
 	title: String
 	reward: Int
 	questions: [Question]
+  sequence: Int
 }
 
 type Question { 
