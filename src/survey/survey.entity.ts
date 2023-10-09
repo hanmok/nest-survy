@@ -39,8 +39,8 @@ export class Survey {
   // @JoinTable()
   // users: User[];
 
-  @Column()
-  initial_section_id: number | undefined;
+  // @Column()
+  // initial_section_id: number | undefined;
 
   @Column()
   expected_time_in_sec: number;

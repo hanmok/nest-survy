@@ -48,9 +48,9 @@ export class SurveyDto {
   @Expose()
   cost: number;
 
-  @ApiProperty()
-  @Expose()
-  initial_section_id: number | undefined;
+  // @ApiProperty()
+  // @Expose()
+  // initial_section_id: number | undefined;
 
   @ApiProperty()
   @Expose()

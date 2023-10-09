@@ -24,6 +24,18 @@ export class AnswerController {
     return SuccessAPIResponse(ret, 201);
   }
 
+  @ApiOperation({ summary: 'Create Answers' })
+  @Post('/multiple')
+  async createAnswers(@Body() body: CreateAnswerDTO[]) {
+    const promises = Array.from(body).map(async (answerBody) => {
+      await this.answerService.createAnswer(answerBody);
+    });
+    await Promise.all(promises);
+    // const ret = await this.answerService.createAnswer(body);
+    // return SuccessAPIResponse(201);
+    return SuccessAPIResponse();
+  }
+
   @ApiOperation({ summary: 'testing' })
   @Get()
   async getAnswers(@Query('survey_id') survey_id: number) {

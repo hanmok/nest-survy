@@ -68,7 +68,7 @@ export class SurveyService {
 
   async addInitialSectionId(survey_id, section_id) {
     const survey = await this.repo.findOne({ where: { id: survey_id } });
-    survey.initial_section_id = section_id;
+    // survey.initial_section_id = section_id;
     return await this.repo.save(survey);
   }
 }

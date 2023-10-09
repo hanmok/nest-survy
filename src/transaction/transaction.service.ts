@@ -39,22 +39,22 @@ export class TransactionService {
 
   // 나중에, Response 와 통합될 수 있음. 수정할 것. section_ids 는 받지 않아야함.
   async participateToSurvey(participationDTO: CreateParticipationDTO) {
-    let { survey_id, section_ids, user_id } = participationDTO;
+    // let { survey_id, section_ids, user_id } = participationDTO;
+    let { survey_id, user_id } = participationDTO;
 
-    const sections = await this.sectionRepo.findBy({ id: In(section_ids) });
+    // const sections = await this.sectionRepo.findBy({ id: In(section_ids) });
     const participatings: Participating[] = [];
 
-    let totalReward = 0;
-    sections.forEach((section) => {
-      let participating = this.participatingRepo.create({
-        survey_id,
-        // section_id: section.id,
-        user_id,
-      });
-      participatings.push(participating);
+    // sections.forEach((section) => {
+    //   let participating = this.participatingRepo.create({
+    //     survey_id,
+    //     // section_id: section.id,
+    //     user_id,
+    //   });
+    //   participatings.push(participating);
 
-      // totalReward += section.reward;
-    });
+    //   // totalReward += section.reward;
+    // });
 
     const currentUser = await this.userRepo.findOneBy({ id: user_id });
     const currentSurvey = await this.surveyRepo.findOneBy({ id: survey_id });
@@ -66,8 +66,8 @@ export class TransactionService {
       currentSurvey.is_completed = 1;
     }
 
-    totalReward += currentSurvey.reward;
-    currentUser.collected_reward += totalReward;
+    // totalReward += currentSurvey.reward;
+    currentUser.collected_reward += currentSurvey.reward;
 
     currentUser.reputation += 1;
     currentUser.fatigue += 1;

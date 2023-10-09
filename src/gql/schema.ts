@@ -7,7 +7,7 @@ type Query {
   postings(user_id: ID!): [Posting]
   participatings(user_id: ID!): [Participating]
   survey(id: ID!): Survey
-  selectableOptions(question_id: ID!): [SelectableOption]
+  selectable_options(question_id: ID!): [SelectableOption]
   sections(survey_id: ID!): [Section!]
   section(id: ID!): Section!
   questions(section_id: ID!): [Question!]
@@ -43,7 +43,7 @@ type Question {
 	text: String!
   question_type_id: Int!
 	survey: Survey
-	selectableOptions: [SelectableOption]
+	selectable_options: [SelectableOption]
 }
 
 type SelectableOption {
@@ -77,8 +77,8 @@ type User {
   nickname: String
   is_male: Int
   device_token: String
-  postedSurveys: [Survey!]
-  participatedSurveys: [Survey!]
+  posted_surveys: [Survey!]
+  participated_surveys: [Survey!]
 }
 
 type Survey { 

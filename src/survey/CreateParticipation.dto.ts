@@ -6,9 +6,9 @@ export class CreateParticipationDTO {
   @Expose()
   survey_id: number;
 
-  @ApiProperty()
-  @Expose()
-  section_ids: number[];
+  // @ApiProperty()
+  // @Expose()
+  // section_ids: number[];
 
   @ApiProperty()
   @Expose()

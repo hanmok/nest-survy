@@ -52,13 +52,13 @@ export const resolvers = {
     questions: async (_root, { section_id }) => {
       return await getQuestionsBySectionId(section_id);
     },
-    selectableOptions: async (_root, { question_id }) => {
+    selectable_options: async (_root, { question_id }) => {
       return await getSelectableOptionByQuestionId(question_id);
     },
   },
   User: {
-    postedSurveys: (user) => getPostedSurveysByUserId(user.id),
-    participatedSurveys: (user) => getParticipatedSurveysByUserId(user.id),
+    posted_surveys: (user) => getPostedSurveysByUserId(user.id),
+    participated_surveys: (user) => getParticipatedSurveysByUserId(user.id),
   },
   Survey: {
     sections: (survey) => getSectionsBySurveyId(survey.id),
@@ -67,7 +67,7 @@ export const resolvers = {
     questions: (section) => getQuestionsBySectionId(section.id),
   },
   Question: {
-    selectableOptions: (question) =>
+    selectable_options: (question) =>
       getSelectableOptionByQuestionId(question.id),
   },
 };
