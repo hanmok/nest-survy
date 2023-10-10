@@ -25,4 +25,7 @@ export class SelectableOption {
 
   @Column()
   section_id: number;
+
+  @Column()
+  is_extra: number;
 }

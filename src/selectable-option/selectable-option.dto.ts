@@ -17,4 +17,8 @@ export class SelectableOptionDTO {
   @ApiProperty()
   @Expose()
   value: string;
+
+  @ApiProperty()
+  @Expose()
+  is_extra: number;
 }
