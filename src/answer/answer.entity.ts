@@ -45,6 +45,6 @@ export class Answer {
   @Column()
   answer_text: string;
 
-  @Column()
-  time_took_in_sec: number;
+  // @Column()
+  // time_took_in_sec: number;
 }

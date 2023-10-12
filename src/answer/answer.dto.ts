@@ -23,7 +23,7 @@ export class AnswerDTO {
   answer_text: string; // fk
 
   //   @ApiProperty()
-  @ApiPropertyOptional()
-  @Expose()
-  time_took_in_sec: number;
+  // @ApiPropertyOptional()
+  // @Expose()
+  // time_took_in_sec: number;
 }

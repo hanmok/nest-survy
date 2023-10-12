@@ -52,6 +52,7 @@ type SelectableOption {
 	position: Int!
 	value: String!
 	section: Section!
+  is_extra: Int!
 }
 
 type Company {

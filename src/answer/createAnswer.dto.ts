@@ -23,8 +23,8 @@ export class CreateAnswerDTO {
   @IsOptional()
   answer_text: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsNumber()
-  time_took_in_sec: number;
+  // @ApiPropertyOptional()
+  // @IsOptional()
+  // @IsNumber()
+  // time_took_in_sec: number;
 }
