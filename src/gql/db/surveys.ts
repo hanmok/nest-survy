@@ -8,7 +8,7 @@ export async function getSurveys() {
   return await getSurveyTable();
 }
 
-export async function getSurvey(id) {
+export async function getSurveyById(id) {
   return await getSurveyTable().first().where({ id });
 }
 

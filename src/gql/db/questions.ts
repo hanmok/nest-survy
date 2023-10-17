@@ -14,3 +14,9 @@ export async function getQuestionsBySectionId(section_id) {
     .select()
     .where({ section_id: parseInt(section_id) });
 }
+
+export async function getQuestionById(id) {
+  return await getQuestionTable().first().where({ id });
+}
+
+// export async function getQuestionsBy

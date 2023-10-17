@@ -12,24 +12,30 @@ type Query {
   section(id: ID!): Section!
   questions(section_id: ID!): [Question!]
   greeting: String
+  answers(survey_id: ID!): [Answer!]
+}
+
+type QuestionType { 
+  id: ID!
+  name: String
 }
 
 type Posting { 
 	id: ID
-	user_id: ID
-	survey_id: ID
+	user: User!
+	survey: Survey!
   surveys: [Survey]
 }
 
 type Participating { 
 	id: ID
-	user_id: ID
-	survey_id: ID
+	user: User!
+	survey: Survey!
 }
 
 type Section { 
 	id: ID!
-	survey: Survey
+	survey: Survey!
 	title: String
 	reward: Int
 	questions: [Question]
@@ -41,7 +47,7 @@ type Question {
 	section: Section!
 	position: Int!
 	text: String!
-  question_type_id: Int!
+  question_type: QuestionType!
 	survey: Survey
 	selectable_options: [SelectableOption]
 }
@@ -55,20 +61,7 @@ type SelectableOption {
   is_extra: Int!
 }
 
-type Company {
-  id: ID!
-  name: String!
-  description: String
-}
 
-
-type Job {
-  id: ID!
-  date: String!
-  title: String!
-  company: Company!
-  description: String
-}
 
 type User {
   id: ID!
@@ -96,4 +89,29 @@ is_completed: Int
 sections: [Section]
 }
 
+type Answer { 
+  id: ID!
+  question: Question!
+  selectable_option: SelectableOption!
+  user: User!
+  survey: Survey!
+  answer_text: String
+}
+
+
+
+
+type Company {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Job {
+  id: ID!
+  date: String!
+  title: String!
+  company: Company!
+  description: String
+}
 `;

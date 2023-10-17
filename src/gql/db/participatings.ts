@@ -16,9 +16,9 @@ export async function getParticipatedSurveys() {
 }
 
 export async function getParticipatedSurveysByUserId(user_id: number) {
-  const matchedSurveyIds = (await getParticipatingTable())
-    // .filter((participating) => participating.user_id === user_id)
-    .map((participating) => participating.survey_id);
+  const matchedSurveyIds = (await getParticipatingTable()).map(
+    (participating) => participating.survey_id,
+  );
   logObject('matchedSurveyIds', matchedSurveyIds);
   const matchedSurveys = await getMatchedSurveys(matchedSurveyIds);
   return matchedSurveys;
