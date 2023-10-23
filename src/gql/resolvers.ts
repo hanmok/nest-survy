@@ -65,7 +65,7 @@ export const resolvers = {
     selectable_options: async (_root, { question_id }) => {
       return await getSelectableOptionByQuestionId(question_id);
     },
-    answers: async (_root, { survey_id }: { survey_id: number }) => {
+    answers: async (_root, { survey_id }: { survey_id: string }) => {
       return await getAnswersBySurveyId(survey_id);
     },
   },
