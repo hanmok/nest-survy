@@ -1,6 +1,6 @@
 import logObject from 'src/util/logObject';
 import { SelectableOption } from './../../selectable-option/selectable-option.entity';
-import { connection } from './connection';
+import { connection } from '../connection';
 
 const DataLoader = require('dataloader');
 

@@ -1,6 +1,6 @@
 // import { connection} from './connection'
 import { User } from 'src/user/user.entity';
-import { connection } from './connection';
+import { connection } from '../connection';
 // import DataLoader from 'dataloader';
 const DataLoader = require('dataloader');
 const getUserTable = () => connection.table<User>('user');

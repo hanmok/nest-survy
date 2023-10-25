@@ -18,19 +18,22 @@ export class Answer {
   // selectableOption_id
   // user_id
 
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
   // @OneToOne(() => Question)
   // @JoinColumn()
   // question_id: number;
   question_id: number;
 
-  @PrimaryColumn()
+  @Column()
   // @OneToOne(() => SelectableOption)
   // @JoinColumn()
   // selectableOption_id: number;
   selectable_option_id: number;
 
-  @PrimaryColumn()
+  @Column()
   // @OneToOne(() => User)
   // @JoinColumn()
   // user_id: number;

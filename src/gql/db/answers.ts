@@ -1,7 +1,7 @@
 import { Answer } from 'src/answer/answer.entity';
-import { connection } from './db/connection';
+import { connection } from '../connection';
 import logObject from 'src/util/logObject';
-
+const DataLoader = require('dataloader');
 const getAnswerTable = () => connection.table<Answer>('answer');
 
 export async function getAnswers() {
@@ -27,3 +27,12 @@ export async function getAnswersBySurveyId(id: string) {
   //   return (await getAnswerTable()).filter((ans) => ans.survey_id === id);
   //   return await getAnswerTable().first().where({string(id)})
 }
+
+export const answerLoader = new DataLoader(async (ids) => {
+  console.log('[answerLoader] ids:', ids);
+  const readonlyIds: readonly string[] = ids as readonly string[];
+  const answers = await getAnswerTable().select().whereIn('id', readonlyIds);
+  return readonlyIds.map((id) =>
+    answers.find((answer) => answer.id === parseInt(id)),
+  );
+});

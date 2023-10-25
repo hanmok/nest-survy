@@ -1,27 +1,35 @@
 // import { getCompany } from './db/companies.js';
 // import { getJobs } from './db/jobs.js';
 import { User } from 'src/user/user.entity';
-import { getAnswersBySurveyId } from './answers';
+import { getAnswersBySurveyId } from './db/answers';
 import {
   getParticipatings,
   getParticipatedSurveysByUserId,
   getParticipatingsBySurveyId,
 } from './db/participatings';
 import { getPostedSurveysByUserId, getPostings } from './db/postings';
-import { getQuestionById, getQuestionsBySectionId } from './db/questions';
-import { getSectionById, getSectionsBySurveyId } from './db/sections';
+import {
+  getQuestionById,
+  getQuestionsBySectionId,
+  questionLoader,
+} from './db/questions';
+import {
+  getSectionById,
+  getSectionsBySurveyId,
+  sectionLoader,
+} from './db/sections';
 import {
   getSelectableOptionById,
   getSelectableOptionByQuestionId,
   selectableOptionLoader,
 } from './db/selectableOptions';
-import { getSurveyById, getSurveys } from './db/surveys';
+import { getSurveyById, getSurveys, surveyLoader } from './db/surveys';
 import { getUserById, getUsers, userLoader } from './db/users';
 import { Survey } from 'src/survey/survey.entity';
 import { Section } from 'src/section/section.entity';
 import { Question } from 'src/question/question.entity';
 import { Answer } from 'src/answer/answer.entity';
-import { getQuestionTypeById } from './db/questionType';
+import { getQuestionTypeById, questionTypeLoader } from './db/questionType';
 import { Participating } from 'src/participating/participating.entity';
 
 export const resolvers = {
@@ -37,14 +45,16 @@ export const resolvers = {
   Query: {
     greeting: () => 'Hello world!',
     user: async (_root, { id }) => {
-      return await getUserById(id);
+      // return await getUserById(id);
+      return userLoader.load(id.toString());
     },
 
     users: async (_root) => {
       return await getUsers();
     },
     survey: async (_root, { id }) => {
-      return await getSurveyById(id);
+      // return await getSurveyById(id);
+      return surveyLoader.load(id.toString());
     },
     surveys: async (_root) => {
       return await getSurveys();
@@ -68,7 +78,8 @@ export const resolvers = {
       return await getSectionsBySurveyId(survey_id);
     },
     section: async (_root, { id }) => {
-      return await getSectionById(id);
+      // return await getSectionById(id);
+      return sectionLoader.load(id.toString());
     },
     questions: async (_root, { section_id }) => {
       return await getQuestionsBySectionId(section_id);
@@ -94,13 +105,19 @@ export const resolvers = {
   Question: {
     selectable_options: (question: Question) =>
       getSelectableOptionByQuestionId(question.id),
-    section: (question: Question) => getSectionById(question.section_id),
+    // section: (question: Question) => getSectionById(question.section_id),
+    section: (question: Question) =>
+      sectionLoader.load(question.section_id.toString()),
     question_type: (question: Question) =>
-      getQuestionTypeById(question.question_type_id),
+      questionTypeLoader.load(question.question_type_id.toString()),
+    // getQuestionTypeById(question.question_type_id),
   },
   Answer: {
-    survey: (answer: Answer) => getSurveyById(answer.survey_id),
-    question: (answer: Answer) => getQuestionById(answer.question_id),
+    // survey: (answer: Answer) => getSurveyById(answer.survey_id),
+    survey: (answer: Answer) => surveyLoader.load(answer.survey_id.toString()),
+    // question: (answer: Answer) => getQuestionById(answer.question_id),
+    question: (answer: Answer) =>
+      questionLoader.load(answer.question_id.toString()),
     selectable_option: (answer: Answer) =>
       // getSelectableOptionById(answer.selectable_option_id),
       selectableOptionLoader.load(answer.selectable_option_id),
@@ -111,7 +128,8 @@ export const resolvers = {
     user: (participating: Participating) =>
       userLoader.load(participating.user_id.toString()),
     survey: (participating: Participating) =>
-      getSurveyById(participating.survey_id),
+      surveyLoader.load(participating.survey_id.toString()),
+    // getSurveyById(participating.survey_id),
   },
 };
 

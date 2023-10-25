@@ -1,7 +1,7 @@
-import { connection } from './connection';
+import { connection } from '../connection';
 import { getSurveyById, getMatchedSurveys } from './surveys';
 import { Posting } from 'src/posting/posting.entity';
-
+const DataLoader = require('dataloader');
 const getPostingTable = () => connection.table<Posting>('posting');
 
 export async function getPostings() {
