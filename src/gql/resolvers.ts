@@ -12,9 +12,10 @@ import { getSectionById, getSectionsBySurveyId } from './db/sections';
 import {
   getSelectableOptionById,
   getSelectableOptionByQuestionId,
+  selectableOptionLoader,
 } from './db/selectableOptions';
 import { getSurveyById, getSurveys } from './db/surveys';
-import { getUserById, getUsers } from './db/users';
+import { getUserById, getUsers, userLoader } from './db/users';
 import { Survey } from 'src/survey/survey.entity';
 import { Section } from 'src/section/section.entity';
 import { Question } from 'src/question/question.entity';
@@ -90,8 +91,10 @@ export const resolvers = {
     survey: (answer: Answer) => getSurveyById(answer.survey_id),
     question: (answer: Answer) => getQuestionById(answer.question_id),
     selectable_option: (answer: Answer) =>
-      getSelectableOptionById(answer.selectable_option_id),
-    user: (answer: Answer) => getUserById(answer.user_id),
+      // getSelectableOptionById(answer.selectable_option_id),
+      selectableOptionLoader.load(answer.selectable_option_id),
+    // user: (answer: Answer) => getUserById(answer.user_id),
+    user: (answer: Answer) => userLoader.load(answer.user_id.toString()),
   },
 };
 
@@ -102,3 +105,16 @@ function toIsoDate(value) {
 function notFoundError(message) {
   return new Error(message);
 }
+
+// before
+// [db] select * from `question` where `id` = 456904 limit 1
+// [db] select * from `selectable_option` where `id` = 469404 limit 1
+// [db] select * from `question` where `id` = 456914 limit 1
+// [db] select * from `selectable_option` where `id` = 469444 limit 1
+// [db] select * from `question` where `id` = 456924 limit 1
+// [db] select * from `selectable_option` where `id` = 469464 limit 1
+// [db] select * from `question` where `id` = 456904 limit 1
+// [db] select * from `selectable_option` where `id` = 469414 limit 1
+// [db] select * from `question` where `id` = 456914 limit 1
+// [db] select * from `selectable_option` where `id` = 469434 limit 1
+// [db] select * from `selectable_option` where `id` = 469464 limit 1

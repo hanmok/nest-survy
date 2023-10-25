@@ -91,7 +91,7 @@ type Survey {
 type Answer { 
   id: ID!
   question: Question!
-  selectable_option: SelectableOption!
+  selectable_option: SelectableOption
   user: User
   survey: Survey!
   answer_text: String

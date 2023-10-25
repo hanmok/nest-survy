@@ -11,3 +11,8 @@ export const connection = knex({
     database: 'heroku_3df4ab91447196b',
   },
 });
+
+connection.on('query', ({ sql, bindings }) => {
+  const query = connection.raw(sql, bindings).toQuery();
+  console.log('[db]', query);
+});
