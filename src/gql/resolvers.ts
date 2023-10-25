@@ -3,8 +3,9 @@
 import { User } from 'src/user/user.entity';
 import { getAnswersBySurveyId } from './answers';
 import {
-  getParticipatedSurveys,
+  getParticipatings,
   getParticipatedSurveysByUserId,
+  getParticipatingsBySurveyId,
 } from './db/participatings';
 import { getPostedSurveysByUserId, getPostings } from './db/postings';
 import { getQuestionById, getQuestionsBySectionId } from './db/questions';
@@ -21,6 +22,7 @@ import { Section } from 'src/section/section.entity';
 import { Question } from 'src/question/question.entity';
 import { Answer } from 'src/answer/answer.entity';
 import { getQuestionTypeById } from './db/questionType';
+import { Participating } from 'src/participating/participating.entity';
 
 export const resolvers = {
   //   Query: {
@@ -50,8 +52,17 @@ export const resolvers = {
     postings: async (_root, { user_id }: { user_id: number }) => {
       return await getPostedSurveysByUserId(user_id);
     },
-    participatings: async (_root, { user_id }) => {
-      return await getParticipatedSurveys();
+    participatedSurveysByUserId: async (
+      _root,
+      { user_id }: { user_id: number },
+    ) => {
+      return await getParticipatedSurveysByUserId(user_id);
+    },
+    participatingsBySurveyId: async (
+      _root,
+      { survey_id }: { survey_id: number },
+    ) => {
+      return await getParticipatingsBySurveyId(survey_id);
     },
     sections: async (_root, { survey_id }) => {
       return await getSectionsBySurveyId(survey_id);
@@ -95,6 +106,12 @@ export const resolvers = {
       selectableOptionLoader.load(answer.selectable_option_id),
     // user: (answer: Answer) => getUserById(answer.user_id),
     user: (answer: Answer) => userLoader.load(answer.user_id.toString()),
+  },
+  Participating: {
+    user: (participating: Participating) =>
+      userLoader.load(participating.user_id.toString()),
+    survey: (participating: Participating) =>
+      getSurveyById(participating.survey_id),
   },
 };
 

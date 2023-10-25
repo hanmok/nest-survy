@@ -11,8 +11,17 @@ import logObject from 'src/util/logObject';
 const getParticipatingTable = () =>
   connection.table<Participating>('participating');
 
-export async function getParticipatedSurveys() {
+export async function getParticipatings() {
   return await getParticipatingTable(); // 싹다 가져오기!
+}
+
+export async function getParticipatingsBySurveyId(survey_id: number) {
+  // const participatings = (await getParticipatingTable()).filter(
+  //   (participating) => participating.survey_id === survey_id,
+  // );
+
+  const participatings = await getParticipatings();
+  return participatings;
 }
 
 export async function getParticipatedSurveysByUserId(user_id: number) {

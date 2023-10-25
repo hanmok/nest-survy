@@ -91,8 +91,9 @@ export class AnswerService {
 
   async getAnswerBySurveyId(survey_id: number) {
     // 참가자들 구하기.
-    const userIds =
-      await this.participatingService.getParticipatedUsersBySurveyId(survey_id);
+    const userIds = (
+      await this.participatingService.getParticipatedUsersBySurveyId(survey_id)
+    ).map((participating) => participating.user_id);
     const uniqueUserIds = [...new Set(userIds)];
 
     // 질문들
