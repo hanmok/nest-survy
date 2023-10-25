@@ -1,6 +1,5 @@
 // import { getCompany } from './db/companies.js';
 // import { getJobs } from './db/jobs.js';
-// import { getUsers } from './/db/users';
 import { User } from 'src/user/user.entity';
 import { getAnswersBySurveyId } from './answers';
 import {
@@ -15,7 +14,7 @@ import {
   getSelectableOptionByQuestionId,
 } from './db/selectableOptions';
 import { getSurveyById, getSurveys } from './db/surveys';
-import { getUser, getUsers } from './db/users';
+import { getUserById, getUsers } from './db/users';
 import { Survey } from 'src/survey/survey.entity';
 import { Section } from 'src/section/section.entity';
 import { Question } from 'src/question/question.entity';
@@ -35,7 +34,7 @@ export const resolvers = {
   Query: {
     greeting: () => 'Hello world!',
     user: async (_root, { id }) => {
-      return await getUser(id);
+      return await getUserById(id);
     },
 
     users: async (_root) => {
@@ -92,6 +91,7 @@ export const resolvers = {
     question: (answer: Answer) => getQuestionById(answer.question_id),
     selectable_option: (answer: Answer) =>
       getSelectableOptionById(answer.selectable_option_id),
+    user: (answer: Answer) => getUserById(answer.user_id),
   },
 };
 

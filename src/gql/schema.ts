@@ -31,6 +31,7 @@ type Participating {
 	id: ID
 	user: User!
 	survey: Survey!
+  sequence: Int!
 }
 
 type Section { 
@@ -61,8 +62,6 @@ type SelectableOption {
   is_extra: Int!
 }
 
-
-
 type User {
   id: ID!
   username: String!
@@ -76,24 +75,24 @@ type User {
 }
 
 type Survey { 
-id: ID!
-title: String!
-current_participation: Int!
-participation_goal: Int!
-created_at: String
-ended_at: String
-reward: Int
-code: String
-is_public: Int
-is_completed: Int
-sections: [Section]
+  id: ID!
+  title: String!
+  current_participation: Int!
+  participation_goal: Int!
+  created_at: String
+  ended_at: String
+  reward: Int
+  code: String
+  is_public: Int
+  is_completed: Int
+  sections: [Section]
 }
 
 type Answer { 
   id: ID!
   question: Question!
   selectable_option: SelectableOption!
-  user: User!
+  user: User
   survey: Survey!
   answer_text: String
 }
