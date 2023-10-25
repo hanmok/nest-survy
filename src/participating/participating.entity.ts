@@ -15,4 +15,7 @@ export class Participating {
 
   @Column()
   created_at: string;
+
+  @Column()
+  sequence: number;
 }

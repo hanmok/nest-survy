@@ -39,22 +39,15 @@ export class TransactionService {
 
   // 나중에, Response 와 통합될 수 있음. 수정할 것. section_ids 는 받지 않아야함.
   async participateToSurvey(participationDTO: CreateParticipationDTO) {
-    // let { survey_id, section_ids, user_id } = participationDTO;
     let { survey_id, user_id } = participationDTO;
 
-    // const sections = await this.sectionRepo.findBy({ id: In(section_ids) });
-    const participatings: Participating[] = [];
+    // const participatings: Participating[] = [];
 
-    // sections.forEach((section) => {
-    //   let participating = this.participatingRepo.create({
-    //     survey_id,
-    //     // section_id: section.id,
-    //     user_id,
-    //   });
-    //   participatings.push(participating);
-
-    //   // totalReward += section.reward;
-    // });
+    const participating = this.participatingRepo.create({ survey_id, user_id });
+    const numOfParticipatings = (
+      await this.participatingRepo.find({ where: { survey_id } })
+    ).length;
+    participating.sequence = numOfParticipatings + 1;
 
     const currentUser = await this.userRepo.findOneBy({ id: user_id });
     const currentSurvey = await this.surveyRepo.findOneBy({ id: survey_id });
@@ -79,12 +72,15 @@ export class TransactionService {
     try {
       await queryRunner.manager.save(User, currentUser);
       await queryRunner.manager.save(Survey, currentSurvey);
-      const participatingPromises = Array.from(participatings).map(
-        async (participating) => {
-          await queryRunner.manager.save(Participating, participating);
-        },
-      );
-      await Promise.all(participatingPromises);
+      await queryRunner.manager.save(Participating, participating);
+      // const participatingPromises = Array.from(participatings).map(
+      //   async (participating) => {
+      //     await queryRunner.manager.save(Participating, participating);
+      //   },
+      // );
+
+      // await Promise.all(participatingPromises);
+
       await queryRunner.commitTransaction();
       await queryRunner.release();
       return 'Success';
@@ -191,14 +187,6 @@ export class TransactionService {
       logObject('tempSurvey: ', tempSurvey);
       const mysurvey = await queryRunner.manager.save(Survey, tempSurvey);
 
-      // genreIds.forEach(async (genreId) => {
-      //   const surveyGenre = this.surveyGenreRepo.create({
-      //     genre_id: genreId,
-      //     survey_id: mysurvey.id,
-      //   });
-      //   await queryRunner.manager.save(SurveyGenre, surveyGenre);
-      // });
-
       const surveyGenrePromises = Array.from(genreIds).map(async (genreId) => {
         const surveyGenre = this.surveyGenreRepo.create({
           genre_id: genreId,
@@ -213,7 +201,6 @@ export class TransactionService {
         survey_id: mysurvey.id,
         user_id: survey.user_id,
       });
-      // 'participating', 'CREATE TABLE `participating` (\n  `user_id` int(11) DEFAULT NULL,\n  `survey_id` int(11) DEFAULT NULL,\n  `section_id` int(11) DEFAULT NULL,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  `id` int(11) DEFAULT NULL,\n  UNIQUE KEY `user_id` (`user_id`,`survey_id`,`section_id`),\n  KEY `survey_id` (`survey_id`),\n  KEY `section_id` (`section_id`),\n  CONSTRAINT `participating_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),\n  CONSTRAINT `participating_ibfk_2` FOREIGN KEY (`survey_id`) REFERENCES `survey` (`id`),\n  CONSTRAINT `participating_ibfk_3` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8'
 
       await queryRunner.manager.save(Posting, posting);
       console.log(`[createWholeSurvey] flag 11`);

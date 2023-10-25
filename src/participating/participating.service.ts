@@ -9,10 +9,10 @@ export class ParticipatingService {
     @InjectRepository(Participating) private repo: Repository<Participating>,
   ) {}
 
-  // 이거, Transaction 으로 하는게 좋겠는데? 반드시.
-  // async create(survey_id: number, user_id: number, section_id: number) {
   async create(survey_id: number, user_id: number) {
     const participating = this.repo.create({ survey_id, user_id });
+    const numOfParticipatings = await this.repo.find({ where: { survey_id } });
+    participating.sequence = numOfParticipatings.length + 1;
     return await this.repo.save(participating);
   }
 
