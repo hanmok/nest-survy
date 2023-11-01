@@ -1,4 +1,4 @@
-import { QuestionType } from 'src/question_type/question-type.entity';
+import { QuestionType } from 'src/survey_geo/question-type.entity';
 import { connection } from '../connection';
 const DataLoader = require('dataloader');
 const getQuestionTypeTable = () =>

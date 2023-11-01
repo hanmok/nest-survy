@@ -93,6 +93,14 @@ import { ExpectedTimeSpentModule } from './expected-time-spent/expected-time-spe
 import { ExpectedTimeSpent } from './expected-time-spent/ExpectedTimeSpent.entity';
 import { ExpectedTimeSpentService } from './expected-time-spent/expected-time-spent.service';
 import { ExpectedTimeSpentController } from './expected-time-spent/expected-time-spent.controller';
+import { GeoModule } from './geo/geo.module';
+import { Geo } from './geo/Geo.entity';
+import { GeoController } from './geo/geo.controller';
+import { GeoService } from './geo/geo.service';
+import { SurveyGeoService } from './survey_geo/survey_geo.service';
+import { SurveyGeoController } from './survey_geo/survey_geo.controller';
+import { SurveyGeoModule } from './survey_geo/survey_geo.module';
+import { SurveyGeo } from './question_type/survey-geo.entity';
 
 require('dotenv').config();
 
@@ -135,6 +143,8 @@ require('dotenv').config();
         // CustomResponseDto,
         CustomAnswer,
         ExpectedTimeSpent,
+        Geo,
+        SurveyGeo,
       ],
     }),
 
@@ -156,6 +166,8 @@ require('dotenv').config();
       AccessToken,
       RefreshToken,
       ExpectedTimeSpent,
+      Geo,
+      SurveyGeo,
       // CustomResponseDto,
     ]),
 
@@ -185,6 +197,8 @@ require('dotenv').config();
     JwtModule,
     CustomAnswerModule,
     ExpectedTimeSpentModule,
+    GeoModule,
+    SurveyGeoModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService
@@ -205,6 +219,8 @@ require('dotenv').config();
     SectionBridgeController,
     CustomAnswerController,
     ExpectedTimeSpentController,
+    GeoController,
+    SurveyGeoController,
   ],
   providers: [
     AppService,
@@ -228,6 +244,8 @@ require('dotenv').config();
     // ApiResponseService,
     TransactionService,
     ExpectedTimeSpentService,
+    GeoService,
+    SurveyGeoService,
     // ValidateQuestionTypePipe,
   ],
 })

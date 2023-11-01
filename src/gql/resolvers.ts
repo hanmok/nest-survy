@@ -68,10 +68,7 @@ export const resolvers = {
     ) => {
       return await getParticipatedSurveysByUserId(user_id);
     },
-    participatingsBySurveyId: async (
-      _root,
-      { survey_id }: { survey_id: number },
-    ) => {
+    participatings: async (_root, { survey_id }: { survey_id: number }) => {
       return await getParticipatingsBySurveyId(survey_id);
     },
     sections: async (_root, { survey_id }) => {

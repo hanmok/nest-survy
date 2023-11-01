@@ -6,7 +6,7 @@ type Query {
   user(id: ID!): User
   postings(user_id: ID!): [Posting]
   participatedSurveysByUserId(user_id: ID!): [Survey]
-  participatingsBySurveyId(survey_id: ID!): [Participating]
+  participatings(survey_id: ID!): [Participating]
   survey(id: ID!): Survey
   selectable_options(question_id: ID!): [SelectableOption]
   sections(survey_id: ID!): [Section!]
