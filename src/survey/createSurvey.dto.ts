@@ -24,9 +24,9 @@ export class CreateSurveyDTO {
   @IsNumber()
   user_id: number;
 
-  @ApiProperty()
-  @Expose()
-  geo_code: number;
+  // @ApiProperty()
+  // @Expose()
+  // geo_code: number;
 
   @ApiProperty()
   @Expose()
@@ -42,7 +42,11 @@ export class CreateSurveyDTO {
 
   @ApiProperty()
   @Expose()
-  genre_ids: number[];
+  genre_ids: number[]; //
+
+  @ApiProperty()
+  @Expose()
+  geo_ids: number[];
 
   @ApiProperty()
   @Expose()

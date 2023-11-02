@@ -23,7 +23,12 @@ import {
   getSelectableOptionByQuestionId,
   selectableOptionLoader,
 } from './db/selectableOptions';
-import { getSurveyById, getSurveys, surveyLoader } from './db/surveys';
+import {
+  getAvailableSurveys,
+  getSurveyById,
+  getSurveys,
+  surveyLoader,
+} from './db/surveys';
 import { getUserById, getUsers, userLoader } from './db/users';
 import { Survey } from 'src/survey/survey.entity';
 import { Section } from 'src/section/section.entity';
@@ -58,6 +63,10 @@ export const resolvers = {
     },
     surveys: async (_root) => {
       return await getSurveys();
+    },
+    available_surveys: async (_root, { user_id }: { user_id: number }) => {
+      // return await getSurveys();
+      return await getAvailableSurveys(user_id);
     },
     postings: async (_root, { user_id }: { user_id: number }) => {
       return await getPostedSurveysByUserId(user_id);

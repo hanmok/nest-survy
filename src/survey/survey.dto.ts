@@ -52,9 +52,9 @@ export class SurveyDto {
   // @Expose()
   // initial_section_id: number | undefined;
 
-  @ApiProperty()
-  @Expose()
-  geo_code: number;
+  // @ApiProperty()
+  // @Expose()
+  // geo_code: number;
 
   @ApiProperty()
   @Expose()

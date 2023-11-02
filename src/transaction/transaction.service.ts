@@ -17,6 +17,7 @@ import { User } from 'src/user/user.entity';
 import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.entity';
 import { error } from 'console';
 import { SurveyGenre } from 'src/survey_genre/survey_genre.entity';
+import { SurveyGeo } from 'src/survey_geo/survey-geo.entity';
 
 @Injectable()
 export class TransactionService {
@@ -34,6 +35,8 @@ export class TransactionService {
     private timeSpentRepo: Repository<ExpectedTimeSpent>,
     @InjectRepository(SurveyGenre)
     private surveyGenreRepo: Repository<SurveyGenre>,
+    @InjectRepository(SurveyGeo)
+    private surveyGeoRepo: Repository<SurveyGeo>,
     private dataSource: DataSource,
   ) {}
 
@@ -101,6 +104,7 @@ export class TransactionService {
     // TODO: expectedTime 계산해서 반영하기.
     let { survey, sections, questions, selectable_options } = wholeSurvey;
     const genreIds = survey.genre_ids;
+    const geoIds = survey.geo_ids;
     // survey.num_of_sections = sections.length;
     // survey.genre_ids
     console.log(`[createWholeSurvey] flag 1`);
@@ -195,6 +199,15 @@ export class TransactionService {
         await queryRunner.manager.save(SurveyGenre, surveyGenre);
       });
       await Promise.all(surveyGenrePromises);
+
+      const surveyGeoPromises = Array.from(geoIds).map(async (geoId) => {
+        const surveyGeo = this.surveyGeoRepo.create({
+          geo_id: geoId,
+          survey_id: mysurvey.id,
+        });
+        await queryRunner.manager.save(SurveyGeo, surveyGeo);
+      });
+      await Promise.all(surveyGeoPromises);
 
       console.log(`[createWholeSurvey] flag 10`);
       const posting = await this.postingRepo.create({

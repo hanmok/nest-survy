@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SurveyGeo } from 'src/question_type/survey-geo.entity';
+import { SurveyGeo } from 'src/survey_geo/survey-geo.entity';
 import { SurveyGeoService } from './survey_geo.service';
 import { SurveyGeoController } from './survey_geo.controller';
 

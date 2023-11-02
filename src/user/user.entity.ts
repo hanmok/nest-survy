@@ -33,6 +33,9 @@ export class User {
   @Column()
   birth_date: string;
 
+  @Column()
+  age: number;
+
   // optional
   @Column()
   is_male: number;

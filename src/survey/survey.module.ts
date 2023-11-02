@@ -19,12 +19,15 @@ import { Answer } from '../answer/answer.entity';
 // import { ValidateQuestionTypePipe } from '../question/validate-question-type.pipe';
 import { User } from 'src/user/user.entity';
 import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.entity';
+import { SurveyGeo } from 'src/survey_geo/survey-geo.entity';
+import { SurveyGeoService } from 'src/survey_geo/survey_geo.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Survey,
       SurveyGenre,
+      SurveyGeo,
       Posting,
       Participating,
       Section,
@@ -38,6 +41,7 @@ import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.ent
   providers: [
     SurveyService,
     SurveyGenreService,
+    SurveyGeoService,
     PostingService,
     ParticipatingService,
     TransactionService,

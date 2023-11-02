@@ -100,7 +100,9 @@ import { GeoService } from './geo/geo.service';
 import { SurveyGeoService } from './survey_geo/survey_geo.service';
 import { SurveyGeoController } from './survey_geo/survey_geo.controller';
 import { SurveyGeoModule } from './survey_geo/survey_geo.module';
-import { SurveyGeo } from './question_type/survey-geo.entity';
+import { SurveyGeo } from './survey_geo/survey-geo.entity';
+import { UserGeoController } from './user_geo/user_geo.controller';
+import { UserGeoModule } from './user_geo/user_geo.module';
 
 require('dotenv').config();
 
@@ -199,6 +201,7 @@ require('dotenv').config();
     ExpectedTimeSpentModule,
     GeoModule,
     SurveyGeoModule,
+    UserGeoModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService
@@ -221,6 +224,7 @@ require('dotenv').config();
     ExpectedTimeSpentController,
     GeoController,
     SurveyGeoController,
+    UserGeoController,
   ],
   providers: [
     AppService,

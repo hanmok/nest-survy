@@ -10,4 +10,7 @@ export class SurveyGeo {
 
   @Column()
   geo_id: number;
+
+  @Column()
+  geo_code: number;
 }

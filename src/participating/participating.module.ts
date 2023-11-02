@@ -12,6 +12,7 @@ import { Question } from 'src/question/question.entity';
 import { SelectableOption } from 'src/selectable-option/selectable-option.entity';
 import { SurveyGenre } from 'src/survey_genre/survey_genre.entity';
 import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.entity';
+import { SurveyGeo } from 'src/survey_geo/survey-geo.entity';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.ent
       Question,
       SelectableOption,
       SurveyGenre,
+      SurveyGeo,
       ExpectedTimeSpent,
     ]),
   ],

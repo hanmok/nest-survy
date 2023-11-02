@@ -45,8 +45,8 @@ export class Survey {
   @Column()
   expected_time_in_sec: number;
 
-  @Column()
-  geo_code: number;
+  // @Column()
+  // geo_code: number;
 
   @Column()
   target_min_age: number;

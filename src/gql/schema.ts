@@ -3,6 +3,7 @@ type Query {
   jobs: [Job!]
   users: [User!]
   surveys: [Survey!]
+  available_surveys(user_id: ID!): [Survey!]
   user(id: ID!): User
   postings(user_id: ID!): [Posting]
   participatedSurveysByUserId(user_id: ID!): [Survey]
@@ -87,6 +88,12 @@ type Survey {
   is_public: Int
   is_completed: Int
   sections: [Section]
+  geos: [GeoInfo]
+}
+
+type GeoInfo { 
+  id: ID!
+  code: Int
 }
 
 type Answer { 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SurveyGeo } from 'src/question_type/survey-geo.entity';
+import { SurveyGeo } from 'src/survey_geo/survey-geo.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
