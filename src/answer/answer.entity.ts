@@ -13,41 +13,21 @@ import {
 
 @Entity()
 export class Answer {
-  // three consists of Primary Key
-  // question_id
-  // selectableOption_id
-  // user_id
-
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  // @OneToOne(() => Question)
-  // @JoinColumn()
-  // question_id: number;
   question_id: number;
 
   @Column()
-  // @OneToOne(() => SelectableOption)
-  // @JoinColumn()
-  // selectableOption_id: number;
   selectable_option_id: number;
 
   @Column()
-  // @OneToOne(() => User)
-  // @JoinColumn()
-  // user_id: number;
   user_id: number;
 
   @PrimaryColumn()
-  // @OneToOne(() => Survey)
-  // @JoinColumn()
-  // survey_id: number;
   survey_id: number;
 
   @Column()
-  answer_text: string;
-
-  // @Column()
-  // time_took_in_sec: number;
+  answer_text?: string;
 }

@@ -12,23 +12,15 @@ export class Section {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // Foreign Key
-  // @Column()
-  // @OneToOne(() => Survey)
-  // @JoinColumn()
-
   @Column()
   survey_id: number;
 
   @Column()
-  expected_time_in_sec: number;
+  sequence: number;
 
-  // @Column()
-  // reward: number;
+  @Column()
+  expected_time_in_sec: number;
 
   @Column()
   title: string;
-
-  @Column()
-  sequence: number;
 }

@@ -21,6 +21,7 @@ import { User } from 'src/user/user.entity';
 import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.entity';
 import { SurveyGeo } from 'src/survey_geo/survey-geo.entity';
 import { SurveyGeoService } from 'src/survey_geo/survey_geo.service';
+import { ResultService } from 'src/result/result.service';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { SurveyGeoService } from 'src/survey_geo/survey_geo.service';
     TransactionService,
     SectionService,
     QuestionService,
+    ResultService,
     // ValidateQuestionTypePipe,
   ],
   controllers: [SurveyController],

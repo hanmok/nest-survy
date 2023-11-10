@@ -13,6 +13,9 @@ export class Question {
   @Column()
   survey_id: number;
 
+  @Column()
+  section_id: number;
+
   // Optional
   @Optional()
   @Column()
@@ -23,9 +26,6 @@ export class Question {
 
   // @Column()
   // correctAnswer: number;
-
-  @Column()
-  section_id: number;
 
   // @Column({
   //   type: 'enum',

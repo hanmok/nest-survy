@@ -13,8 +13,6 @@ export class SelectableOption {
   id: number;
 
   @Column()
-  // @OneToOne(() => Question)
-  // @JoinColumn()
   question_id: number;
 
   @Column()

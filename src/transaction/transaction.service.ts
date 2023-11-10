@@ -76,13 +76,6 @@ export class TransactionService {
       await queryRunner.manager.save(User, currentUser);
       await queryRunner.manager.save(Survey, currentSurvey);
       await queryRunner.manager.save(Participating, participating);
-      // const participatingPromises = Array.from(participatings).map(
-      //   async (participating) => {
-      //     await queryRunner.manager.save(Participating, participating);
-      //   },
-      // );
-
-      // await Promise.all(participatingPromises);
 
       await queryRunner.commitTransaction();
       await queryRunner.release();

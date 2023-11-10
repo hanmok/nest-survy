@@ -103,6 +103,9 @@ import { SurveyGeoModule } from './survey_geo/survey_geo.module';
 import { SurveyGeo } from './survey_geo/survey-geo.entity';
 import { UserGeoController } from './user_geo/user_geo.controller';
 import { UserGeoModule } from './user_geo/user_geo.module';
+import { ResultService } from './result/result.service';
+// import { ResultController } from './result/result.controller';
+import { ResultModule } from './result/result.module';
 
 require('dotenv').config();
 
@@ -202,6 +205,7 @@ require('dotenv').config();
     GeoModule,
     SurveyGeoModule,
     UserGeoModule,
+    ResultModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService
@@ -225,6 +229,7 @@ require('dotenv').config();
     GeoController,
     SurveyGeoController,
     UserGeoController,
+    // ResultController,
   ],
   providers: [
     AppService,
@@ -250,6 +255,7 @@ require('dotenv').config();
     ExpectedTimeSpentService,
     GeoService,
     SurveyGeoService,
+    ResultService,
     // ValidateQuestionTypePipe,
   ],
 })

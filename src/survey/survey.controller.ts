@@ -29,6 +29,7 @@ import { FailureAPIResponse } from '../util/failure-api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 import { CreateWholeSurveyDTO } from './createWholeSurvey.dto';
 import { CreateParticipationDTO } from './CreateParticipation.dto';
+import { ResultService } from 'src/result/result.service';
 
 @ApiTags('Survey')
 @Controller('/survey')
@@ -42,6 +43,7 @@ export class SurveyController {
     private participatingService: ParticipatingService,
     private transactionService: TransactionService,
     private questionService: QuestionService,
+    private resultService: ResultService,
   ) {}
 
   // @ApiOperation({ summary: 'Create survey' })
@@ -77,6 +79,13 @@ export class SurveyController {
   async getAllSurveys() {
     // return this.surveyService.getAll()
     const ret = await this.surveyService.getAvailableSurveys(false);
+    return SuccessAPIResponse(ret);
+  }
+
+  @Get('/:id/sheet')
+  async getResult(@Param('id') id: string) {
+    const ret = await this.resultService.exportExcel(parseInt(id));
+
     return SuccessAPIResponse(ret);
   }
 
