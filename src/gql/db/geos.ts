@@ -1,4 +1,5 @@
-import { Geo } from 'src/geo/Geo.entity';
+// import { Geo } from 'src/geo/Geo.entity';
+import { Geo } from 'src/geo/geo.entity';
 import { connection } from '../connection';
 
 const getGeoTable = () => connection.table<Geo>('geo');

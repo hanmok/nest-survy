@@ -94,7 +94,7 @@ import { ExpectedTimeSpent } from './expected-time-spent/ExpectedTimeSpent.entit
 import { ExpectedTimeSpentService } from './expected-time-spent/expected-time-spent.service';
 import { ExpectedTimeSpentController } from './expected-time-spent/expected-time-spent.controller';
 import { GeoModule } from './geo/geo.module';
-import { Geo } from './geo/Geo.entity';
+import { Geo } from './geo/geo.entity';
 import { GeoController } from './geo/geo.controller';
 import { GeoService } from './geo/geo.service';
 import { SurveyGeoService } from './survey_geo/survey_geo.service';
