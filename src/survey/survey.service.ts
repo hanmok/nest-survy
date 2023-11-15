@@ -26,6 +26,12 @@ export class SurveyService {
 
   async getAvailableSurveys(availableOnly: boolean) {
     // completed 된 것들은 빼기.
+
+    return this.repo
+      .createQueryBuilder('survey')
+      .leftJoinAndSelect('survey.genres', 'genre')
+      .getMany();
+
     let surveyEntities: Survey[];
     if (availableOnly) {
       surveyEntities = await this.repo.find({ where: { is_completed: 0 } });

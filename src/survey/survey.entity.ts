@@ -1,4 +1,5 @@
 import { IsOptional } from 'class-validator';
+import { Genre } from 'src/genre/genre.entity';
 // import { User } from '../user/user.entity';
 import {
   Entity,
@@ -39,14 +40,8 @@ export class Survey {
   // @JoinTable()
   // users: User[];
 
-  // @Column()
-  // initial_section_id: number | undefined;
-
   @Column()
   expected_time_in_sec: number;
-
-  // @Column()
-  // geo_code: number;
 
   @Column()
   target_min_age: number;
@@ -62,6 +57,18 @@ export class Survey {
 
   @Column()
   num_of_sections: number;
+
+  // @Column()
+  // genres: string[] | undefined;
+
+  @ManyToMany(() => Genre)
+  @JoinTable({
+    name: 'survey_genre',
+    joinColumn: { name: 'survey_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'genre_id', referencedColumnName: 'id' },
+  })
+  genres: Genre[];
+
   // @Column()
   // created_at
 
