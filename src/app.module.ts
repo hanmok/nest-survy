@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 // import { AppController } from './app.controller';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -106,6 +106,7 @@ import { UserGeoModule } from './user_geo/user_geo.module';
 import { ResultService } from './result/result.service';
 // import { ResultController } from './result/result.controller';
 import { ResultModule } from './result/result.module';
+import { AuthMiddleware } from './auth.middleware';
 
 require('dotenv').config();
 
@@ -259,4 +260,9 @@ require('dotenv').config();
     // ValidateQuestionTypePipe,
   ],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes(SurveyController);
+  }
+}
