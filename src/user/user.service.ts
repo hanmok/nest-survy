@@ -26,6 +26,7 @@ interface UserDetail {
   is_male: number | null;
   reputation: number;
   fatigue: number;
+  // num_of_participation: number;
 }
 
 @Injectable()
@@ -38,6 +39,7 @@ export class UserService {
   ) {}
 
   async getUserDetails(accessToken: string) {
+    console.log('passed accessToken', accessToken);
     try {
       const decoded = this.jwtService.verify(accessToken, {
         secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
@@ -46,6 +48,7 @@ export class UserService {
       const userId = decoded.userId;
       console.log('decoded userId: ', userId);
       const response = await this.findByUserId(userId);
+      logObject('fetched user Response', response);
       const result: UserDetail = {
         collected_reward: response.collected_reward,
         birth_date: response.birth_date,
@@ -53,6 +56,7 @@ export class UserService {
         is_male: response.is_male,
         reputation: response.reputation,
         fatigue: response.fatigue,
+        // num_of_participation: response.participated_surveys.length,
       };
 
       logObject('user result', result);

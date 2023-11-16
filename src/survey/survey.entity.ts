@@ -1,5 +1,6 @@
 import { IsOptional } from 'class-validator';
 import { Genre } from 'src/genre/genre.entity';
+import { User } from 'src/user/user.entity';
 // import { User } from '../user/user.entity';
 import {
   Entity,
@@ -58,9 +59,6 @@ export class Survey {
   @Column()
   num_of_sections: number;
 
-  // @Column()
-  // genres: string[] | undefined;
-
   @ManyToMany(() => Genre)
   @JoinTable({
     name: 'survey_genre',
@@ -69,9 +67,6 @@ export class Survey {
   })
   genres: Genre[];
 
-  // @Column()
-  // created_at
-
-  // @Column()
-  // ended_at
+  @ManyToMany(() => User, (user) => user.participated_surveys)
+  participated_users: User[];
 }
