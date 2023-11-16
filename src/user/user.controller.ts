@@ -12,6 +12,9 @@ import {
   Post,
   UnauthorizedException,
   UseInterceptors,
+  Headers,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dtos/createUser.dto';
@@ -58,14 +61,6 @@ export class UserController {
     private postingService: PostingService,
     private participatingService: ParticipatingService, // private readonly apiResponseService: ApiResponseService,
   ) {}
-
-  @Post('/transaction')
-  async createTwo() {
-    // return await this.userService.createTwo('trantest3@naver.com', 'asndkj');
-
-    // return this.userService.getDBConfiguration()
-    return this.userService.createTwo('mmmmmmmmmm@naver.com', 'password');
-  }
 
   @Post('/signup')
   @ApiCreatedResponse({
@@ -127,6 +122,19 @@ export class UserController {
     } else {
       // return new UnauthorizedException(); // 토큰 없으면 토큰 만료
       throw new UnauthorizedException();
+    }
+  }
+
+  @Get('/details')
+  async getUserDetails(
+    @Headers('authorization') authorization: string,
+  ): Promise<any> {
+    try {
+      const accessToken = authorization.replace('Bearer ', '');
+      const userDetails = await this.userService.getUserDetails(accessToken);
+      return userDetails;
+    } catch (error) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
   }
 
