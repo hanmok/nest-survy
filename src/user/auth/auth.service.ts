@@ -122,7 +122,7 @@ export class AuthService {
     await this.refreshTokenRepo.delete({ user_id: userId });
   }
 
-  async signin(username: string, password: string) {
+  async validateUser(username: string, password: string) {
     console.log(`signing username: ${username}, password: ${password}`);
     const [user] = await this.userRepo.find({ where: { username } });
 

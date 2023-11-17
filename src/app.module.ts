@@ -269,13 +269,14 @@ require('dotenv').config();
 // export class AppModule {}
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(
-      SurveyController,
-      AnswerController,
-      ParticipatingController,
-      PostingController,
-      ParticipatingController,
-      // {path: 'user/logout', method: RequestMethod.ALL}
-    );
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(
+        SurveyController,
+        AnswerController,
+        ParticipatingController,
+        PostingController,
+        ParticipatingController,
+      );
   }
 }

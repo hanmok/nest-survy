@@ -79,9 +79,12 @@ export class UserController {
   // 이거 왜 여기있니
 
   @Post('/signin')
-  async login(@Body() body: CreateUserDTO) {
+  async signIn(@Body() body: CreateUserDTO) {
     // id, password 확인
-    const user = await this.authService.signin(body.username, body.password);
+    const user = await this.authService.validateUser(
+      body.username,
+      body.password,
+    );
     const userId = user.id;
 
     const ret = await this.authService.publishTokens(userId);
@@ -101,10 +104,8 @@ export class UserController {
   }
 
   // accessToken, RefreshToken 만료시킴.
-  // @Post('/:id/logout')
-
-  @Post('/logout')
-  async logout(@Body() body: { accessToken: string }) {
+  @Post('/signout')
+  async signOut(@Body() body: { accessToken: string }) {
     // return await this.authService.removeTokens(parseInt(id))
 
     logObject('passed accessToken', body.accessToken);
