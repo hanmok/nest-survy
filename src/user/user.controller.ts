@@ -76,11 +76,7 @@ export class UserController {
     return SuccessAPIResponse(ret, 201);
   }
 
-  async publishTokens(userId) {
-    const accessToken = await this.authService.generateAccessToken(userId);
-    const refreshToken = await this.authService.generateRefreshToken(userId);
-    return { accessToken, refreshToken, userId };
-  }
+  // 이거 왜 여기있니
 
   @Post('/signin')
   async login(@Body() body: CreateUserDTO) {
@@ -88,15 +84,20 @@ export class UserController {
     const user = await this.authService.signin(body.username, body.password);
     const userId = user.id;
 
-    // Test 용으로 잠시 Comment 처리. 다시 활성화 시킬 것.
-
-    // 토큰이 둘다 없어야함. 토큰 있으면 Error 출력, 없으면 새로 발급
-    // if (this.authService.userHasToken(userId)) {
-    //   return FailureAPIResponse();
-    // }
-
-    const ret = await this.publishTokens(userId);
+    const ret = await this.authService.publishTokens(userId);
     return SuccessAPIResponse(ret);
+  }
+
+  @Post('/username/duplicate')
+  async checkDuplicateUsername(@Body() body: { username: string }) {
+    const isAvailable = await this.authService.isAvailableUsername(
+      body.username,
+    );
+
+    if (isAvailable) {
+      return SuccessAPIResponse();
+    }
+    return FailureAPIResponse();
   }
 
   // accessToken, RefreshToken 만료시킴.
@@ -114,7 +115,7 @@ export class UserController {
       });
 
     // 토큰 만료시키기.
-    await this.authService.removeTokens(userId).catch((error) => {
+    await this.authService.removeRefreshToken(userId).catch((error) => {
       throw new Error(error.message);
     });
     return SuccessAPIResponse(null, 204, 'token removed');
@@ -125,7 +126,7 @@ export class UserController {
   @Post('/auto-signin')
   async autoSignin(@Body() body: { refreshToken: string }) {
     const userId = await this.authService.verifyRefreshToken(body.refreshToken);
-    if (userId) {
+    if (typeof userId === 'number') {
       // AccessToken 제거
       // const _ = await this.authService.removeAccessToken(userId);
       const accessToken = await this.authService.generateAccessToken(userId);
@@ -177,7 +178,7 @@ export class UserController {
   @Delete('/:id')
   // @SerializeUserDto)
   async removeUser(@Param('id') id: string) {
-    await this.authService.removeTokens(parseInt(id));
+    await this.authService.removeRefreshToken(parseInt(id));
     await this.userService.remove(parseInt(id));
     return SuccessAPIResponse();
   }
