@@ -76,19 +76,21 @@ export class UserController {
     return SuccessAPIResponse(ret, 201);
   }
 
-  // 이거 왜 여기있니
-
   @Post('/signin')
   async signIn(@Body() body: CreateUserDTO) {
-    // id, password 확인
     const user = await this.authService.validateUser(
       body.username,
       body.password,
     );
-    const userId = user.id;
+    // await this.authService.removeRefreshToken(user.id)
+    // const result = await this.authService.publishTokens(user.id);
+    // return SuccessAPIResponse(result);
 
-    const ret = await this.authService.publishTokens(userId);
-    return SuccessAPIResponse(ret);
+    const [removeToken, result] = await Promise.all([
+      this.authService.removeRefreshToken(user.id),
+      this.authService.publishTokens(user.id),
+    ]);
+    return SuccessAPIResponse(result);
   }
 
   @Post('/username/duplicate')
@@ -103,22 +105,16 @@ export class UserController {
     return FailureAPIResponse();
   }
 
-  // accessToken, RefreshToken 만료시킴.
+  // accessToken으로 userId 구한 후 RefreshToken 만료시킴.
   @Post('/signout')
   async signOut(@Body() body: { accessToken: string }) {
-    // return await this.authService.removeTokens(parseInt(id))
+    const userId: number = await this.authService.verifyAccessToken(
+      body.accessToken,
+    );
 
-    logObject('passed accessToken', body.accessToken);
-    const userId: number = await this.authService
-      .verifyAccessToken(body.accessToken)
-      .catch((error) => {
-        throw new UnauthorizedException();
-      });
+    // Refresh 토큰 만료시키기.
+    await this.authService.removeRefreshToken(userId);
 
-    // 토큰 만료시키기.
-    await this.authService.removeRefreshToken(userId).catch((error) => {
-      throw new Error(error.message);
-    });
     return SuccessAPIResponse(null, 204, 'token removed');
   }
 
@@ -126,16 +122,13 @@ export class UserController {
 
   @Post('/auto-signin')
   async autoSignin(@Body() body: { refreshToken: string }) {
-    const userId = await this.authService.verifyRefreshToken(body.refreshToken);
+    const userId = await this.authService.getUserIdFromRefreshToken(
+      body.refreshToken,
+    );
     if (typeof userId === 'number') {
-      // AccessToken 제거
-      // const _ = await this.authService.removeAccessToken(userId);
       const accessToken = await this.authService.generateAccessToken(userId);
-      // return { accessToken, userId }
-      const ret = { accessToken, userId };
-      return SuccessAPIResponse(ret);
+      return SuccessAPIResponse({ accessToken, userId });
     } else {
-      // return new UnauthorizedException(); // 토큰 없으면 토큰 만료
       throw new UnauthorizedException();
     }
   }

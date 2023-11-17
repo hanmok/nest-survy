@@ -34,10 +34,11 @@ export class AuthService {
     return accessToken;
   }
 
-  async publishTokens(userId) {
-    // refreshToken 이 존재할 시 제거
-    await this.removeRefreshToken(userId);
+  async regenerateAccessToken(refreshToken: string) {
+    const sth = this.verifyRefreshToken(refreshToken);
+  }
 
+  async publishTokens(userId) {
     const accessToken = await this.generateAccessToken(userId);
     const refreshToken = await this.generateRefreshToken(userId);
     return { accessToken, refreshToken, userId };
@@ -70,30 +71,51 @@ export class AuthService {
   // 유효하면 그대로 return
 
   async verifyRefreshToken(token: string) {
+    try {
+      // DB 에서 확인
+      const validToken = await this.refreshTokenRepo.findOne({
+        where: { token },
+      });
+      if (!validToken) return new UnauthorizedException();
+
+      const _ = this.jwtService.verify(token, {
+        secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
+      });
+      return true;
+    } catch (error) {
+      throw new UnauthorizedException();
+    }
+  }
+
+  async getUserIdFromRefreshToken(token: string) {
     const validToken = await this.refreshTokenRepo.findOne({
       where: { token },
     });
 
     if (!validToken) return new UnauthorizedException();
-    const refreshToken = this.jwtService.verify(token, {
-      secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
-    });
-    // return { refreshToken: refreshToken['refreshToken'] }
-    return validToken.user_id;
+
+    try {
+      const _ = this.jwtService.verify(token, {
+        secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
+      });
+      return validToken.user_id;
+    } catch (error) {
+      throw new UnauthorizedException();
+    }
   }
 
   async verifyAccessToken(token: string): Promise<number> {
-    console.log('verifyAccessToken called, passed token:', token);
-    const user = this.jwtService.verify(token, {
-      secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
-    });
-    console.log('user', user);
-    if (typeof user['userId'] === 'number') {
-      return user['userId'];
+    try {
+      const user = this.jwtService.verify(token, {
+        secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
+      });
+      if (typeof user['userId'] === 'number') {
+        return user['userId'];
+      }
+      throw new UnauthorizedException();
+    } catch (error) {
+      throw new UnauthorizedException();
     }
-    // throw new Error('invalid accessToken');
-    throw new UnauthorizedException();
-
     // return { userId: user['userId'] };
   }
 
@@ -103,8 +125,8 @@ export class AuthService {
     return exist === null;
   }
 
+  // TODO: 더 많은 정보들 들어가야함.
   async signup(username: string, password: string) {
-    // TODO: Duplicate Check 만들기.
     const users = await this.userRepo.find({ where: { username } });
     if (users.length) {
       throw new BadRequestException('username in use');
@@ -126,14 +148,14 @@ export class AuthService {
     console.log(`signing username: ${username}, password: ${password}`);
     const [user] = await this.userRepo.find({ where: { username } });
 
-    if (!user) throw new NotFoundException('user not found');
+    if (!user) throw new NotFoundException('User not found');
 
     const [salt, storedHash] = user.password.split('.');
 
     const hash = (await scrypt(password, salt, 32)) as Buffer;
 
     if (storedHash !== hash.toString('hex')) {
-      throw new BadRequestException('wrong password');
+      throw new BadRequestException('Wrong password');
     }
     return user;
   }
