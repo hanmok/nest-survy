@@ -170,12 +170,20 @@ export class UserController {
 
   // id 로 User 제거,
   @Delete('/:id')
-  // @SerializeUserDto)
-  async removeUser(@Param('id') id: string) {
+  async removeUser(
+    @Param('id') id: string,
+    @Headers('authorization') authorizationHeader: string,
+  ) {
+    const accessToken = authorizationHeader.replace('Bearer ', '');
+    await this.authService.verifyAccessToken(accessToken);
     await this.authService.removeRefreshToken(parseInt(id));
     await this.userService.remove(parseInt(id));
     return SuccessAPIResponse();
   }
+
+  getAccessToken = (text) => {
+    return text.replace('Bearer ', '');
+  };
 
   // user_id 로  genres 가져오기
   @ApiOperation({ summary: "Get user's favorite genres " })
