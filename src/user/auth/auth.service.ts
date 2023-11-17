@@ -52,7 +52,9 @@ export class AuthService {
     });
 
     const currentDate = new Date();
-    const expiration = currentDate.setMonth(currentDate.getMonth() + 6);
+    const expiration = new Date(currentDate);
+    expiration.setMonth(currentDate.getMonth() + 6);
+    console.log('expiration', expiration);
 
     const newToken = this.refreshTokenRepo.create({
       token: refreshToken,

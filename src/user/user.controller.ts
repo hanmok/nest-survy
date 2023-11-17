@@ -88,6 +88,7 @@ export class UserController {
 
     const [removeToken, result] = await Promise.all([
       this.authService.removeRefreshToken(user.id),
+      // TODO: put prev accessToken to blacklist
       this.authService.publishTokens(user.id),
     ]);
     return SuccessAPIResponse(result);
