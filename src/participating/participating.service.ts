@@ -24,8 +24,9 @@ export class ParticipatingService {
   }
 
   // UserId 로 조회하는거 필요함. (참여한 것들 sort out)
-  async getParticipatedSurveysByUserId(user_id: number) {
+  async getParticipatedSurveyIdsByUserId(user_id: number) {
     const participatings = await this.repo.find({ where: { user_id } });
-    return participatings.map((participating) => participating.survey_id);
+    const ret = participatings.map((participating) => participating.survey_id);
+    return ret;
   }
 }

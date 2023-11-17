@@ -12,7 +12,13 @@ import {
   Post,
   UnauthorizedException,
   UseInterceptors,
+  Headers,
+  HttpException,
+  HttpStatus,
+  // NestMiddleware,
+  // NestMiddleware
 } from '@nestjs/common';
+// import { UseMiddleware}
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dtos/createUser.dto';
 // import { AuthService } from './auth.service';
@@ -37,14 +43,9 @@ import { FailureAPIResponse } from '../util/failure-api-response';
 // import { FailureAPIResponse, SuccessAPIResponse } from '../api-response.model';
 
 import { SuccessAPIResponse } from '../util/success-api-response';
-
-import { User } from './user.entity';
-import { CustomResponse } from '../util/api-custom-response.dto';
-import { serialize } from 'v8';
-// import { ApiResponseService } from 'api-response.service';
-// import { ApiResponseService } from 'api-response.service';
-// import { CustomResponseDto } from 'custom-response.dto';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
+import { AuthMiddleware } from 'src/auth.middleware';
+import logObject from 'src/util/logObject';
 
 // @ApiTags('User')
 @ApiTags('User')
@@ -58,14 +59,6 @@ export class UserController {
     private postingService: PostingService,
     private participatingService: ParticipatingService, // private readonly apiResponseService: ApiResponseService,
   ) {}
-
-  @Post('/transaction')
-  async createTwo() {
-    // return await this.userService.createTwo('trantest3@naver.com', 'asndkj');
-
-    // return this.userService.getDBConfiguration()
-    return this.userService.createTwo('mmmmmmmmmm@naver.com', 'password');
-  }
 
   @Post('/signup')
   @ApiCreatedResponse({
@@ -83,50 +76,73 @@ export class UserController {
     return SuccessAPIResponse(ret, 201);
   }
 
-  async publishTokens(userId) {
-    const accessToken = await this.authService.generateAccessToken(userId);
-    const refreshToken = await this.authService.generateRefreshToken(userId);
-    return { accessToken, refreshToken, userId };
-  }
-
   @Post('/signin')
-  async login(@Body() body: CreateUserDTO) {
-    // id, password 확인
-    const user = await this.authService.signin(body.username, body.password);
-    const userId = user.id;
+  async signIn(@Body() body: CreateUserDTO) {
+    const user = await this.authService.validateUser(
+      body.username,
+      body.password,
+    );
+    // await this.authService.removeRefreshToken(user.id)
+    // const result = await this.authService.publishTokens(user.id);
+    // return SuccessAPIResponse(result);
 
-    // Test 용으로 잠시 Comment 처리. 다시 활성화 시킬 것.
-
-    // 토큰이 둘다 없어야함. 토큰 있으면 Error 출력, 없으면 새로 발급
-    // if (this.authService.userHasToken(userId)) {
-    //   return FailureAPIResponse();
-    // }
-
-    const ret = await this.publishTokens(userId);
-    return SuccessAPIResponse(ret);
+    const [removeToken, result] = await Promise.all([
+      this.authService.removeRefreshToken(user.id),
+      this.authService.publishTokens(user.id),
+    ]);
+    return SuccessAPIResponse(result);
   }
 
-  // accessToken, RefreshToken 만료시킴.
-  @Post('/:id/logout')
-  async logout(@Param('id') id: string) {
-    // return await this.authService.removeTokens(parseInt(id))
-    const ret = await this.authService.removeTokens(parseInt(id));
-    return SuccessAPIResponse();
+  @Post('/username/duplicate')
+  async checkDuplicateUsername(@Body() body: { username: string }) {
+    const isAvailable = await this.authService.isAvailableUsername(
+      body.username,
+    );
+
+    if (isAvailable) {
+      return SuccessAPIResponse();
+    }
+    return FailureAPIResponse();
   }
+
+  // accessToken으로 userId 구한 후 RefreshToken 만료시킴.
+  @Post('/signout')
+  async signOut(@Body() body: { accessToken: string }) {
+    const userId: number = await this.authService.verifyAccessToken(
+      body.accessToken,
+    );
+
+    // Refresh 토큰 만료시키기.
+    await this.authService.removeRefreshToken(userId);
+
+    return SuccessAPIResponse(null, 204, 'token removed');
+  }
+
+  // @Get('/verify')
 
   @Post('/auto-signin')
   async autoSignin(@Body() body: { refreshToken: string }) {
-    const userId = await this.authService.verifyRefreshToken(body.refreshToken);
-    if (userId) {
-      // AccessToken 제거
-      const _ = await this.authService.removeAccessToken(userId);
+    const userId = await this.authService.getUserIdFromRefreshToken(
+      body.refreshToken,
+    );
+    if (typeof userId === 'number') {
       const accessToken = await this.authService.generateAccessToken(userId);
-      // return { accessToken, userId }
-      const ret = { accessToken, userId };
-      return SuccessAPIResponse(ret);
+      return SuccessAPIResponse({ accessToken, userId });
     } else {
-      // return new UnauthorizedException(); // 토큰 없으면 토큰 만료
       throw new UnauthorizedException();
+    }
+  }
+
+  @Get('/details')
+  async getUserDetails(
+    @Headers('authorization') authorization: string,
+  ): Promise<any> {
+    try {
+      const accessToken = authorization.replace('Bearer ', '');
+      const userDetails = await this.userService.getUserDetails(accessToken);
+      return userDetails;
+    } catch (error) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
   }
 
@@ -156,7 +172,7 @@ export class UserController {
   @Delete('/:id')
   // @SerializeUserDto)
   async removeUser(@Param('id') id: string) {
-    await this.authService.removeTokens(parseInt(id));
+    await this.authService.removeRefreshToken(parseInt(id));
     await this.userService.remove(parseInt(id));
     return SuccessAPIResponse();
   }
@@ -189,7 +205,10 @@ export class UserController {
   // // @SerializeSurveyDto)
   // @SerializePostingDTO)
   async getPostedSurveys(@Param('id') id: string) {
-    const ret = await this.postingService.getPostedSurveysByUserId(
+    // const ret = await this.postingService.getPostedSurveysByUserId(
+    //   parseInt(id),
+    // );
+    const ret = await this.postingService.getPostedSurveyIdsByUserId(
       parseInt(id),
     );
     return SuccessAPIResponse(ret);
@@ -199,9 +218,10 @@ export class UserController {
   @Get('/:id/participated-surveys')
   // @SerializeParticipatingDTO)
   async getParticipatedSurveys(@Param('id') id: string) {
-    const ret = await this.participatingService.getParticipatedSurveysByUserId(
-      parseInt(id),
-    );
+    const ret =
+      await this.participatingService.getParticipatedSurveyIdsByUserId(
+        parseInt(id),
+      );
     return SuccessAPIResponse(ret);
   }
 }

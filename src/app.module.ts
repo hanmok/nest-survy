@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 // import { AppController } from './app.controller';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -69,7 +74,6 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 // import { JwtStrategy } from './user/jwt/jwt.strategy';
 
 import { JwtStrategy } from './user/jwt.strategy';
-import { AccessToken } from './user/accessToken.entity';
 
 // import { RefreshToken } from './user/jwt/refreshToken.entity';
 
@@ -106,6 +110,9 @@ import { UserGeoModule } from './user_geo/user_geo.module';
 import { ResultService } from './result/result.service';
 // import { ResultController } from './result/result.controller';
 import { ResultModule } from './result/result.module';
+import { AuthMiddleware } from './auth.middleware';
+import { ParticipatingController } from './participating/participating.controller';
+import { PostingController } from './posting/posting.controller';
 
 require('dotenv').config();
 
@@ -143,7 +150,7 @@ require('dotenv').config();
         SurveyGenre,
         User,
         UserGenre,
-        AccessToken,
+        // AccessToken,
         RefreshToken,
         // CustomResponseDto,
         CustomAnswer,
@@ -168,7 +175,7 @@ require('dotenv').config();
       SurveyGenre,
       User,
       UserGenre,
-      AccessToken,
+      // AccessToken,
       RefreshToken,
       ExpectedTimeSpent,
       Geo,
@@ -259,4 +266,17 @@ require('dotenv').config();
     // ValidateQuestionTypePipe,
   ],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(
+        SurveyController,
+        AnswerController,
+        ParticipatingController,
+        PostingController,
+        ParticipatingController,
+      );
+  }
+}

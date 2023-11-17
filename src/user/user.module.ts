@@ -15,7 +15,6 @@ import { ParticipatingService } from '../participating/participating.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-import { AccessToken } from './accessToken.entity';
 // import { RefreshToken } from './jwt/refreshToken.entity';
 import { RefreshToken } from './refreshToken.entity';
 // import { CustomResponseDto } from 'custom-response.dto';
@@ -28,7 +27,6 @@ import { RefreshToken } from './refreshToken.entity';
       UserGenre,
       Posting,
       Participating,
-      AccessToken,
       RefreshToken,
       // CustomResponseDto,
     ]),

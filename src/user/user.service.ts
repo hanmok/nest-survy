@@ -1,5 +1,10 @@
+import { JwtService } from '@nestjs/jwt';
 import { config } from 'process';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -10,6 +15,19 @@ import { DataSource } from 'typeorm';
 import { SuccessAPIResponse } from '../util/success-api-response';
 import { UserDto } from './dtos/user.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
+import { access } from 'fs';
+import { decode } from 'punycode';
+import logObject from 'src/util/logObject';
+
+interface UserDetail {
+  collected_reward: number;
+  birth_date: string | null;
+  age: number | null;
+  is_male: number | null;
+  reputation: number;
+  fatigue: number;
+  // num_of_participation: number;
+}
 
 @Injectable()
 export class UserService {
@@ -17,7 +35,36 @@ export class UserService {
     @InjectRepository(User) private repo: Repository<User>,
     private dataSource: DataSource,
     private configService: ConfigService,
+    private jwtService: JwtService,
   ) {}
+
+  async getUserDetails(accessToken: string) {
+    console.log('passed accessToken', accessToken);
+    try {
+      const decoded = this.jwtService.verify(accessToken, {
+        secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
+      });
+
+      const userId = decoded.userId;
+      console.log('decoded userId: ', userId);
+      const response = await this.findByUserId(userId);
+      logObject('fetched user Response', response);
+      const result: UserDetail = {
+        collected_reward: response.collected_reward,
+        birth_date: response.birth_date,
+        age: response.age,
+        is_male: response.is_male,
+        reputation: response.reputation,
+        fatigue: response.fatigue,
+        // num_of_participation: response.participated_surveys.length,
+      };
+
+      logObject('user result', result);
+      return result;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token');
+    }
+  }
 
   async getDBConfiguration() {
     const dbHost = this.configService.get<string>('database.host');
@@ -31,33 +78,6 @@ export class UserService {
       username: dbUsername,
       password: dbPassword,
     };
-  }
-
-  async createTwo(email: string, password: string) {
-    const user1 = this.repo.create({ username: '1' + email, password });
-    const user2 = this.repo.create({ username: '2' + email, password });
-
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      // await queryRunner.manager.save(user1)
-      // await queryRunner.manager.save(user2)
-      await queryRunner.manager.save(User, user1);
-      await queryRunner.manager.save(User, user2);
-
-      const some = await queryRunner.manager.find(User);
-
-      await queryRunner.commitTransaction();
-      console.log(some);
-    } catch (err) {
-      // console.log(`error!!! ${err}`);
-      console.error('Error occurred', err);
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
-    }
   }
 
   async create(username: string, password: string) {
