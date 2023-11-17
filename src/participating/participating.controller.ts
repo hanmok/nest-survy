@@ -14,7 +14,7 @@ import { CreateParticipationDTO } from 'src/survey/CreateParticipation.dto';
 import { ParticipatingService } from './participating.service';
 
 @ApiTags('Participating')
-@Controller('participating')
+@Controller('/participating')
 @UseInterceptors(ToCamelCaseInterceptor)
 export class ParticipatingController {
   constructor(
@@ -29,9 +29,13 @@ export class ParticipatingController {
     return SuccessAPIResponse(sth, 201);
   }
 
-  // @ApiOperation({summary: 'Get Participating'})
-  // @Get()
-  // async getParticipating(@Param('id') id: string) {
-  //   const participated = this.participatingService.getParticipatedUsersBySurveyId
-  // }
+  @ApiOperation({ summary: "Get user's participated survey " })
+  @Get('/user/:id/participated-surveys')
+  async getParticipatedSurveys(@Param('id') id: string) {
+    const ret =
+      await this.participatingService.getParticipatedSurveyIdsByUserId(
+        parseInt(id),
+      );
+    return SuccessAPIResponse(ret);
+  }
 }

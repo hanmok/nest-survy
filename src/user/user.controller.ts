@@ -15,7 +15,10 @@ import {
   Headers,
   HttpException,
   HttpStatus,
+  // NestMiddleware,
+  // NestMiddleware
 } from '@nestjs/common';
+// import { UseMiddleware}
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dtos/createUser.dto';
 // import { AuthService } from './auth.service';
@@ -40,14 +43,9 @@ import { FailureAPIResponse } from '../util/failure-api-response';
 // import { FailureAPIResponse, SuccessAPIResponse } from '../api-response.model';
 
 import { SuccessAPIResponse } from '../util/success-api-response';
-
-import { User } from './user.entity';
-import { CustomResponse } from '../util/api-custom-response.dto';
-import { serialize } from 'v8';
-// import { ApiResponseService } from 'api-response.service';
-// import { ApiResponseService } from 'api-response.service';
-// import { CustomResponseDto } from 'custom-response.dto';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
+import { AuthMiddleware } from 'src/auth.middleware';
+import logObject from 'src/util/logObject';
 
 // @ApiTags('User')
 @ApiTags('User')
@@ -102,19 +100,34 @@ export class UserController {
   }
 
   // accessToken, RefreshToken 만료시킴.
-  @Post('/:id/logout')
-  async logout(@Param('id') id: string) {
+  // @Post('/:id/logout')
+
+  @Post('/logout')
+  async logout(@Body() body: { accessToken: string }) {
     // return await this.authService.removeTokens(parseInt(id))
-    const ret = await this.authService.removeTokens(parseInt(id));
-    return SuccessAPIResponse();
+
+    logObject('passed accessToken', body.accessToken);
+    const userId: number = await this.authService
+      .verifyAccessToken(body.accessToken)
+      .catch((error) => {
+        throw new UnauthorizedException();
+      });
+
+    // 토큰 만료시키기.
+    await this.authService.removeTokens(userId).catch((error) => {
+      throw new Error(error.message);
+    });
+    return SuccessAPIResponse(null, 204, 'token removed');
   }
+
+  // @Get('/verify')
 
   @Post('/auto-signin')
   async autoSignin(@Body() body: { refreshToken: string }) {
     const userId = await this.authService.verifyRefreshToken(body.refreshToken);
     if (userId) {
       // AccessToken 제거
-      const _ = await this.authService.removeAccessToken(userId);
+      // const _ = await this.authService.removeAccessToken(userId);
       const accessToken = await this.authService.generateAccessToken(userId);
       // return { accessToken, userId }
       const ret = { accessToken, userId };
@@ -197,7 +210,10 @@ export class UserController {
   // // @SerializeSurveyDto)
   // @SerializePostingDTO)
   async getPostedSurveys(@Param('id') id: string) {
-    const ret = await this.postingService.getPostedSurveysByUserId(
+    // const ret = await this.postingService.getPostedSurveysByUserId(
+    //   parseInt(id),
+    // );
+    const ret = await this.postingService.getPostedSurveyIdsByUserId(
       parseInt(id),
     );
     return SuccessAPIResponse(ret);
@@ -207,9 +223,10 @@ export class UserController {
   @Get('/:id/participated-surveys')
   // @SerializeParticipatingDTO)
   async getParticipatedSurveys(@Param('id') id: string) {
-    const ret = await this.participatingService.getParticipatedSurveysByUserId(
-      parseInt(id),
-    );
+    const ret =
+      await this.participatingService.getParticipatedSurveyIdsByUserId(
+        parseInt(id),
+      );
     return SuccessAPIResponse(ret);
   }
 }

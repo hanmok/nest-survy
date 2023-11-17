@@ -51,3 +51,12 @@ Content-Type: "application/json"
 
 ### getById
 GET http://localhost:3000/user/4
+
+
+### logout
+POST http://localhost:3000/user/logout
+Content-Type: "application/json"
+
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgwNCwiaWF0IjoxNzAwMTgyNzA4LCJleHAiOjE3MDAyNjkxMDh9.J053g149-Y1oFqlROPU0GwC8nuxr9jBWgCXI5cqz3QU"
+}

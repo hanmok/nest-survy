@@ -12,7 +12,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from '../user.entity';
 import { Repository } from 'typeorm';
-import { AccessToken } from '../accessToken.entity';
 // import { RefreshToken } from '../jwt/refreshToken.entity';
 import { RefreshToken } from '../refreshToken.entity';
 // import { logObject } from 'src/util/log';
@@ -26,8 +25,8 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(AccessToken)
-    private accessTokenRepo: Repository<AccessToken>,
+    // @InjectRepository(AccessToken)
+    // private accessTokenRepo: Repository<AccessToken>,
     @InjectRepository(RefreshToken)
     private refreshTokenRepo: Repository<RefreshToken>,
   ) {}
@@ -38,14 +37,18 @@ export class AuthService {
       expiresIn: '1d',
       secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
     });
-    const newToken = this.accessTokenRepo.create({
-      token: accessToken,
-      user_id: userId,
-    });
-    const newAccessToken = await this.accessTokenRepo.save(newToken);
+
+    // const newToken = this.accessTokenRepo.create({
+    //   token: accessToken,
+    //   user_id: userId,
+    // });
+
+    // const newAccessToken = await this.accessTokenRepo.save(newToken);
+
     // console.log(`newAccessToken saved: ${newAccessToken}`);
-    logObject('newAccessToken saved', newAccessToken);
-    return newAccessToken.token;
+    // logObject('newAccessToken saved', newAccessToken);
+    // return newAccessToken.token;
+    return accessToken;
   }
 
   async generateRefreshToken(userId: number) {
@@ -81,14 +84,19 @@ export class AuthService {
     return validToken.user_id;
   }
 
-  async verifyAccessToken(token: string) {
-    const accessToken = this.jwtService.verify(token, {
+  async verifyAccessToken(token: string): Promise<number> {
+    console.log('verifyAccessToken called, passed token:', token);
+    const user = this.jwtService.verify(token, {
       secret: '046e13dae9c744286aea80fc54f6f203b1a15e36',
     });
-    // DB 에서 확인 후 만료시키고 재발급
+    console.log('user', user);
+    if (typeof user['userId'] === 'number') {
+      return user['userId'];
+    }
+    // throw new Error('invalid accessToken');
+    throw new UnauthorizedException();
 
-    // return accessToken
-    return { accessToken: accessToken['accessToken'] };
+    // return { userId: user['userId'] };
   }
 
   async signup(username: string, password: string) {
@@ -106,25 +114,28 @@ export class AuthService {
     return user;
   }
 
+  /** remove both accessToken, refreshToken */
   async removeTokens(userId: number) {
+    // this.jwtService.
     await this.refreshTokenRepo.delete({ user_id: userId });
-    await this.accessTokenRepo.delete({ user_id: userId });
+    // await this.accessTokenRepo.delete({ user_id: userId });
   }
 
-  async removeAccessToken(userId: number) {
-    await this.accessTokenRepo.delete({ user_id: userId });
-  }
+  // async removeAccessToken(userId: number) {
+  //   await this.accessTokenRepo.delete({ user_id: userId });
+  // }
 
-  async userHasToken(userId: number) {
-    const user1 = await this.refreshTokenRepo.find({
-      where: { user_id: userId },
-    });
-    const user2 = await this.accessTokenRepo.find({
-      where: { user_id: userId },
-    });
+  // async userHasToken(userId: number) {
+  //   const user1 = await this.refreshTokenRepo.find({
+  //     where: { user_id: userId },
+  //   });
 
-    return user1 || user2;
-  }
+  //   // const user2 = await this.accessTokenRepo.find({
+  //   //   where: { user_id: userId },
+  //   // });
+
+  //   return user1 || user2;
+  // }
 
   async signin(username: string, password: string) {
     console.log(`signing username: ${username}, password: ${password}`);
