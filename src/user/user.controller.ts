@@ -82,9 +82,6 @@ export class UserController {
       body.username,
       body.password,
     );
-    // await this.authService.removeRefreshToken(user.id)
-    // const result = await this.authService.publishTokens(user.id);
-    // return SuccessAPIResponse(result);
 
     const [removeToken, result] = await Promise.all([
       this.authService.removeRefreshToken(user.id),
@@ -107,9 +104,12 @@ export class UserController {
 
   // accessToken으로 userId 구한 후 RefreshToken 만료시킴.
   @Post('/signout')
-  async signOut(@Body() body: { accessToken: string }) {
+  async signOut(@Headers('authorization') authorizationHeader: string) {
+    console.log('hi');
+    const accessToken = authorizationHeader.replace('Bearer ', '');
+    console.log('accessToken when signout', accessToken);
     const userId: number = await this.authService.verifyAccessToken(
-      body.accessToken,
+      accessToken,
     );
 
     // Refresh 토큰 만료시키기.
@@ -121,9 +121,9 @@ export class UserController {
   // @Get('/verify')
 
   @Post('/auto-signin')
-  async autoSignin(@Body() body: { refreshToken: string }) {
+  async autoSignin(@Headers('refresh-token') refreshToken: string) {
     const userId = await this.authService.getUserIdFromRefreshToken(
-      body.refreshToken,
+      refreshToken,
     );
     if (typeof userId === 'number') {
       const accessToken = await this.authService.generateAccessToken(userId);
