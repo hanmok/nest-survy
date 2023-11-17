@@ -1,4 +1,10 @@
-import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  UseInterceptors,
+  Headers,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
 import { PostingService } from './posting.service';
@@ -15,6 +21,7 @@ export class PostingController {
   // // @SerializeSurveyDto)
   // @SerializePostingDTO)
   async getPostedSurveys(@Param('id') id: string) {
+    console.log('getPostedSurveys called, id: ', id);
     const ret = await this.postingService.getPostedSurveyIdsByUserId(
       parseInt(id),
     );
