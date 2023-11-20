@@ -12,8 +12,6 @@ export class PostingController {
 
   @ApiOperation({ summary: 'Get all surveys posted by the user' })
   @Get('user/:id/posted-surveys')
-  // // @SerializeSurveyDto)
-  // @SerializePostingDTO)
   async getPostedSurveys(@Param('id') id: string) {
     const ret = await this.postingService.getPostedSurveyIdsByUserId(
       parseInt(id),

@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GeoService } from './geo.service';
+import { SuccessAPIResponse } from 'src/util/success-api-response';
 
 @ApiTags('Geo')
 @Controller('/geo')
@@ -9,6 +10,7 @@ export class GeoController {
 
   @Get()
   async getAll() {
-    return this.geoService.getAllGeoInfos();
+    const geos = await this.geoService.getAllGeoInfos();
+    return SuccessAPIResponse(geos);
   }
 }

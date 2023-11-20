@@ -140,7 +140,9 @@ export class UserController {
     try {
       const accessToken = authorization.replace('Bearer ', '');
       const userDetails = await this.userService.getUserDetails(accessToken);
-      return userDetails;
+      logObject('userDetail:', userDetails);
+      return SuccessAPIResponse(userDetails);
+      // return userDetails;
     } catch (error) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
@@ -153,7 +155,8 @@ export class UserController {
   @Get()
   async getAllUsers() {
     const users = await this.userService.getAll();
-    return SuccessAPIResponse<UserDto[]>(users);
+    // return SuccessAPIResponse<UserDto[]>(users);
+    return SuccessAPIResponse(users);
   }
 
   // id 로 특정 User 가져오기
@@ -165,7 +168,8 @@ export class UserController {
       throw new NotFoundException('user not found');
     }
     // return user;
-    return { response: SuccessAPIResponse(user) };
+    // return { response: SuccessAPIResponse(user) };
+    return SuccessAPIResponse(user);
   }
 
   // id 로 User 제거,
@@ -181,7 +185,7 @@ export class UserController {
     return SuccessAPIResponse();
   }
 
-  getAccessToken = (text) => {
+  extractAccessToken = (text) => {
     return text.replace('Bearer ', '');
   };
 
@@ -210,12 +214,7 @@ export class UserController {
   // 특정 유저가 올린 모든 surveys 가져오기!
   @ApiOperation({ summary: 'Get all surveys posted by the user' })
   @Get('/:id/posted-surveys')
-  // // @SerializeSurveyDto)
-  // @SerializePostingDTO)
   async getPostedSurveys(@Param('id') id: string) {
-    // const ret = await this.postingService.getPostedSurveysByUserId(
-    //   parseInt(id),
-    // );
     const ret = await this.postingService.getPostedSurveyIdsByUserId(
       parseInt(id),
     );
@@ -224,7 +223,6 @@ export class UserController {
 
   @ApiOperation({ summary: "Get user's participated survey " })
   @Get('/:id/participated-surveys')
-  // @SerializeParticipatingDTO)
   async getParticipatedSurveys(@Param('id') id: string) {
     const ret =
       await this.participatingService.getParticipatedSurveyIdsByUserId(

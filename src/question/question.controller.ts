@@ -14,10 +14,8 @@ import { QuestionDTO } from './Question.dto';
 import { CreateQuestionDTO } from './createQuestion.dto';
 import { SelectableOptionDTO } from '../selectable-option/selectable-option.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from '../api-response.model';
 
 import { SuccessAPIResponse } from '../util/success-api-response';
-// import { ValidateQuestionTypePipe } from './validate-question-type.pipe';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('Question')

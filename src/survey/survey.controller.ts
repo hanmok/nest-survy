@@ -46,17 +46,6 @@ export class SurveyController {
     private resultService: ResultService,
   ) {}
 
-  // @ApiOperation({ summary: 'Create survey' })
-  // @Post()
-  // async create(@Body() body: CreateSurveyDTO) {
-  //   const ret = await this.transactionService.createSurvey(
-  //     body.title,
-  //     body.participation_goal,
-  //     body.user_id,
-  //   );
-  //   return SuccessAPIResponse(ret, 201);
-  // }
-
   @ApiOperation({ summary: 'Create Whole Survey' })
   @Post('/whole')
   async createWholeSurvey(@Body() body: CreateWholeSurveyDTO) {
@@ -143,16 +132,6 @@ export class SurveyController {
     const ret = await this.surveyGenreService.getGenresBySurveyId(parseInt(id));
     return SuccessAPIResponse(ret);
   }
-
-  // Transaction 에 통합시킴
-  // @ApiOperation({ summary: 'Increase the number of participated-user by 1' })
-  // @Patch('/:id/increase-participation')
-  // async increateParticipatedUsers(@Param('id') id: string) {
-  //   const ret = await this.surveyService.increaseParticipatedNumber(
-  //     parseInt(id),
-  //   );
-  //   return SuccessAPIResponse(ret);
-  // }
 
   @ApiOperation({ summary: 'add initial section id' })
   @Patch('/:id/add-initial-section/:section_id')

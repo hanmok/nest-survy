@@ -40,6 +40,11 @@ export class AnswerController {
   @Get()
   async getAnswers(@Query('survey_id') survey_id: number) {
     // return await this.answerService.getAnswersByUserId(user_id, survey_id);
-    return await this.answerService.getAnswerBySurveyId(survey_id);
+
+    // return
+
+    const answers = await this.answerService.getAnswerBySurveyId(survey_id);
+
+    return SuccessAPIResponse(answers);
   }
 }
