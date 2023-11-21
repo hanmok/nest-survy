@@ -9,6 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user.entity';
 // import { RefreshToken } from '../jwt/refreshToken.entity';
 import { RefreshToken } from '../refreshToken.entity';
+import { GeoService } from 'src/geo/geo.service';
+import { Geo } from 'src/geo/geo.entity';
 require('dotenv').config();
 
 @Module({
@@ -19,9 +21,9 @@ require('dotenv').config();
       secretOrPrivateKey: '046e13dae9c744286aea80fc54f6f203b1a15e36F',
       // secret:
     }),
-    TypeOrmModule.forFeature([User, RefreshToken]),
+    TypeOrmModule.forFeature([User, RefreshToken, Geo]),
   ],
-  providers: [AuthService, JwtStrategy, UserService],
+  providers: [AuthService, JwtStrategy, UserService, GeoService],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

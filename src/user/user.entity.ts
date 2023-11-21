@@ -46,6 +46,12 @@ export class User {
   @Column()
   fatigue: number;
 
+  @Column()
+  home_address: number;
+
+  @Column()
+  office_address: number;
+
   @ManyToMany(() => Survey)
   @JoinTable({
     name: 'participating',

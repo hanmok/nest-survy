@@ -15,10 +15,10 @@ import { ParticipatingService } from '../participating/participating.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-// import { RefreshToken } from './jwt/refreshToken.entity';
 import { RefreshToken } from './refreshToken.entity';
-// import { CustomResponseDto } from 'custom-response.dto';
-// import { ApiResponseService } from 'api-response.service';
+import { Genre } from 'src/genre/genre.entity';
+import { Geo } from 'src/geo/geo.entity';
+import { GeoService } from 'src/geo/geo.service';
 
 @Module({
   imports: [
@@ -28,6 +28,8 @@ import { RefreshToken } from './refreshToken.entity';
       Posting,
       Participating,
       RefreshToken,
+      Genre,
+      Geo,
       // CustomResponseDto,
     ]),
     PassportModule.register({
@@ -52,6 +54,7 @@ import { RefreshToken } from './refreshToken.entity';
     UserGenreService,
     PostingService,
     ParticipatingService,
+    GeoService,
     // ApiResponseService,
   ],
   controllers: [UserController],

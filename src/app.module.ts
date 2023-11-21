@@ -105,14 +105,13 @@ import { SurveyGeoService } from './survey_geo/survey_geo.service';
 import { SurveyGeoController } from './survey_geo/survey_geo.controller';
 import { SurveyGeoModule } from './survey_geo/survey_geo.module';
 import { SurveyGeo } from './survey_geo/survey-geo.entity';
-import { UserGeoController } from './user_geo/user_geo.controller';
-import { UserGeoModule } from './user_geo/user_geo.module';
 import { ResultService } from './result/result.service';
 // import { ResultController } from './result/result.controller';
 import { ResultModule } from './result/result.module';
 import { AuthMiddleware } from './auth.middleware';
 import { ParticipatingController } from './participating/participating.controller';
 import { PostingController } from './posting/posting.controller';
+import { UserGenreController } from './user_genre/user_genre.controller';
 
 require('dotenv').config();
 
@@ -211,7 +210,6 @@ require('dotenv').config();
     ExpectedTimeSpentModule,
     GeoModule,
     SurveyGeoModule,
-    UserGeoModule,
     ResultModule,
 
     // TypeOrmModule.forRootAsync({
@@ -235,7 +233,6 @@ require('dotenv').config();
     ExpectedTimeSpentController,
     GeoController,
     SurveyGeoController,
-    UserGeoController,
     // ResultController,
   ],
   providers: [
@@ -277,6 +274,7 @@ export class AppModule implements NestModule {
         ParticipatingController,
         PostingController,
         ParticipatingController,
+        UserGenreController,
       );
   }
 }

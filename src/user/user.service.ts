@@ -18,6 +18,8 @@ import { plainToClass, plainToInstance } from 'class-transformer';
 import { access } from 'fs';
 import { decode } from 'punycode';
 import logObject from 'src/util/logObject';
+import { Geo } from 'src/geo/geo.entity';
+import { GeoService } from 'src/geo/geo.service';
 
 interface UserDetail {
   collected_reward: number;
@@ -26,6 +28,8 @@ interface UserDetail {
   is_male: number | null;
   reputation: number;
   fatigue: number;
+  home_address: Geo | null;
+  office_address: Geo | null;
   // num_of_participation: number;
 }
 
@@ -36,6 +40,7 @@ export class UserService {
     private dataSource: DataSource,
     private configService: ConfigService,
     private jwtService: JwtService,
+    private geoService: GeoService,
   ) {}
 
   async getUserDetails(accessToken: string) {
@@ -49,6 +54,7 @@ export class UserService {
       console.log('decoded userId: ', userId);
       const response = await this.findByUserId(userId);
       logObject('fetched user Response', response);
+
       const result: UserDetail = {
         collected_reward: response.collected_reward,
         birth_date: response.birth_date,
@@ -56,8 +62,25 @@ export class UserService {
         is_male: response.is_male,
         reputation: response.reputation,
         fatigue: response.fatigue,
-        // num_of_participation: response.participated_surveys.length,
+        home_address: null,
+        office_address: null,
       };
+
+      if (response.home_address || response.office_address) {
+        const allGeos = await this.geoService.getAllGeoInfos();
+        if (response.home_address) {
+          const correspondingGeoInfo = allGeos.find(
+            (geo) => geo.id === response.home_address,
+          );
+          result.home_address = correspondingGeoInfo;
+        }
+        if (response.office_address) {
+          const correspondingGeoInfo = allGeos.find(
+            (geo) => geo.id === response.office_address,
+          );
+          result.office_address = correspondingGeoInfo;
+        }
+      }
 
       logObject('user result', result);
       return result;
