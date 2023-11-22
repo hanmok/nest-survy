@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   UseInterceptors,
+  Patch,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SuccessAPIResponse } from '../util/success-api-response';
@@ -12,6 +13,7 @@ import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor'
 import { TransactionService } from 'src/transaction/transaction.service';
 import { CreateParticipationDTO } from 'src/survey/CreateParticipation.dto';
 import { ParticipatingService } from './participating.service';
+import logObject from 'src/util/logObject';
 
 @ApiTags('Participating')
 @Controller('/participating')
@@ -36,6 +38,23 @@ export class ParticipatingController {
       await this.participatingService.getParticipatedSurveyIdsByUserId(
         parseInt(id),
       );
+    return SuccessAPIResponse(ret);
+  }
+
+  @ApiOperation({ summary: 'modify is_honest ' })
+  @Patch('/user/:user_id/survey/:survey_id')
+  async patchParticipating(
+    @Param('user_id') user_id: string,
+    @Param('survey_id') survey_id: string,
+    @Body() body: { is_honest: boolean },
+  ) {
+    const ret = await this.participatingService.patchParticipating(
+      parseInt(user_id),
+      parseInt(survey_id),
+      body.is_honest ? 1 : 0,
+    );
+    logObject('participating patch', ret);
+
     return SuccessAPIResponse(ret);
   }
 }

@@ -18,4 +18,7 @@ export class Participating {
 
   @Column()
   sequence: number;
+
+  @Column()
+  is_honest: number;
 }

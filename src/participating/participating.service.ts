@@ -29,4 +29,18 @@ export class ParticipatingService {
     const ret = participatings.map((participating) => participating.survey_id);
     return ret;
   }
+
+  async patchParticipating(
+    user_id: number,
+    survey_id: number,
+    is_honest: number,
+  ) {
+    const participating = await this.repo.findOneBy({ user_id, survey_id });
+    if (participating) {
+      participating.is_honest = is_honest;
+      const ret = await this.repo.save(participating);
+      return ret;
+    }
+    throw new Error('Participating not found');
+  }
 }
