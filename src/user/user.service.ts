@@ -133,7 +133,8 @@ export class UserService {
   }
 
   async findByUsername(username: string) {
-    return await this.repo.find({ where: { username } });
+    // return await this.repo.find({ where: { username } });
+    return await this.repo.findOneBy({ username });
   }
 
   async getAll() {

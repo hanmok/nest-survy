@@ -15,6 +15,7 @@ import {
   Headers,
   HttpException,
   HttpStatus,
+  Query,
   // NestMiddleware,
   // NestMiddleware
 } from '@nestjs/common';
@@ -90,17 +91,17 @@ export class UserController {
     return SuccessAPIResponse(result);
   }
 
-  @Post('/username/duplicate')
-  async checkDuplicateUsername(@Body() body: { username: string }) {
-    const isAvailable = await this.authService.isAvailableUsername(
-      body.username,
-    );
+  // @Post('/username/duplicate')
+  // async checkDuplicateUsername(@Body() body: { username: string }) {
+  //   const isAvailable = await this.authService.isAvailableUsername(
+  //     body.username,
+  //   );
 
-    if (isAvailable) {
-      return SuccessAPIResponse();
-    }
-    return FailureAPIResponse();
-  }
+  //   if (isAvailable) {
+  //     return SuccessAPIResponse();
+  //   }
+  //   return FailureAPIResponse();
+  // }
 
   // accessToken으로 userId 구한 후 RefreshToken 만료시킴.
   @Post('/signout')
@@ -146,6 +147,26 @@ export class UserController {
     } catch (error) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
+  }
+
+  @Get('/check-username')
+  // async checkUsernameDuplication(@Param('username') username: string) {
+  async checkUsernameDuplication(@Query('username') username: string) {
+    console.log('api called');
+    // return SuccessAPIResponse({ status: 'available' }, 200);
+
+    const ret = await this.userService.findByUsername(username);
+    logObject('ret', ret);
+
+    if (ret) {
+      const v = FailureAPIResponse(409, 'username already exist');
+      logObject('return', v);
+      return v;
+    }
+
+    const v = SuccessAPIResponse();
+    logObject('return', v);
+    return v;
   }
 
   // ADMIN
