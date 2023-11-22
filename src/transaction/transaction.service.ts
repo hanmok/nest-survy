@@ -63,10 +63,10 @@ export class TransactionService {
     }
 
     // totalReward += currentSurvey.reward;
-    currentUser.collected_reward += currentSurvey.reward;
+    // currentUser.collected_reward += currentSurvey.reward;
+    // currentUser.reputation += 1;
 
-    currentUser.reputation += 1;
-    currentUser.fatigue += 1;
+    // currentUser.fatigue += 1;
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();

@@ -37,6 +37,9 @@ export class Survey {
   @Column()
   code: string;
 
+  @Column()
+  created_at: string;
+
   // @ManyToMany(() => User, (user) => user.surveys)
   // @JoinTable()
   // users: User[];

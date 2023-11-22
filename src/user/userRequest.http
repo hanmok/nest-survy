@@ -60,3 +60,13 @@ Content-Type: "application/json"
 {
     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgwNCwiaWF0IjoxNzAwMTgyNzA4LCJleHAiOjE3MDAyNjkxMDh9.J053g149-Y1oFqlROPU0GwC8nuxr9jBWgCXI5cqz3QU"
 }
+
+### geo
+GET https://dearsurvy.herokuapp.com/geo
+
+
+### survey
+GET http://localhost:3000/survey
+
+Content-Type: "application/json"
+Authorization: : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgwNCwiaWF0IjoxNzAwNjMzNjExLCJleHAiOjE3MDA3MjAwMTF9.AgP-3Xeb__W7qUxO5p03v8c_Y0x0kZiUn7o9CAXJBmU"

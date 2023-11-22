@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { createRandomAlphabets } from '../util/createRandomAlphabets';
 import { SurveyDto } from './survey.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
+import { log } from 'console';
+import logObject from 'src/util/logObject';
 // import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
@@ -27,10 +29,17 @@ export class SurveyService {
   async getAvailableSurveys(availableOnly: boolean) {
     // completed 된 것들은 빼기.
 
-    return this.repo
+    const surveys = await this.repo
       .createQueryBuilder('survey')
       .leftJoinAndSelect('survey.genres', 'genre')
       .getMany();
+
+    // console.log(surveys[0].created_at);
+    logObject('elements: ', surveys);
+
+    // surveys.sort((s1, s2) => s1.created_at)
+
+    return surveys;
 
     let surveyEntities: Survey[];
     if (availableOnly) {
@@ -39,9 +48,11 @@ export class SurveyService {
     surveyEntities = await this.repo.find();
     return surveyEntities;
 
-    const surveys: SurveyDto[] = plainToInstance(SurveyDto, surveyEntities, {
-      // excludeExtraneousValues: true,
-    });
+    // const surveys: SurveyDto[] = plainToInstance(SurveyDto, surveyEntities, {
+    //   // excludeExtraneousValues: true,
+    // });
+
+    // surveys.sort((s1, s2) => s1.createdat - s2.id)
 
     return surveys;
   }
