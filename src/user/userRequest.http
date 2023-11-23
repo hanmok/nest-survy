@@ -27,8 +27,8 @@ POST https://dearsurvy.herokuapp.com/user/signin
 Content-Type: "application/json"
 
 {
-    "username": "myTest61@naver.com",
-    "password": "something"
+    "username": "dmammmm@naver.com",
+    "password": "1245783asdA!"
 }
 
 ###

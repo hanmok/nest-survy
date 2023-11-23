@@ -51,9 +51,7 @@ export class UserService {
       });
 
       const userId = decoded.userId;
-      console.log('decoded userId: ', userId);
       const response = await this.findByUserId(userId);
-      logObject('fetched user Response', response);
 
       const result: UserDetail = {
         collected_reward: response.collected_reward,

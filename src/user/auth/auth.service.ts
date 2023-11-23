@@ -129,17 +129,21 @@ export class AuthService {
 
   // TODO: 더 많은 정보들 들어가야함.
   async signup(username: string, password: string) {
-    const users = await this.userRepo.find({ where: { username } });
-    if (users.length) {
-      throw new BadRequestException('username in use');
+    try {
+      const users = await this.userRepo.find({ where: { username } });
+      if (users.length) {
+        throw new BadRequestException('username in use');
+      }
+
+      const salt = randomBytes(8).toString('hex');
+      const hash = (await scrypt(password, salt, 32)) as Buffer;
+      const result = salt + '.' + hash.toString('hex');
+      const user = this.userRepo.create({ username, password: result });
+      const _ = await this.userRepo.save(user);
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    console.log(`creating username: ${username}, password: ${password}`);
-    const salt = randomBytes(8).toString('hex');
-    const hash = (await scrypt(password, salt, 32)) as Buffer;
-    const result = salt + '.' + hash.toString('hex');
-    const user = this.userRepo.create({ username, password: result });
-    const _ = await this.userRepo.save(user);
-    return user;
   }
 
   async removeRefreshToken(userId: number) {
