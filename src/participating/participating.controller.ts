@@ -8,7 +8,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from '../util/success-api-response';
+import { SuccessAPIResponse } from '../util/api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { CreateParticipationDTO } from 'src/survey/CreateParticipation.dto';

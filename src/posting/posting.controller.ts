@@ -2,7 +2,7 @@ import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ToCamelCaseInterceptor } from 'src/interceptors/toCamelCase.interceptor';
 import { PostingService } from './posting.service';
-import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { SuccessAPIResponse } from 'src/util/api-response';
 
 @ApiTags('posting')
 @Controller('/posting')

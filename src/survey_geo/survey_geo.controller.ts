@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { SurveyGeoService } from './survey_geo.service';
 import { SurveyGeoDto } from './survey-geo.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { SuccessAPIResponse } from 'src/util/api-response';
 
 @ApiTags('SurveyGeo')
 @Controller('/survey-geo')

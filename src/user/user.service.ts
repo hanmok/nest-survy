@@ -12,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 // import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from '../util/success-api-response';
+import { SuccessAPIResponse } from '../util/api-response';
 import { UserDto } from './dtos/user.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { access } from 'fs';

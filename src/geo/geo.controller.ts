@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GeoService } from './geo.service';
-import { SuccessAPIResponse } from 'src/util/success-api-response';
+import { SuccessAPIResponse } from 'src/util/api-response';
 
 @ApiTags('Geo')
 @Controller('/geo')

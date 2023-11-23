@@ -22,10 +22,11 @@ import { SurveyGenreDTO } from '../survey_genre/survey_genre.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from '../util/success-api-response';
+import { SuccessAPIResponse } from '../util/api-response';
 import { TransactionService } from '../transaction/transaction.service';
 import { SectionService } from '../section/section.service';
-import { FailureAPIResponse } from '../util/failure-api-response';
+// import { FailureAPIResponse } from '../util/failure-api-response';
+import { FailureAPIResponse } from '../util/api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 import { CreateWholeSurveyDTO } from './createWholeSurvey.dto';
 import { CreateParticipationDTO } from './CreateParticipation.dto';

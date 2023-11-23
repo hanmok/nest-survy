@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { CustomAnswerService } from './custom_answer.service';
 import { Post, Body } from '@nestjs/common';
 import { CreateAnswerDTO } from '../answer/createAnswer.dto';
-import { SuccessAPIResponse } from '../util/success-api-response';
+import { SuccessAPIResponse } from '../util/api-response';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCustomAnswerDto } from './createCustomAnswer.dto';
 

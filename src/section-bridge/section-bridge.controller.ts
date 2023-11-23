@@ -4,7 +4,7 @@ import { SectionBridgeDTO } from './SectionBridge.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // import { SuccessAPIResponse } from '../api-response.model';
 
-import { SuccessAPIResponse } from '../util/success-api-response';
+import { SuccessAPIResponse } from '../util/api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 
 @ApiTags('SectionBridge')

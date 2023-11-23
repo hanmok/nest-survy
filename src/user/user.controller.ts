@@ -1,4 +1,5 @@
-import { CustomApiResponse } from '../util/api-response.model';
+// import { CustomApiResponse } from '../util/api-response.model';
+import { CustomApiResponse } from '../util/api-response';
 // import { ApiResponse } from './../api-response.model';
 import {
   BadRequestException,
@@ -39,11 +40,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { FailureAPIResponse } from '../util/failure-api-response';
-
-// import { FailureAPIResponse, SuccessAPIResponse } from '../api-response.model';
-
-import { SuccessAPIResponse } from '../util/success-api-response';
+import { FailureAPIResponse, SuccessAPIResponse } from '../util/api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 import { AuthMiddleware } from 'src/auth.middleware';
 import logObject from 'src/util/logObject';
@@ -159,7 +156,7 @@ export class UserController {
     logObject('ret', ret);
 
     if (ret) {
-      const v = FailureAPIResponse(409, 'username already exist');
+      const v = FailureAPIResponse('username already exist');
       logObject('return', v);
       return v;
     }
