@@ -90,5 +90,5 @@ export class SurveyDto {
     }
     return params.value;
   })
-  created_at: Date;
+  created_at: string;
 }
