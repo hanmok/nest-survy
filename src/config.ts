@@ -1,6 +1,7 @@
 export const config = () => ({
   port: process.env.PORT,
   database: {
+    connectionLimit: 100,
     type: 'mysql',
     host: 'us-cdbr-east-06.cleardb.net',
     port: 3306,
