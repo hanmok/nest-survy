@@ -1,5 +1,8 @@
-import { Expose, Transform } from 'class-transformer';
+import { Expose, Transform, TransformFnParams } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsDate } from 'class-validator';
+import logObject from 'src/util/logObject';
+import { convertToKoreanDate } from 'src/date';
 
 export class SurveyDto {
   // constructor(partial: Partial<SurveyDto>) {
@@ -75,4 +78,17 @@ export class SurveyDto {
   @ApiProperty()
   @Expose()
   num_of_sections: number;
+
+  @IsDate()
+  // @Transform((value: Date) => value.toISOString())
+  @Transform((params: TransformFnParams) => {
+    if (params.value instanceof Date) {
+      const date: Date = params.value;
+      const result = convertToKoreanDate(date);
+      console.log('result', result);
+      return result;
+    }
+    return params.value;
+  })
+  created_at: Date;
 }

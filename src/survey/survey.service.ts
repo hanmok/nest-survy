@@ -35,26 +35,34 @@ export class SurveyService {
       .getMany();
 
     // console.log(surveys[0].created_at);
-    logObject('elements: ', surveys);
+    // logObject('elements: ', surveys);
 
     // surveys.sort((s1, s2) => s1.created_at)
 
-    return surveys;
+    // return surveys;
 
     let surveyEntities: Survey[];
+    // let surveyDtos: SurveyDto[];
     if (availableOnly) {
       surveyEntities = await this.repo.find({ where: { is_completed: 0 } });
+    } else {
+      surveyEntities = await this.repo.find();
     }
-    surveyEntities = await this.repo.find();
-    return surveyEntities;
+    logObject('surveys', surveyEntities);
+
+    const surveyDtos: SurveyDto[] = surveyEntities.map((survey) =>
+      plainToInstance(SurveyDto, survey),
+    );
+    logObject('returning dtos', surveyDtos);
+
+    return surveyDtos;
+    // return surveyEntities;
 
     // const surveys: SurveyDto[] = plainToInstance(SurveyDto, surveyEntities, {
     //   // excludeExtraneousValues: true,
     // });
 
-    // surveys.sort((s1, s2) => s1.createdat - s2.id)
-
-    return surveys;
+    // return surveys;
   }
 
   async findOne(id: number) {

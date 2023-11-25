@@ -1,0 +1,81 @@
+### Get all surveys
+
+GET http://localhost:3000/survey
+Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgwNCwiaWF0IjoxNzAwOTA2ODI4LCJleHAiOjE3MDA5OTMyMjh9.D4_UuAK3ipj0_TFplmhoHjCEhAEbKOAOobFSzAFK5XY"
+
+### Get All Users
+GET http://localhost:3000/user
+
+
+### Get All users with remote
+GET https://dearsurvy.herokuapp.com/user
+Retry-After: 10
+
+###
+# GET http://dearsurvy.herokuapp.com/user/4
+
+
+###
+GET https://dearsurvy.herokuapp.com/
+
+### 
+POST https://dearsurvy.herokuapp.com/user/signup
+Content-Type: "application/json"
+
+{
+    "username": "myTest66@naver.com",
+    "password": "something"
+}
+
+### signin
+POST https://dearsurvy.herokuapp.com/user/signin
+Content-Type: "application/json"
+
+{
+    "username": "dmammmm@naver.com",
+    "password": "1245783asdA!"
+}
+
+###
+# POST https://dearsurvy.herokuapp.com/user/signup
+POST http://localhost:3000/user/signup
+Content-Type: "application/json"
+
+###
+GET http://localhost:3000
+
+
+###
+POST http://localhost:3000/user/signup
+Content-Type: "application/json"
+
+{
+	"username": "workout2@gmail.com",
+    "password": "workout"
+}
+
+### getById
+GET http://localhost:3000/user/4
+
+
+### logout
+POST http://localhost:3000/user/logout
+Content-Type: "application/json"
+
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgwNCwiaWF0IjoxNzAwMTgyNzA4LCJleHAiOjE3MDAyNjkxMDh9.J053g149-Y1oFqlROPU0GwC8nuxr9jBWgCXI5cqz3QU"
+}
+
+### geo
+GET https://dearsurvy.herokuapp.com/geo
+
+
+### survey
+GET http://localhost:3000/survey
+
+Content-Type: "application/json"
+Authorization: : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgwNCwiaWF0IjoxNzAwNjMzNjExLCJleHAiOjE3MDA3MjAwMTF9.AgP-3Xeb__W7qUxO5p03v8c_Y0x0kZiUn7o9CAXJBmU"
+
+
+### Duplicate Check
+Get http://localhost:3000/user/check-username?username=dmammmm%40naver.com
