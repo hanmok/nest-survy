@@ -161,7 +161,7 @@ export class AuthService {
     const hash = (await scrypt(password, salt, 32)) as Buffer;
 
     if (storedHash !== hash.toString('hex')) {
-      throw new BadRequestException('Wrong password');
+      throw new BadRequestException('잘못된 아이디 또는 비밀번호 입니다.');
     }
     return user;
   }

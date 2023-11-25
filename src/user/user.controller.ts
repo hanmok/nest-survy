@@ -1,6 +1,4 @@
-// import { CustomApiResponse } from '../util/api-response.model';
 import { CustomApiResponse } from '../util/api-response';
-// import { ApiResponse } from './../api-response.model';
 import {
   BadRequestException,
   Body,
@@ -76,16 +74,20 @@ export class UserController {
 
   @Post('/signin')
   async signIn(@Body() body: CreateUserDTO) {
-    const user = await this.authService.validateUser(
-      body.username,
-      body.password,
-    );
+    try {
+      const user = await this.authService.validateUser(
+        body.username,
+        body.password,
+      );
 
-    const [removeToken, result] = await Promise.all([
-      this.authService.removeRefreshToken(user.id),
-      this.authService.publishTokens(user.id),
-    ]);
-    return SuccessAPIResponse(result);
+      const [removeToken, result] = await Promise.all([
+        this.authService.removeRefreshToken(user.id),
+        this.authService.publishTokens(user.id),
+      ]);
+      return SuccessAPIResponse(result);
+    } catch (error) {
+      return FailureAPIResponse(error.message);
+    }
   }
 
   // @Post('/username/duplicate')

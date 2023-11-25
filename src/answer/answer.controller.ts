@@ -6,7 +6,6 @@ import { Serialize } from '../interceptors/serialize.interceptor';
 import { AnswerDTO } from './answer.dto';
 import { CreateAnswerDTO } from './createAnswer.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { SuccessAPIResponse } from '../api-response.model';
 
 import { SuccessAPIResponse } from '../util/api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';

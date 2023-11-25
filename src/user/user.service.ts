@@ -10,7 +10,6 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
-// import { SuccessAPIResponse } from '../api-response.model';
 
 import { SuccessAPIResponse } from '../util/api-response';
 import { UserDto } from './dtos/user.dto';
