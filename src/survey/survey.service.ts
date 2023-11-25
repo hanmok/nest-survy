@@ -7,6 +7,7 @@ import { SurveyDto } from './survey.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { log } from 'console';
 import logObject from 'src/util/logObject';
+import { sortStringInDecendingOrder } from 'src/date';
 // import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
@@ -55,7 +56,14 @@ export class SurveyService {
     );
     logObject('returning dtos', surveyDtos);
 
+    // 정렬된 결과
+    // surveyDtos.sort(compareSurveyByCreatedAt);
+    surveyDtos.sort((a, b) =>
+      sortStringInDecendingOrder(a.created_at, b.created_at, true),
+    );
+
     return surveyDtos;
+    // return surveyDtos;
     // return surveyEntities;
 
     // const surveys: SurveyDto[] = plainToInstance(SurveyDto, surveyEntities, {
