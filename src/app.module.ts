@@ -112,6 +112,10 @@ import { AuthMiddleware } from './auth.middleware';
 import { ParticipatingController } from './participating/participating.controller';
 import { PostingController } from './posting/posting.controller';
 import { UserGenreController } from './user_genre/user_genre.controller';
+import { WithdrawalModule } from './withdrawal/withdrawal.module';
+import { Withdrawal } from './withdrawal/withdrawal.entity';
+import { WithdrawalController } from './withdrawal/withdrawal.controller';
+import { WithdrawalService } from './withdrawal/withdrawal.service';
 
 require('dotenv').config();
 
@@ -156,6 +160,7 @@ require('dotenv').config();
         ExpectedTimeSpent,
         Geo,
         SurveyGeo,
+        Withdrawal,
       ],
     }),
 
@@ -179,6 +184,7 @@ require('dotenv').config();
       ExpectedTimeSpent,
       Geo,
       SurveyGeo,
+      Withdrawal,
       // CustomResponseDto,
     ]),
 
@@ -211,6 +217,7 @@ require('dotenv').config();
     GeoModule,
     SurveyGeoModule,
     ResultModule,
+    WithdrawalModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService
@@ -233,6 +240,7 @@ require('dotenv').config();
     ExpectedTimeSpentController,
     GeoController,
     SurveyGeoController,
+    WithdrawalController,
     // ResultController,
   ],
   providers: [
@@ -260,6 +268,7 @@ require('dotenv').config();
     GeoService,
     SurveyGeoService,
     ResultService,
+    WithdrawalService,
     // ValidateQuestionTypePipe,
   ],
 })
@@ -275,6 +284,7 @@ export class AppModule implements NestModule {
         PostingController,
         ParticipatingController,
         UserGenreController,
+        WithdrawalController,
       );
   }
 }
