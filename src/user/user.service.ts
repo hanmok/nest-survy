@@ -19,6 +19,9 @@ import { decode } from 'punycode';
 import logObject from 'src/util/logObject';
 import { Geo } from 'src/geo/geo.entity';
 import { GeoService } from 'src/geo/geo.service';
+import { randomBytes, scrypt as _scrypt } from 'crypto';
+import { promisify } from 'util';
+const scrypt = promisify(_scrypt);
 
 interface UserDetail {
   collected_reward: number;
@@ -146,5 +149,31 @@ export class UserService {
     // const allUsers = await this.repo.find()
 
     // return SuccessAPIResponse(allUsers, 200, "testing")
+  }
+
+  async setHomeAddress(userId: number, geoId: number) {
+    const user = await this.repo.findOneBy({ id: userId });
+    user.home_address = geoId;
+    return this.repo.save(user);
+  }
+
+  async setOfficeAddress(userId: number, geoId: number) {
+    const user = await this.repo.findOneBy({ id: userId });
+    user.office_address = geoId;
+    return this.repo.save(user);
+  }
+
+  async updatePassword(username: string, password: string) {
+    const user = await this.repo.findOneBy({ username });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const salt = randomBytes(8).toString('hex');
+    const hash = (await scrypt(password, salt, 32)) as Buffer;
+    const result = salt + '.' + hash.toString('hex');
+    user.password = result;
+    const _ = await this.repo.save(user);
+    return user;
   }
 }

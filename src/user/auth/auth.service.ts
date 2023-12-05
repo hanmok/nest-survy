@@ -127,18 +127,45 @@ export class AuthService {
     return exist === null;
   }
 
+  async isAvailablePhoneNumber(phoneNumber: string) {
+    const exist = await this.userRepo.findOne({
+      where: { phone_number: phoneNumber },
+    });
+    return exist === null;
+  }
+
   // TODO: 더 많은 정보들 들어가야함.
-  async signup(username: string, password: string) {
+  // async signup(username: string, password: string) {
+  // 폰 중복체크해야함.
+  async signup(
+    username: string,
+    password: string,
+    phoneNumber: string,
+    birthDate: string,
+    isMale: number,
+  ) {
     try {
       const users = await this.userRepo.find({ where: { username } });
       if (users.length) {
         throw new BadRequestException('username in use');
       }
 
-      const salt = randomBytes(8).toString('hex');
-      const hash = (await scrypt(password, salt, 32)) as Buffer;
-      const result = salt + '.' + hash.toString('hex');
-      const user = this.userRepo.create({ username, password: result });
+      const passwordSalt = randomBytes(8).toString('hex');
+      const passwordHash = (await scrypt(password, passwordSalt, 32)) as Buffer;
+      const passwordResult = passwordSalt + '.' + passwordHash.toString('hex');
+
+      const phoneSalt = randomBytes(8).toString('hex');
+      const phoneHash = (await scrypt(phoneNumber, phoneSalt, 32)) as Buffer;
+      const phoneResult = phoneSalt + '.' + phoneHash.toString('hex');
+
+      const user = this.userRepo.create({
+        username,
+        password: passwordResult,
+        phone_number: phoneResult,
+        is_male: isMale,
+        birth_date: birthDate,
+      });
+
       const _ = await this.userRepo.save(user);
       return user;
     } catch (error) {

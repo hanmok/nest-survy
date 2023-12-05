@@ -12,4 +12,13 @@ export class CreateUserDTO {
   @ApiProperty({ example: 'testadd' })
   @IsString()
   password: string;
+
+  @IsString()
+  phone_number: string;
+
+  @IsNumber()
+  is_male: number;
+
+  @IsString()
+  birth_date: string;
 }

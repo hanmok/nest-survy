@@ -29,6 +29,9 @@ export class User {
   @Column({ default: 0 })
   collected_reward: number; // Int
 
+  @Column()
+  phone_number: string;
+
   // optional
   @Column()
   birth_date: string;

@@ -64,7 +64,13 @@ export class UserController {
     description: 'bad Request Response try again',
   })
   async createUser(@Body() body: CreateUserDTO) {
-    const user = await this.authService.signup(body.username, body.password);
+    const user = await this.authService.signup(
+      body.username,
+      body.password,
+      body.phone_number,
+      body.birth_date,
+      body.is_male,
+    );
     const userId = user.id;
     const accessToken = await this.authService.generateAccessToken(userId);
     const refreshToken = await this.authService.generateRefreshToken(userId);
@@ -90,17 +96,29 @@ export class UserController {
     }
   }
 
-  // @Post('/username/duplicate')
-  // async checkDuplicateUsername(@Body() body: { username: string }) {
-  //   const isAvailable = await this.authService.isAvailableUsername(
-  //     body.username,
-  //   );
+  @Post('/username/duplicate')
+  async checkDuplicateUsername(@Body() body: { username: string }) {
+    const isAvailable = await this.authService.isAvailableUsername(
+      body.username,
+    );
 
-  //   if (isAvailable) {
-  //     return SuccessAPIResponse();
-  //   }
-  //   return FailureAPIResponse();
-  // }
+    if (isAvailable) {
+      return SuccessAPIResponse();
+    }
+    return FailureAPIResponse();
+  }
+
+  @Post('/phone-number/duplicate')
+  async checkDuplicatePhoneNumber(@Body() body: { phoneNumber: string }) {
+    const isAvailable = await this.authService.isAvailablePhoneNumber(
+      body.phoneNumber,
+    );
+
+    if (isAvailable) {
+      return SuccessAPIResponse();
+    }
+    return FailureAPIResponse();
+  }
 
   // accessToken으로 userId 구한 후 RefreshToken 만료시킴.
   @Post('/signout')
@@ -166,6 +184,15 @@ export class UserController {
     const v = SuccessAPIResponse();
     logObject('return', v);
     return v;
+  }
+
+  @Patch('/update-password')
+  async updatePassword(@Body() body: { username: string; password: string }) {
+    const ret = await this.userService.updatePassword(
+      body.username,
+      body.password,
+    );
+    return SuccessAPIResponse(ret);
   }
 
   // ADMIN
@@ -248,6 +275,26 @@ export class UserController {
       await this.participatingService.getParticipatedSurveyIdsByUserId(
         parseInt(id),
       );
+    return SuccessAPIResponse(ret);
+  }
+
+  @Patch('/:id/home/:geo_id?') // nullable
+  async setHomeAddress(
+    @Param('id') id: string,
+    @Param('geo_id') geo_id: string | null,
+  ) {
+    const geoId = geo_id ? parseInt(geo_id) : null;
+    const ret = await this.userService.setHomeAddress(parseInt(id), geoId);
+    return SuccessAPIResponse(ret);
+  }
+
+  @Patch('/:id/office/:geo_id?')
+  async setOfficeAddress(
+    @Param('id') id: string,
+    @Param('geo_id') geo_id: string | null,
+  ) {
+    const geoId = geo_id ? parseInt(geo_id) : null;
+    const ret = await this.userService.setOfficeAddress(parseInt(id), geoId);
     return SuccessAPIResponse(ret);
   }
 }
