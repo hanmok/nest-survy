@@ -334,9 +334,19 @@ export class UserController {
 
   // @Get('/hi/mail')
   @Post('/send-mail')
-  async sendMail() {
+  async sendMail(@Body() body: { username: string }) {
     // return this.authService.sendMail();
-    const code = 'asdasd';
-    await this.mailService.sendAuthEmail('dmammmm@naver.com', code);
+    // const code = 'asdasd';
+    // await this.mailService.sendAuthEmail('dmammmm@naver.com', code);
+    await this.authService.sendVerificationCode(body.username);
+  }
+
+  @Post('/verify-email')
+  async verify(@Body() body: { username: string; code: string }) {
+    const ret = await this.authService.verifyCode(body.username, body.code);
+    if (ret) {
+      return SuccessAPIResponse();
+    }
+    return FailureAPIResponse();
   }
 }
