@@ -42,6 +42,7 @@ import { FailureAPIResponse, SuccessAPIResponse } from '../util/api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 import { AuthMiddleware } from 'src/auth.middleware';
 import logObject from 'src/util/logObject';
+import { MailService } from 'src/mail/mail.service';
 
 // @ApiTags('User')
 @ApiTags('User')
@@ -54,6 +55,7 @@ export class UserController {
     private userGenreService: UserGenreService,
     private postingService: PostingService,
     private participatingService: ParticipatingService, // private readonly apiResponseService: ApiResponseService,
+    private readonly mailService: MailService,
   ) {}
 
   @Post('/signup')
@@ -328,5 +330,12 @@ export class UserController {
     const geoId = geo_id ? parseInt(geo_id) : null;
     const ret = await this.userService.setOfficeAddress(parseInt(id), geoId);
     return SuccessAPIResponse(ret);
+  }
+
+  // @Get('/hi/mail')
+  @Post('/send-mail')
+  async sendMail() {
+    // return this.authService.sendMail();
+    await this.mailService.sendConfirmationEmail('dmammmm@naver.com');
   }
 }

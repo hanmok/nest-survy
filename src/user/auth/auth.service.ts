@@ -13,6 +13,10 @@ import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { RefreshToken } from '../refreshToken.entity';
 import logObject from '../../util/logObject';
+import { MailerService } from '@nestjs-modules/mailer';
+// import { nodeMailer } from 'nodemailer'
+const nodemailer = require('nodemailer');
+
 const scrypt = promisify(_scrypt);
 
 @Injectable()
@@ -22,6 +26,7 @@ export class AuthService {
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(RefreshToken)
     private refreshTokenRepo: Repository<RefreshToken>,
+    private readonly mailerService: MailerService,
   ) {}
 
   async generateAccessToken(userId: number) {
@@ -204,5 +209,18 @@ export class AuthService {
       throw new NotFoundException('Invalid username or phone-number');
     }
     return user;
+  }
+
+  sendMail() {
+    this.mailerService.sendMail({
+      to: 'dmammmm@naver.com',
+      from: 'ioscalccalie@gmail.com',
+      subject: 'Testing subject',
+      text: 'this is the text',
+    });
+  }
+
+  sendAgain() {
+    const html = `<p>asd</p>`;
   }
 }
