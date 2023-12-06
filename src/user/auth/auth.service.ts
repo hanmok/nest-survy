@@ -127,10 +127,12 @@ export class AuthService {
     return exist === null;
   }
 
+  // ?? 이거 아닐텐데 ??
   async isAvailablePhoneNumber(phoneNumber: string) {
     const exist = await this.userRepo.findOne({
       where: { phone_number: phoneNumber },
     });
+
     return exist === null;
   }
 
@@ -154,14 +156,14 @@ export class AuthService {
       const passwordHash = (await scrypt(password, passwordSalt, 32)) as Buffer;
       const passwordResult = passwordSalt + '.' + passwordHash.toString('hex');
 
-      const phoneSalt = randomBytes(8).toString('hex');
-      const phoneHash = (await scrypt(phoneNumber, phoneSalt, 32)) as Buffer;
-      const phoneResult = phoneSalt + '.' + phoneHash.toString('hex');
+      // const phoneSalt = randomBytes(8).toString('hex');
+      // const phoneHash = (await scrypt(phoneNumber, phoneSalt, 32)) as Buffer;
+      // const phoneResult = phoneSalt + '.' + phoneHash.toString('hex');
 
       const user = this.userRepo.create({
         username,
         password: passwordResult,
-        phone_number: phoneResult,
+        phone_number: phoneNumber,
         is_male: isMale,
         birth_date: birthDate,
       });
@@ -189,6 +191,17 @@ export class AuthService {
 
     if (storedHash !== hash.toString('hex')) {
       throw new BadRequestException('잘못된 아이디 또는 비밀번호 입니다.');
+    }
+    return user;
+  }
+
+  async validateUsernamePhone(username: string, phone: string) {
+    const [user] = await this.userRepo.find({
+      where: { username, phone_number: phone },
+    });
+    logObject('validateUsernamePhone user,', user);
+    if (!user) {
+      throw new NotFoundException('Invalid username or phone-number');
     }
     return user;
   }

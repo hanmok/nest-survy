@@ -137,6 +137,10 @@ export class UserService {
     return await this.repo.findOneBy({ username });
   }
 
+  async findByPhone(phone: string) {
+    return await this.repo.findOneBy({ phone_number: phone });
+  }
+
   async getAll() {
     const users = await this.repo.find();
     // return await this.repo.find()
