@@ -103,7 +103,6 @@ import { WithdrawalModule } from './withdrawal/withdrawal.module';
 import { Withdrawal } from './withdrawal/withdrawal.entity';
 import { WithdrawalController } from './withdrawal/withdrawal.controller';
 import { WithdrawalService } from './withdrawal/withdrawal.service';
-import { MailerModule } from '@nestjs-modules/mailer';
 import { MailModule } from './mail/mail.module';
 import { MailService } from './mail/mail.service';
 

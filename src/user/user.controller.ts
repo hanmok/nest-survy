@@ -336,6 +336,7 @@ export class UserController {
   @Post('/send-mail')
   async sendMail() {
     // return this.authService.sendMail();
-    await this.mailService.sendConfirmationEmail('dmammmm@naver.com');
+    const code = 'asdasd';
+    await this.mailService.sendAuthEmail('dmammmm@naver.com', code);
   }
 }

@@ -13,9 +13,7 @@ import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { RefreshToken } from '../refreshToken.entity';
 import logObject from '../../util/logObject';
-import { MailerService } from '@nestjs-modules/mailer';
-// import { nodeMailer } from 'nodemailer'
-const nodemailer = require('nodemailer');
+import { MailService } from 'src/mail/mail.service';
 
 const scrypt = promisify(_scrypt);
 
@@ -26,8 +24,33 @@ export class AuthService {
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(RefreshToken)
     private refreshTokenRepo: Repository<RefreshToken>,
-    private readonly mailerService: MailerService,
+    private readonly mailService: MailService,
   ) {}
+
+  generateRandomSixDigit = () => {
+    const randomNumber = Math.floor(100000 + Math.random() * 900000);
+    return String(randomNumber);
+  };
+
+  // email, verification Code
+  private readonly verifcationCodes = new Map<string, string>();
+
+  async sendVerificationCode(email: string): Promise<void> {
+    const verificationCode = this.generateRandomSixDigit();
+    //메모리에 저장
+    this.verifcationCodes.set(email, verificationCode);
+    // 메일 전송
+    await this.mailService.sendAuthEmail(email, verificationCode);
+  }
+
+  async verifyCode(email: string, code: string): Promise<boolean> {
+    const storedCode = this.verifcationCodes.get(email);
+    if (storedCode && storedCode === code) {
+      this.verifcationCodes.delete(email);
+      return true;
+    }
+    return false;
+  }
 
   async generateAccessToken(userId: number) {
     let payload: any = { userId };
@@ -209,18 +232,5 @@ export class AuthService {
       throw new NotFoundException('Invalid username or phone-number');
     }
     return user;
-  }
-
-  sendMail() {
-    this.mailerService.sendMail({
-      to: 'dmammmm@naver.com',
-      from: 'ioscalccalie@gmail.com',
-      subject: 'Testing subject',
-      text: 'this is the text',
-    });
-  }
-
-  sendAgain() {
-    const html = `<p>asd</p>`;
   }
 }

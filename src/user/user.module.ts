@@ -19,7 +19,6 @@ import { RefreshToken } from './refreshToken.entity';
 import { Genre } from 'src/genre/genre.entity';
 import { Geo } from 'src/geo/geo.entity';
 import { GeoService } from 'src/geo/geo.service';
-import { MailerModule } from '@nestjs-modules/mailer';
 import { MailService } from 'src/mail/mail.service';
 
 @Module({
