@@ -6,8 +6,11 @@ type Query {
   available_surveys(user_id: ID!): [Survey!]
   user(id: ID!): User
   postings(user_id: ID!): [Posting]
+  
   participatedSurveysByUserId(user_id: ID!): [Survey]
   participatings(survey_id: ID!): [Participating]
+  
+  participatingsByUserId(user_id: ID!): [Participating]
   survey(id: ID!): Survey
   selectable_options(question_id: ID!): [SelectableOption]
   sections(survey_id: ID!): [Section!]
@@ -34,6 +37,7 @@ type Participating {
 	user: User!
 	survey: Survey!
   sequence: Int
+  created_at: String
 }
 
 type Section { 

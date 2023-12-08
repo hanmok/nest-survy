@@ -26,6 +26,13 @@ export async function getParticipatingsBySurveyId(survey_id) {
   return participatings;
 }
 
+export async function getParticipatingsByUserId(user_id) {
+  const participatings = (await getParticipatingTable()).filter(
+    (participating) => participating.user_id === parseInt(user_id),
+  );
+  return participatings;
+}
+
 export async function getParticipatedSurveysByUserId(user_id: number) {
   const matchedSurveyIds = (await getParticipatingTable()).map(
     (participating) => participating.survey_id,

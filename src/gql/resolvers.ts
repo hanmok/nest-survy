@@ -6,6 +6,7 @@ import {
   getParticipatings,
   getParticipatedSurveysByUserId,
   getParticipatingsBySurveyId,
+  getParticipatingsByUserId,
 } from './db/participatings';
 import { getPostedSurveysByUserId, getPostings } from './db/postings';
 import {
@@ -76,6 +77,9 @@ export const resolvers = {
       { user_id }: { user_id: number },
     ) => {
       return await getParticipatedSurveysByUserId(user_id);
+    },
+    participatingsByUserId: async (_root, { user_id }: { user_id: number }) => {
+      return await getParticipatingsByUserId(user_id);
     },
     participatings: async (_root, { survey_id }: { survey_id: number }) => {
       return await getParticipatingsBySurveyId(survey_id);
