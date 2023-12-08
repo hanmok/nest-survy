@@ -11,6 +11,9 @@ import { User } from '../user.entity';
 import { RefreshToken } from '../refreshToken.entity';
 import { GeoService } from 'src/geo/geo.service';
 import { Geo } from 'src/geo/geo.entity';
+import { MailService } from 'src/mail/mail.service';
+// import { MailService } from 'src/mail/mail.service';
+
 require('dotenv').config();
 
 @Module({
@@ -23,7 +26,7 @@ require('dotenv').config();
     }),
     TypeOrmModule.forFeature([User, RefreshToken, Geo]),
   ],
-  providers: [AuthService, JwtStrategy, UserService, GeoService],
+  providers: [AuthService, JwtStrategy, UserService, GeoService, MailService],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

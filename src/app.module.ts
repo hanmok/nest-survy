@@ -70,26 +70,13 @@ import { Posting } from './posting/posting.entity';
 import { SurveyGenre } from './survey_genre/survey_genre.entity';
 import { AuthModule } from './user/auth/auth.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-
-// import { JwtStrategy } from './user/jwt/jwt.strategy';
-
 import { JwtStrategy } from './user/jwt.strategy';
-
-// import { RefreshToken } from './user/jwt/refreshToken.entity';
-
 import { RefreshToken } from './user/refreshToken.entity';
 import { SectionBridgeController } from './section-bridge/section-bridge.controller';
 import { SurveyGenreController } from './survey_genre/survey_genre.controller';
-
-// import { CustomResponseDto } from 'custom-response.dto';
-// import { ApiResponseService } from 'api-response.service';
-
 import { TransactionService } from './transaction/transaction.service';
-// import { ValidateQuestionTypePipe } from './question/validate-question-type.pipe';
 import { CustomAnswerModule } from './custom_answer/custom_answer.module';
-
 import { CreateCustomAnswerDto } from './custom_answer/createCustomAnswer.dto';
-
 import { CustomAnswer } from './custom_answer/custom_answer.entity';
 import { CustomAnswerController } from './custom_answer/custom_answer.controller';
 import { CustomAnswerService } from './custom_answer/custom_answer.service';
@@ -116,6 +103,8 @@ import { WithdrawalModule } from './withdrawal/withdrawal.module';
 import { Withdrawal } from './withdrawal/withdrawal.entity';
 import { WithdrawalController } from './withdrawal/withdrawal.controller';
 import { WithdrawalService } from './withdrawal/withdrawal.service';
+import { MailModule } from './mail/mail.module';
+import { MailService } from './mail/mail.service';
 
 require('dotenv').config();
 
@@ -218,6 +207,7 @@ require('dotenv').config();
     SurveyGeoModule,
     ResultModule,
     WithdrawalModule,
+    MailModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService
@@ -270,6 +260,7 @@ require('dotenv').config();
     ResultService,
     WithdrawalService,
     // ValidateQuestionTypePipe,
+    MailService,
   ],
 })
 // export class AppModule {}
