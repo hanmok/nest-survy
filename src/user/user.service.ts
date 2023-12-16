@@ -21,19 +21,20 @@ import { Geo } from 'src/geo/geo.entity';
 import { GeoService } from 'src/geo/geo.service';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+import { UserDetailDto } from './dtos/userDetail.dto';
 const scrypt = promisify(_scrypt);
 
-interface UserDetail {
-  collected_reward: number;
-  birth_date: string | null;
-  age: number | null;
-  is_male: number | null;
-  reputation: number;
-  fatigue: number;
-  home_address: Geo | null;
-  office_address: Geo | null;
-  // num_of_participation: number;
-}
+// interface UserDetail {
+//   collected_reward: number;
+//   birth_date: Date | null;
+//   age: number | null;
+//   is_male: number | null;
+//   reputation: number;
+//   fatigue: number;
+//   home_address: Geo | null;
+//   office_address: Geo | null;
+//   // num_of_participation: number;
+// }
 
 @Injectable()
 export class UserService {
@@ -55,16 +56,19 @@ export class UserService {
       const userId = decoded.userId;
       const response = await this.findByUserId(userId);
 
-      const result: UserDetail = {
+      // const result: UserDetail = {
+      const result: UserDetailDto = {
         collected_reward: response.collected_reward,
-        birth_date: response.birth_date,
+        birth_date: response.birth_date.toISOString(),
         age: response.age,
         is_male: response.is_male,
         reputation: response.reputation,
         fatigue: response.fatigue,
         home_address: null,
         office_address: null,
+        // num_of_participation: null
       };
+      console.log('returning birthDate', response.birth_date.toISOString());
 
       if (response.home_address || response.office_address) {
         const allGeos = await this.geoService.getAllGeoInfos();

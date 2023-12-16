@@ -34,7 +34,7 @@ export class User {
 
   // optional
   @Column()
-  birth_date: string;
+  birth_date: Date;
 
   @Column()
   age: number;

@@ -173,8 +173,10 @@ export class UserController {
     try {
       const accessToken = authorization.replace('Bearer ', '');
       const userDetails = await this.userService.getUserDetails(accessToken);
+
       logObject('userDetail:', userDetails);
       return SuccessAPIResponse(userDetails);
+
       // return userDetails;
     } catch (error) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
