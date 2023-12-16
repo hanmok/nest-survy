@@ -3,6 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDate } from 'class-validator';
 import logObject from 'src/util/logObject';
 import { convertToKoreanDate } from 'src/date';
+import { Genre } from 'src/genre/genre.entity';
+import { JoinTable, ManyToMany } from 'typeorm';
 
 export class SurveyDto {
   // constructor(partial: Partial<SurveyDto>) {
@@ -78,6 +80,14 @@ export class SurveyDto {
   @ApiProperty()
   @Expose()
   num_of_sections: number;
+
+  @ManyToMany(() => Genre)
+  @JoinTable({
+    name: 'survey_genre',
+    joinColumn: { name: 'survey_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'genre_id', referencedColumnName: 'id' },
+  })
+  genres: Genre[];
 
   @IsDate()
   // @Transform((value: Date) => value.toISOString())
