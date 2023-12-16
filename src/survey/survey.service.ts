@@ -43,10 +43,12 @@ export class SurveyService {
     } else {
       surveyEntities = await this.repo.find();
     }
+
     logObject('surveyEntities', surveyEntities); // 없음
     // logObject('surveys', surveyEntities);
 
-    const surveyDtos: SurveyDto[] = surveyEntities.map((survey) =>
+    // const surveyDtos: SurveyDto[] = surveyEntities.map((survey) =>
+    const surveyDtos: SurveyDto[] = surveys.map((survey) =>
       plainToInstance(SurveyDto, survey),
     );
     logObject('survey dtos', surveyDtos); // 없음
@@ -55,9 +57,10 @@ export class SurveyService {
     surveyDtos.sort((a, b) =>
       sortStringInDecendingOrder(a.created_at, b.created_at, true),
     );
-    return surveys.sort((a, b) =>
-      sortStringInDecendingOrder(a.created_at, b.created_at, true),
-    );
+
+    // return surveys.sort((a, b) =>
+    //   sortStringInDecendingOrder(a.created_at, b.created_at, true),
+    // );
 
     return surveyDtos;
   }
