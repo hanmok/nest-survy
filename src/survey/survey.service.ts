@@ -34,43 +34,32 @@ export class SurveyService {
       .createQueryBuilder('survey')
       .leftJoinAndSelect('survey.genres', 'genre')
       .getMany();
-
-    // console.log(surveys[0].created_at);
-    // logObject('elements: ', surveys);
-
-    // surveys.sort((s1, s2) => s1.created_at)
-
-    // return surveys;
+    logObject('surveys', surveys); // 포함되어있음
 
     let surveyEntities: Survey[];
-    // let surveyDtos: SurveyDto[];
+
     if (availableOnly) {
       surveyEntities = await this.repo.find({ where: { is_completed: 0 } });
     } else {
       surveyEntities = await this.repo.find();
     }
-    logObject('surveys', surveyEntities);
+    logObject('surveyEntities', surveyEntities); // 없음
+    // logObject('surveys', surveyEntities);
 
     const surveyDtos: SurveyDto[] = surveyEntities.map((survey) =>
       plainToInstance(SurveyDto, survey),
     );
-    logObject('returning dtos', surveyDtos);
+    logObject('survey dtos', surveyDtos); // 없음
 
     // 정렬된 결과
-    // surveyDtos.sort(compareSurveyByCreatedAt);
     surveyDtos.sort((a, b) =>
+      sortStringInDecendingOrder(a.created_at, b.created_at, true),
+    );
+    return surveys.sort((a, b) =>
       sortStringInDecendingOrder(a.created_at, b.created_at, true),
     );
 
     return surveyDtos;
-    // return surveyDtos;
-    // return surveyEntities;
-
-    // const surveys: SurveyDto[] = plainToInstance(SurveyDto, surveyEntities, {
-    //   // excludeExtraneousValues: true,
-    // });
-
-    // return surveys;
   }
 
   async findOne(id: number) {

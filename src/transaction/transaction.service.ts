@@ -98,10 +98,18 @@ export class TransactionService {
     let { survey, sections, questions, selectable_options } = wholeSurvey;
     const genreIds = survey.genre_ids;
     const geoIds = survey.geo_ids;
+
     // survey.num_of_sections = sections.length;
     // survey.genre_ids
     console.log(`[createWholeSurvey] flag 1`);
     const tempSurvey = this.surveyRepo.create({ ...survey });
+
+    const currentDate = new Date();
+    // const dateString = currentDate.toISOString()
+    // const options = { timeZone: 'Asia/Seoul' };
+    // const koreanTime = currentDate.toLocaleString('ko-KR', options);
+    tempSurvey.created_at = currentDate.toString();
+    // console.log('survey created, ', koreanTime);
 
     const timeSpents = await this.timeSpentRepo.find();
     // dictionary 로 만들기.
