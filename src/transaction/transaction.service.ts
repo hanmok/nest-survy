@@ -105,10 +105,17 @@ export class TransactionService {
     const tempSurvey = this.surveyRepo.create({ ...survey });
 
     const currentDate = new Date();
-    // const dateString = currentDate.toISOString()
-    // const options = { timeZone: 'Asia/Seoul' };
-    // const koreanTime = currentDate.toLocaleString('ko-KR', options);
-    tempSurvey.created_at = currentDate.toString();
+    const date = currentDate.toISOString(); // "2023-12-16T10:26:14.630Z"
+
+    const formatted = date.split('T');
+    const datePart = formatted[0];
+    const timePart = formatted[1].split('.')[0];
+    const complete = datePart + ' ' + timePart;
+
+    console.log('completely formatted date', complete);
+
+    tempSurvey.created_at = complete;
+
     // console.log('survey created, ', koreanTime);
 
     const timeSpents = await this.timeSpentRepo.find();
