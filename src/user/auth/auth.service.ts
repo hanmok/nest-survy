@@ -33,34 +33,60 @@ export class AuthService {
   };
 
   // email, verification Code
-  private readonly verifcationCodes = new Map<string, string>();
+  private readonly verificationCodes = new Map<string, string>();
 
   async sendVerificationCodeMail(email: string): Promise<void> {
     const verificationCode = this.generateRandomSixDigit();
     //메모리에 저장
-    this.verifcationCodes.set(email, verificationCode);
+    this.verificationCodes.set(email, verificationCode);
     // 메일 전송
     await this.mailService.sendAuthEmail(email, verificationCode);
   }
 
-  async verifyCode(email: string, code: string): Promise<boolean> {
-    const storedCode = this.verifcationCodes.get(email);
+  async verifyMailCode(email: string, code: string): Promise<boolean> {
+    const storedCode = this.verificationCodes.get(email);
     if (storedCode && storedCode === code) {
-      this.verifcationCodes.delete(email);
+      this.verificationCodes.delete(email);
       return true;
     }
     return false;
   }
 
-  async sendVerificationCodeSMS(
+  async sendVerificationCodeSMSForId(receiver: string): Promise<boolean> {
+    const verificationCode = this.generateRandomSixDigit();
+    //메모리에 저장
+    const receiverPhone = receiver.replaceAll('-', '');
+    this.verificationCodes.set(receiverPhone, verificationCode);
+
+    const ret = await this.mailService.sendAuthSMS(
+      receiverPhone,
+      `${verificationCode}`,
+    );
+
+    return ret;
+  }
+
+  async verifyFindIdCode(phone: string, code: string): Promise<boolean> {
+    const receiverPhone = phone.replaceAll('-', '');
+    const storedCode = this.verificationCodes.get(receiverPhone);
+
+    if (storedCode && storedCode === code) {
+      this.verificationCodes.delete(receiverPhone);
+      return true;
+    }
+    return false;
+  }
+
+  async sendVerificationCodeSMSForPassword(
     email: string,
     receiver: string,
   ): Promise<boolean> {
-    const verificationCode = this.generateRandomSixDigit();
     //메모리에 저장
-    const receiverPhone = receiver.replace('-', '');
-    this.verifcationCodes.set(email, verificationCode);
+    const verificationCode = this.generateRandomSixDigit();
+    this.verificationCodes.set(email, verificationCode);
 
+    const receiverPhone = receiver.replace('-', '');
+    console.log(`sending message to ${receiverPhone}`);
     const ret = await this.mailService.sendAuthSMS(
       receiverPhone,
       `${verificationCode}`,
@@ -176,7 +202,6 @@ export class AuthService {
     return exist === null;
   }
 
-  // ?? 이거 아닐텐데 ??
   async isAvailablePhoneNumber(phoneNumber: string) {
     const exist = await this.userRepo.findOne({
       where: { phone_number: phoneNumber },

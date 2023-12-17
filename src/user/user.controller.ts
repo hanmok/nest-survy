@@ -334,7 +334,6 @@ export class UserController {
     return SuccessAPIResponse(ret);
   }
 
-  // @Get('/hi/mail')
   @Post('/send-mail')
   async sendMail(@Body() body: { username: string }) {
     // return this.authService.sendMail();
@@ -343,37 +342,68 @@ export class UserController {
     await this.authService.sendVerificationCodeMail(body.username);
   }
 
-  @Post('/send-sms')
+  @Post('/find-password/send-sms')
   async sendSMS(@Body() body: { username: string; phone: string }) {
     // return this.authService.sendMail();
     // const code = 'asdasd';
     // await this.mailService.sendAuthEmail('dmammmm@naver.com', code);
     // await this.authService.sendVerificationCodeMail(body.username);
     logObject('sendSMS body:', body);
-    const ret = await this.authService.sendVerificationCodeSMS(
+    const ret = await this.authService.sendVerificationCodeSMSForPassword(
       body.username,
       body.phone,
     );
 
     if (ret) {
       return SuccessAPIResponse();
-    } else {
+    }
+
+    return FailureAPIResponse();
+  }
+
+  @Post('/find-id/send-sms')
+  async sendSMSForId(@Body() body: { phone: string }) {
+    // 존재하지 않으면?
+    const hasMatchingId = await this.userService.findByPhone(body.phone);
+
+    if (hasMatchingId) {
+      const ret = await this.authService.sendVerificationCodeSMSForId(
+        body.phone,
+      );
+
+      if (ret) {
+        return SuccessAPIResponse();
+      }
       return FailureAPIResponse();
+    }
+    return FailureAPIResponse('일치하는 유저가 없습니다.');
+  }
+
+  @Post('/find-id/verify-sms')
+  async verifySMS(@Body() body: { phone: string; code: string }) {
+    const ret = await this.authService.verifyFindIdCode(body.phone, body.code);
+    if (ret) {
+      // return ID
+      const user = await this.userService.findByPhone(body.phone);
+      return SuccessAPIResponse(user.username);
+      // return SuccessAPIResponse(ID)
+    } else {
+      return FailureAPIResponse('cannot find id with phone');
     }
   }
 
-  @Post('/verify-email')
+  @Post('/find-password/verify-email')
   async verifyEmail(@Body() body: { username: string; code: string }) {
-    const ret = await this.authService.verifyCode(body.username, body.code);
+    const ret = await this.authService.verifyMailCode(body.username, body.code);
     if (ret) {
       return SuccessAPIResponse();
     }
     return FailureAPIResponse();
   }
 
-  @Post('/verify-sms')
+  @Post('/find-password/verify-sms')
   async verify(@Body() body: { username: string; code: string }) {
-    const ret = await this.authService.verifyCode(body.username, body.code);
+    const ret = await this.authService.verifyMailCode(body.username, body.code);
     if (ret) {
       return SuccessAPIResponse();
     }
