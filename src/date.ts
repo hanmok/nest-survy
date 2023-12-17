@@ -11,6 +11,8 @@ export const sortStringInDecendingOrder = (
   dateB: string,
   isDecending: boolean = true,
 ) => {
+  console.log('first: ', dateA);
+  console.log('second:', dateB);
   const first = new Date(dateA);
   const second = new Date(dateB);
   const diff = first.getTime() - second.getTime();

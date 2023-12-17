@@ -1,6 +1,6 @@
 import { Expose, Transform, TransformFnParams } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate } from 'class-validator';
+import { IsDate, IsString, isString } from 'class-validator';
 import logObject from 'src/util/logObject';
 import { convertToKoreanDate } from 'src/date';
 import { Genre } from 'src/genre/genre.entity';
@@ -53,14 +53,6 @@ export class SurveyDto {
   @Expose()
   cost: number;
 
-  // @ApiProperty()
-  // @Expose()
-  // initial_section_id: number | undefined;
-
-  // @ApiProperty()
-  // @Expose()
-  // geo_code: number;
-
   @ApiProperty()
   @Expose()
   target_min_age: number;
@@ -89,17 +81,21 @@ export class SurveyDto {
   })
   genres: Genre[];
 
-  @IsDate()
+  // @IsDate()
+  // @Expose()
   // @Transform((value: Date) => value.toISOString())
-  @Transform((params: TransformFnParams) => {
-    if (params.value instanceof Date) {
-      const date: Date = params.value;
-      const result = convertToKoreanDate(date);
-      console.log('result', result);
-      return result;
-    }
-    return params.value;
-  })
+  // @Transform((params: TransformFnParams) => {
+  //   if (params.value instanceof Date) {
+  //     const date: Date = params.value;
+  //     const result = convertToKoreanDate(date);
+  //     console.log('result', result);
+  //     return result;
+  //   }
+  //   return params.value;
+  // })
+
+  @Expose()
+  @IsString()
   // created_at: string;
   created_at: string;
 }

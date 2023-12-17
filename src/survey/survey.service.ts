@@ -7,7 +7,7 @@ import { SurveyDto } from './survey.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { log } from 'console';
 import logObject from 'src/util/logObject';
-import { sortStringInDecendingOrder } from 'src/date';
+import { convertToKoreanDate, sortStringInDecendingOrder } from 'src/date';
 // import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
@@ -44,23 +44,46 @@ export class SurveyService {
       surveyEntities = await this.repo.find();
     }
 
-    logObject('surveyEntities', surveyEntities); // 없음
+    // logObject('surveyEntities', surveyEntities); // 없음
     // logObject('surveys', surveyEntities);
 
     // const surveyDtos: SurveyDto[] = surveyEntities.map((survey) =>
-    const surveyDtos: SurveyDto[] = surveys.map((survey) =>
-      plainToInstance(SurveyDto, survey),
-    );
-    logObject('survey dtos', surveyDtos); // 없음
+    // const surveyDtos: SurveyDto[] = surveys.map((survey) => {
+    //   // survey.created_at = convertToKoreanDate(survey.created_at)
+    //   survey.created_at = '';
+    //   return plainToInstance(SurveyDto, survey);
+    // });
+    // logObject('survey dtos', surveyDtos); // 없음
 
     // 정렬된 결과
-    surveyDtos.sort((a, b) =>
-      sortStringInDecendingOrder(a.created_at, b.created_at, true),
-    );
+    // surveyDtos.sort((a, b) => {
+    surveys.sort((a, b) => {
+      log(`surveyA: ${a.title}, created_at: ${a.created_at}`);
+      log(`surveyB: ${b.title}, created_at: ${b.created_at}`);
+      return sortStringInDecendingOrder(a.created_at, b.created_at, true);
+    });
 
-    // return surveys.sort((a, b) =>
-    //   sortStringInDecendingOrder(a.created_at, b.created_at, true),
-    // );
+    const surveyDtos: SurveyDto[] = surveys.map((survey) => {
+      const koreanDateString = survey.created_at.toString();
+
+      // Sat Dec 16 2023 10:35:00 GMT+0900 (대한민국 표준시)"
+      const originalDate = new Date(koreanDateString);
+
+      const formattedDate = originalDate.toLocaleDateString('en-GB', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      });
+      // dd/MM/yyyy -> yyyy-MM-dd
+      const splitted = formattedDate.split('/');
+      const formatted = splitted[2] + '-' + splitted[1] + '-' + splitted[0];
+
+      survey.created_at = formatted;
+      console.log(formatted);
+      return plainToInstance(SurveyDto, survey);
+    });
+
+    logObject('surveyDto', surveyDtos);
 
     return surveyDtos;
   }
