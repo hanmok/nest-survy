@@ -19,6 +19,7 @@ import { RefreshToken } from './refreshToken.entity';
 import { Genre } from 'src/genre/genre.entity';
 import { Geo } from 'src/geo/geo.entity';
 import { GeoService } from 'src/geo/geo.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { GeoService } from 'src/geo/geo.service';
     PostingService,
     ParticipatingService,
     GeoService,
+    MailService,
     // ApiResponseService,
   ],
   controllers: [UserController],
