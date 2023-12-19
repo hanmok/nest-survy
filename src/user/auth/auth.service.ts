@@ -13,7 +13,6 @@ import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { RefreshToken } from '../refreshToken.entity';
 import logObject from '../../util/logObject';
-import { MailService } from 'src/mail/mail.service';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
@@ -23,54 +22,7 @@ export class AuthService {
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(RefreshToken)
     private refreshTokenRepo: Repository<RefreshToken>,
-    private readonly mailService: MailService,
   ) {}
-
-  generateRandomSixDigit = () => {
-    const randomNumber = Math.floor(100000 + Math.random() * 900000);
-    return String(randomNumber);
-  };
-
-  // email, verification Code
-  private readonly verifcationCodes = new Map<string, string>();
-
-  async sendVerificationCodeMail(email: string): Promise<void> {
-    const verificationCode = this.generateRandomSixDigit();
-    //메모리에 저장
-    this.verifcationCodes.set(email, verificationCode);
-    // 메일 전송
-    await this.mailService.sendAuthEmail(email, verificationCode);
-  }
-
-  async verifyCode(email: string, code: string): Promise<boolean> {
-    const storedCode = this.verifcationCodes.get(email);
-    if (storedCode && storedCode === code) {
-      this.verifcationCodes.delete(email);
-      return true;
-    }
-    return false;
-  }
-
-  async sendVerificationCodeSMS(
-    email: string,
-    receiver: string,
-  ): Promise<boolean> {
-    const verificationCode = this.generateRandomSixDigit();
-    //메모리에 저장
-    const receiverPhone = receiver.replace('-', '');
-    this.verifcationCodes.set(email, verificationCode);
-
-    const ret = await this.mailService.sendAuthSMS(
-      receiverPhone,
-      `${verificationCode}`,
-    );
-
-    logObject('sms ret', ret);
-
-    return ret;
-    // 메일 전송
-    // await this.mailService.sendAuthEmail(email, verificationCode);
-  }
 
   async generateAccessToken(userId: number) {
     let payload: any = { userId };

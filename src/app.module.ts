@@ -116,7 +116,6 @@ import { WithdrawalModule } from './withdrawal/withdrawal.module';
 import { Withdrawal } from './withdrawal/withdrawal.entity';
 import { WithdrawalController } from './withdrawal/withdrawal.controller';
 import { WithdrawalService } from './withdrawal/withdrawal.service';
-import { MailModule } from './mail/mail.module';
 
 require('dotenv').config();
 
@@ -219,7 +218,6 @@ require('dotenv').config();
     SurveyGeoModule,
     ResultModule,
     WithdrawalModule,
-    MailModule,
 
     // TypeOrmModule.forRootAsync({
     //   useClass: TypeOrmConfigService

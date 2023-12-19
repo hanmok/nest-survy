@@ -42,7 +42,6 @@ import { FailureAPIResponse, SuccessAPIResponse } from '../util/api-response';
 import { ToCamelCaseInterceptor } from '../interceptors/toCamelCase.interceptor';
 import { AuthMiddleware } from 'src/auth.middleware';
 import logObject from 'src/util/logObject';
-import { MailService } from 'src/mail/mail.service';
 
 // @ApiTags('User')
 @ApiTags('User')
@@ -55,7 +54,6 @@ export class UserController {
     private userGenreService: UserGenreService,
     private postingService: PostingService,
     private participatingService: ParticipatingService, // private readonly apiResponseService: ApiResponseService,
-    private readonly mailService: MailService,
   ) {}
 
   @Post('/signup')
@@ -337,43 +335,5 @@ export class UserController {
     const geoId = geo_id ? parseInt(geo_id) : null;
     const ret = await this.userService.setOfficeAddress(parseInt(id), geoId);
     return SuccessAPIResponse(ret);
-  }
-
-  @Post('/send-mail')
-  async sendMail(@Body() body: { username: string }) {
-    await this.authService.sendVerificationCodeMail(body.username);
-  }
-
-  @Post('/send-sms')
-  async sendSMS(@Body() body: { username: string; phone: string }) {
-    logObject('sendSMS body:', body);
-    const ret = await this.authService.sendVerificationCodeSMS(
-      body.username,
-      body.phone,
-    );
-
-    if (ret) {
-      return SuccessAPIResponse();
-    } else {
-      return FailureAPIResponse();
-    }
-  }
-
-  @Post('/verify-email')
-  async verifyEmail(@Body() body: { username: string; code: string }) {
-    const ret = await this.authService.verifyCode(body.username, body.code);
-    if (ret) {
-      return SuccessAPIResponse();
-    }
-    return FailureAPIResponse();
-  }
-
-  @Post('/verify-sms')
-  async verify(@Body() body: { username: string; code: string }) {
-    const ret = await this.authService.verifyCode(body.username, body.code);
-    if (ret) {
-      return SuccessAPIResponse();
-    }
-    return FailureAPIResponse();
   }
 }
