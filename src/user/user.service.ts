@@ -136,6 +136,10 @@ export class UserService {
     return await this.repo.findOneBy({ id });
   }
 
+  async findByPhone(phone: string) {
+    return await this.repo.findOneBy({ phone_number: phone });
+  }
+
   async findByUsername(username: string) {
     // return await this.repo.find({ where: { username } });
     return await this.repo.findOneBy({ username });

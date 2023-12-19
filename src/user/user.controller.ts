@@ -109,15 +109,32 @@ export class UserController {
   }
 
   @Post('/phone-number/duplicate')
-  async checkDuplicatePhoneNumber(@Body() body: { phoneNumber: string }) {
+  // async checkDuplicatePhoneNumber(@Body() body: { phoneNumber: string }) {
+  async checkDuplicatePhoneNumber(@Body() body: { phone: string }) {
     const isAvailable = await this.authService.isAvailablePhoneNumber(
-      body.phoneNumber,
+      body.phone,
     );
 
     if (isAvailable) {
       return SuccessAPIResponse();
     }
     return FailureAPIResponse();
+  }
+
+  @Post('/check-username-phone')
+  async checkUsernamePhone(@Body() body: { phone: string; username: string }) {
+    try {
+      const isValid = await this.authService.validateUsernamePhone(
+        body.username,
+        body.phone,
+      );
+      if (!!isValid) {
+        return SuccessAPIResponse();
+      }
+      return FailureAPIResponse();
+    } catch (error) {
+      return FailureAPIResponse();
+    }
   }
 
   // accessToken으로 userId 구한 후 RefreshToken 만료시킴.
@@ -179,6 +196,26 @@ export class UserController {
 
     if (ret) {
       const v = FailureAPIResponse('username already exist');
+      logObject('return', v);
+      return v;
+    }
+
+    const v = SuccessAPIResponse();
+    logObject('return', v);
+    return v;
+  }
+
+  @Get('/check-phone')
+  async checkPhoneDuplication(@Query('phone') phone: string) {
+    console.log('api called');
+
+    // return SuccessAPIResponse({ status: 'available' }, 200);
+
+    const ret = await this.userService.findByPhone(phone);
+    logObject('ret', ret);
+
+    if (ret) {
+      const v = FailureAPIResponse('phone already exist');
       logObject('return', v);
       return v;
     }
