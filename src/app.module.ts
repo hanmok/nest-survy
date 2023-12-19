@@ -117,7 +117,6 @@ import { Withdrawal } from './withdrawal/withdrawal.entity';
 import { WithdrawalController } from './withdrawal/withdrawal.controller';
 import { WithdrawalService } from './withdrawal/withdrawal.service';
 import { MailModule } from './mail/mail.module';
-import { MailService } from './mail/mail.service';
 
 require('dotenv').config();
 
@@ -272,7 +271,6 @@ require('dotenv').config();
     SurveyGeoService,
     ResultService,
     WithdrawalService,
-    MailService,
     // ValidateQuestionTypePipe,
   ],
 })
