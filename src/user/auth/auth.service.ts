@@ -61,26 +61,25 @@ export class AuthService {
     return false;
   }
 
-  // async sendVerificationCodeSMS(
-  //   email: string,
-  //   receiver: string,
-  // ): Promise<boolean> {
-  //   const verificationCode = this.generateRandomSixDigit();
-  //   //메모리에 저장
-  //   const receiverPhone = receiver.replace('-', '');
-  //   this.verifcationCodes.set(email, verificationCode);
+  async sendVerificationCodeSMS(
+    email: string,
+    receiver: string,
+  ): Promise<boolean> {
+    const verificationCode = this.generateRandomSixDigit();
+    //메모리에 저장
+    // const receiverPhone = receiver.replace('-', '');
+    const receiverPhone = receiver.replaceAll('-', '');
+    this.verifcationCodes.set(email, verificationCode);
 
-  //   const ret = await this.mailService.sendAuthSMS(
-  //     receiverPhone,
-  //     `${verificationCode}`,
-  //   );
+    const ret = await this.mailService.sendAuthSMS(
+      receiverPhone,
+      `${verificationCode}`,
+    );
 
-  //   logObject('sms ret', ret);
+    logObject('sms ret', ret);
 
-  //   return ret;
-  //   // 메일 전송
-  //   // await this.mailService.sendAuthEmail(email, verificationCode);
-  // }
+    return ret;
+  }
 
   async regenerateAccessToken(refreshToken: string) {
     const sth = this.verifyRefreshToken(refreshToken);

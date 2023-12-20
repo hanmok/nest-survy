@@ -2,11 +2,11 @@
 
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-// const coolsms = require('coolsms-node-sdk').default;
-// const messageService = new coolsms(
-//   'NCSRUPIQMOWMEZAO',
-//   'PYVSHEMIXPHRW66YRBLEA54LSQMCXSXM',
-// );
+const coolsms = require('coolsms-node-sdk').default;
+const messageService = new coolsms(
+  'NCSRUPIQMOWMEZAO',
+  'PYVSHEMIXPHRW66YRBLEA54LSQMCXSXM',
+);
 
 @Injectable()
 export class MailService {
@@ -21,17 +21,17 @@ export class MailService {
     });
   }
 
-  // async sendAuthSMS(receiver: string, code: string) {
-  //   try {
-  //     messageService.sendOne({
-  //       to: receiver,
-  //       from: '01090417421',
-  //       text: `${code} 를 입력해주세요.`,
-  //     });
-  //     //   .then((res) => console.log(res));
-  //     return true;
-  //   } catch (error) {
-  //     return false;
-  //   }
-  // }
+  async sendAuthSMS(receiver: string, code: string) {
+    try {
+      messageService.sendOne({
+        to: receiver,
+        from: '01090417421',
+        text: `${code} 를 입력해주세요.`,
+      });
+      //   .then((res) => console.log(res));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

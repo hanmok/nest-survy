@@ -344,20 +344,20 @@ export class UserController {
     await this.authService.sendVerificationCodeMail(body.username);
   }
 
-  // @Post('/send-sms')
-  // async sendSMS(@Body() body: { username: string; phone: string }) {
-  //   logObject('sendSMS body:', body);
-  //   const ret = await this.authService.sendVerificationCodeSMS(
-  //     body.username,
-  //     body.phone,
-  //   );
+  @Post('/send-sms')
+  async sendSMS(@Body() body: { username: string; phone: string }) {
+    logObject('sendSMS body:', body);
+    const ret = await this.authService.sendVerificationCodeSMS(
+      body.username,
+      body.phone,
+    );
 
-  //   if (ret) {
-  //     return SuccessAPIResponse();
-  //   } else {
-  //     return FailureAPIResponse();
-  //   }
-  // }
+    if (ret) {
+      return SuccessAPIResponse();
+    } else {
+      return FailureAPIResponse();
+    }
+  }
 
   @Post('/verify-email')
   async verifyEmail(@Body() body: { username: string; code: string }) {
@@ -368,12 +368,12 @@ export class UserController {
     return FailureAPIResponse();
   }
 
-  // @Post('/verify-sms')
-  // async verify(@Body() body: { username: string; code: string }) {
-  //   const ret = await this.authService.verifyCode(body.username, body.code);
-  //   if (ret) {
-  //     return SuccessAPIResponse();
-  //   }
-  //   return FailureAPIResponse();
-  // }
+  @Post('/verify-sms')
+  async verify(@Body() body: { username: string; code: string }) {
+    const ret = await this.authService.verifyCode(body.username, body.code);
+    if (ret) {
+      return SuccessAPIResponse();
+    }
+    return FailureAPIResponse();
+  }
 }
