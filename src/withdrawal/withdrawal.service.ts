@@ -7,6 +7,9 @@ import { User } from 'src/user/user.entity';
 export interface WithdrawalBody {
   user_id: number;
   amount: number;
+  account_number: string;
+  bank_name: string;
+  holder_name: string;
   // approved: number;
 }
 
@@ -26,9 +29,15 @@ export class WithdrawalService {
   }
 
   async create(body: WithdrawalBody) {
-    const { user_id, amount } = body;
+    const { user_id, amount, account_number, bank_name, holder_name } = body;
 
-    const withdrawal = this.withdrawalRepo.create({ user_id, amount });
+    const withdrawal = this.withdrawalRepo.create({
+      user_id,
+      amount,
+      account_number,
+      bank_name,
+      holder_name,
+    });
     return await this.withdrawalRepo.save(withdrawal);
   }
 

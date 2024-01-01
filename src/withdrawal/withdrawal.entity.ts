@@ -6,6 +6,15 @@ export class Withdrawal {
   id: number;
 
   @Column()
+  account_number: string;
+
+  @Column()
+  bank_name: string;
+
+  @Column()
+  holder_name: string;
+
+  @Column()
   created_at: string;
 
   @Column()

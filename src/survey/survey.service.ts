@@ -58,18 +58,26 @@ export class SurveyService {
       sortStringInDecendingOrder(a.created_at, b.created_at, true),
     );
 
-    // return surveys.sort((a, b) =>
-    //   sortStringInDecendingOrder(a.created_at, b.created_at, true),
-    // );
-
     return surveyDtos;
   }
 
-  async findOne(id: number) {
+  async findOneById(id: number) {
     if (!id) {
       return null;
     }
     return await this.repo.findOneBy({ id });
+  }
+
+  async findOneByCode(code: string) {
+    if (!code) {
+      return null;
+    }
+    // return await this.repo.findOneBy({ code });
+    return await this.repo
+      .createQueryBuilder('survey')
+      .leftJoinAndSelect('survey.genres', 'genre')
+      .where({ code })
+      .getOne();
   }
 
   async create(title: string, participationGoal: number) {

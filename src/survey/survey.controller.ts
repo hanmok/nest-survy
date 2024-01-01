@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 
@@ -74,8 +75,16 @@ export class SurveyController {
   @Get('/:id/sheet')
   async getResult(@Param('id') id: string) {
     const ret = await this.resultService.exportExcel(parseInt(id));
-
     return SuccessAPIResponse(ret);
+  }
+
+  @Get('/bycode')
+  async getSurveyByCode(@Query('code') code: string) {
+    const survey = await this.surveyService.findOneByCode(code);
+    if (survey !== null) {
+      return SuccessAPIResponse(survey);
+    }
+    return FailureAPIResponse();
   }
 
   @ApiOperation({ summary: 'Get all sections by survey id' })
@@ -106,7 +115,7 @@ export class SurveyController {
   // @SerializeSurveyDto)
   async getSurveyById(@Param('id') id: string) {
     // return this.surveyService.findOne(parseInt(id))
-    const survey = await this.surveyService.findOne(parseInt(id));
+    const survey = await this.surveyService.findOneById(parseInt(id));
     if (!survey) {
       throw new NotFoundException('survey not found');
     }
