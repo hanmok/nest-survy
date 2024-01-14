@@ -103,10 +103,13 @@ export class SurveyController {
 
   // TODO: user_id 이용해서 posting 한 것들 여기서 제거해야함
   @ApiOperation({ summary: 'Get available surveys only' })
-  @Get('/available')
+  @Get('/available/user/:id')
   // @SerializeSurveyDto)
-  async getAvailableSurveys() {
-    const ret = await this.surveyService.getAvailableSurveys(true);
+  async getAvailableSurveys(@Param('id') id: string) {
+    const ret = await this.surveyService.getAvailableSurveys(
+      true,
+      parseInt(id),
+    );
     return SuccessAPIResponse(ret);
   }
 

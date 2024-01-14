@@ -8,13 +8,18 @@ import { plainToClass, plainToInstance } from 'class-transformer';
 import { log } from 'console';
 import logObject from 'src/util/logObject';
 import { sortStringInDecendingOrder } from 'src/date';
+import { Participating } from 'src/participating/participating.entity';
 // import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
 
 @Injectable()
 export class SurveyService {
-  constructor(@InjectRepository(Survey) private repo: Repository<Survey>) {}
+  constructor(
+    @InjectRepository(Survey) private repo: Repository<Survey>,
+    @InjectRepository(Participating)
+    private participatingRepo: Repository<Participating>,
+  ) {}
 
   // 두개 합칠 수 잇을 것 같은데..
   // admin
@@ -27,25 +32,34 @@ export class SurveyService {
     return surveys;
   }
 
-  async getAvailableSurveys(availableOnly: boolean) {
+  async getAvailableSurveys(availableOnly: boolean, userId?: number) {
     // completed 된 것들은 빼기.
 
-    const surveys = await this.repo
+    let surveys = await this.repo
       .createQueryBuilder('survey')
       .leftJoinAndSelect('survey.genres', 'genre')
       .getMany();
+
     logObject('surveys', surveys); // 포함되어있음
 
     let surveyEntities: Survey[];
 
     if (availableOnly) {
-      surveyEntities = await this.repo.find({ where: { is_completed: 0 } });
-    } else {
-      surveyEntities = await this.repo.find();
+      const participatedSurveysSet = new Set(
+        (await this.participatingRepo.find({ where: { user_id: userId } })).map(
+          (p) => p.survey_id,
+        ),
+      );
+      surveys = surveys.filter(
+        (
+          survey, // set 에 포함되어있으면 안됨. & completed 가 0 이어야함.
+        ) =>
+          participatedSurveysSet.has(survey.id) === false &&
+          survey.is_completed === 0,
+      );
     }
 
     logObject('surveyEntities', surveyEntities); // 없음
-    // logObject('surveys', surveyEntities);
 
     // const surveyDtos: SurveyDto[] = surveyEntities.map((survey) =>
     const surveyDtos: SurveyDto[] = surveys.map((survey) =>
