@@ -9,6 +9,7 @@ import { log } from 'console';
 import logObject from 'src/util/logObject';
 import { sortStringInDecendingOrder } from 'src/date';
 import { Participating } from 'src/participating/participating.entity';
+import { User } from 'src/user/user.entity';
 // import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
@@ -19,6 +20,8 @@ export class SurveyService {
     @InjectRepository(Survey) private repo: Repository<Survey>,
     @InjectRepository(Participating)
     private participatingRepo: Repository<Participating>,
+    @InjectRepository(User)
+    private userRepo: Repository<User>,
   ) {}
 
   // 두개 합칠 수 잇을 것 같은데..
@@ -44,7 +47,12 @@ export class SurveyService {
 
     let surveyEntities: Survey[];
 
+    // genres
+    // geos
+
     if (availableOnly) {
+      const currentUser = await this.userRepo.findOneBy({ id: userId });
+
       const participatedSurveysSet = new Set(
         (await this.participatingRepo.find({ where: { user_id: userId } })).map(
           (p) => p.survey_id,
@@ -55,7 +63,11 @@ export class SurveyService {
           survey, // set 에 포함되어있으면 안됨. & completed 가 0 이어야함.
         ) =>
           participatedSurveysSet.has(survey.id) === false &&
-          survey.is_completed === 0,
+          survey.is_completed === 0 &&
+          currentUser.is_male === survey.is_target_male &&
+          currentUser.age <= survey.target_max_age &&
+          currentUser.age >= survey.target_min_age,
+        // TODO: add conditions for geo, genre.
       );
     }
 

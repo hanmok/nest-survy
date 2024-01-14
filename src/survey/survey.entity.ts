@@ -70,6 +70,8 @@ export class Survey {
   })
   genres: Genre[];
 
+  // TODO: Add survey_geos
+
   @ManyToMany(() => User, (user) => user.participated_surveys)
   participated_users: User[];
 }
