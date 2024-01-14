@@ -60,6 +60,10 @@ export class CreateSurveyDTO {
   @Expose()
   num_of_sections: number;
 
+  @ApiProperty()
+  @Expose()
+  expected_time_in_sec: number;
+
   // TODO: 추가하기.
   // @Expose()
   // @IsNumber()

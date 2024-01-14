@@ -118,18 +118,20 @@ export class TransactionService {
 
     // console.log('survey created, ', koreanTime);
 
-    const timeSpents = await this.timeSpentRepo.find();
-    // dictionary 로 만들기.
-    const timeSpentDic = {};
+    // const timeSpents = await this.timeSpentRepo.find();
 
-    let expectedTimeInSec = 0;
-    console.log(`[createWholeSurvey] flag 2`);
-    timeSpents.forEach((el) => {
-      timeSpentDic[el.id] = el.time_take_in_sec;
-      logObject('timeSpentDic:', timeSpentDic);
-      logObject('el.id: ', el.id);
-      logObject('el.time_take_in_sec:', el.time_take_in_sec);
-    });
+    // dictionary 로 만들기.
+    // const timeSpentDic = {};
+
+    // let expectedTimeInSec = 0;
+    // console.log(`[createWholeSurvey] flag 2`);
+    // timeSpents.forEach((el) => {
+    //   timeSpentDic[el.id] = el.time_take_in_sec;
+    //   logObject('timeSpentDic:', timeSpentDic);
+    //   logObject('el.id: ', el.id);
+    //   logObject('el.time_take_in_sec:', el.time_take_in_sec);
+    // });
+
     // timeSpentDic:: {"100":5,"200":10,"300":20}
 
     tempSurvey.code = createRandomAlphabets(7);
@@ -147,24 +149,25 @@ export class TransactionService {
     let tempQuestions: Question[] = [];
 
     questions.forEach((q) => {
-      console.log(
-        `timeSpentDic[${q.question_type_id}] == ${
-          timeSpentDic[q.question_type_id]
-        }`,
-      );
-      expectedTimeInSec += timeSpentDic[q.question_type_id];
+      // console.log(
+      //   `timeSpentDic[${q.question_type_id}] == ${
+      //     timeSpentDic[q.question_type_id]
+      //   }`,
+      // );
+      // expectedTimeInSec += timeSpentDic[q.question_type_id];
       const tempQ = this.questionRepo.create({ ...q });
       tempQuestions.push(tempQ);
     });
 
     console.log(`[createWholeSurvey] flag 5`);
-    if (expectedTimeInSec) {
-      tempSurvey.expected_time_in_sec = expectedTimeInSec;
-    } else {
-      tempSurvey.expected_time_in_sec = 100;
-    }
-    tempSurvey.expected_time_in_sec = expectedTimeInSec;
-    logObject('tempQuestions: ', tempQuestions);
+
+    // if (expectedTimeInSec) {
+    //   tempSurvey.expected_time_in_sec = expectedTimeInSec;
+    // } else {
+    //   tempSurvey.expected_time_in_sec = 100;
+    // }
+    // tempSurvey.expected_time_in_sec = expectedTimeInSec;
+    // logObject('tempQuestions: ', tempQuestions);
 
     let tempSelectableOptions: SelectableOption[] = [];
 
