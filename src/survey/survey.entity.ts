@@ -1,5 +1,6 @@
 import { IsOptional } from 'class-validator';
 import { Genre } from 'src/genre/genre.entity';
+import { Geo } from 'src/geo/geo.entity';
 import { User } from 'src/user/user.entity';
 // import { User } from '../user/user.entity';
 import {
@@ -69,6 +70,14 @@ export class Survey {
     inverseJoinColumn: { name: 'genre_id', referencedColumnName: 'id' },
   })
   genres: Genre[];
+
+  @ManyToMany(() => Geo)
+  @JoinTable({
+    name: 'survey_geo',
+    joinColumn: { name: 'survey_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'geo_id', referencedColumnName: 'id' },
+  })
+  geos: Geo[];
 
   // TODO: Add survey_geos
 

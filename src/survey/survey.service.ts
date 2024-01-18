@@ -61,14 +61,31 @@ export class SurveyService {
       surveys = surveys.filter(
         (
           survey, // set 에 포함되어있으면 안됨. & completed 가 0 이어야함.
-        ) =>
+        ) => {
+          const geoCodes = survey.geos.map((geo) => geo.code);
+          const geoCodeSet = new Set(geoCodes);
           participatedSurveysSet.has(survey.id) === false &&
-          survey.is_completed === 0 &&
-          (currentUser.is_male === survey.is_target_male ||
-            survey.is_target_male === null),
-        // currentUser.age <= survey.target_max_age &&
-        // currentUser.age >= survey.target_min_age,
-        // TODO: add conditions for geo, genre.
+            survey.is_completed === 0 &&
+            (currentUser.is_male === survey.is_target_male ||
+              survey.is_target_male === null) &&
+            currentUser.age <= survey.target_max_age &&
+            currentUser.age >= survey.target_min_age;
+          // (geoCodeSet.has(currentUser.home_address) || geoCodeSet.has(currentUser.office_address) || geoCodeSet.has(100) ) // 전국
+
+          // TODO: 시 포함시키기..
+          // 5_100_000_000
+          // 전체 시의 경우, 앞 두자리가 일치. 나머지는 다를 것.
+          // 함수로 만들어야것네..
+          // 이거.. 꼭 필요해?
+          // 이거 하나때문에 survey 하나 가져오는 데에 시간이 너무 오래걸리는건 아니야? -> 진짜 오래걸리는지 봐야함.
+
+          // TODO: add conditions for geo,
+          // survey.geos.find
+
+          // survey.
+          // currentUser.home_address
+          // currentUser.office_address
+        },
       );
     }
 
