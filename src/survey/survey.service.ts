@@ -64,9 +64,10 @@ export class SurveyService {
         ) =>
           participatedSurveysSet.has(survey.id) === false &&
           survey.is_completed === 0 &&
-          currentUser.is_male === survey.is_target_male &&
-          currentUser.age <= survey.target_max_age &&
-          currentUser.age >= survey.target_min_age,
+          (currentUser.is_male === survey.is_target_male ||
+            survey.is_target_male === null),
+        // currentUser.age <= survey.target_max_age &&
+        // currentUser.age >= survey.target_min_age,
         // TODO: add conditions for geo, genre.
       );
     }
