@@ -31,6 +31,9 @@ const matchGeo = ({ survey_geoCode }: { survey_geoCode: number }) => {
   // }
 };
 
+// 대전     3_000_000_000
+// 대전 중구 3_014_000_000 724
+
 export async function getSurveyById(id) {
   return await getSurveyTable().first().where({ id });
 }

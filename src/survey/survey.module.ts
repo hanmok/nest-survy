@@ -22,6 +22,7 @@ import { ExpectedTimeSpent } from 'src/expected-time-spent/ExpectedTimeSpent.ent
 import { SurveyGeo } from 'src/survey_geo/survey-geo.entity';
 import { SurveyGeoService } from 'src/survey_geo/survey_geo.service';
 import { ResultService } from 'src/result/result.service';
+import { Geo } from 'src/geo/geo.entity';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ResultService } from 'src/result/result.service';
       Answer,
       User,
       ExpectedTimeSpent,
+      Geo,
     ]),
   ],
   providers: [
