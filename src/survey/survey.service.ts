@@ -10,6 +10,7 @@ import logObject from 'src/util/logObject';
 import { sortStringInDecendingOrder } from 'src/date';
 import { Participating } from 'src/participating/participating.entity';
 import { User } from 'src/user/user.entity';
+import { hasCommonElements } from 'src/util/SetDictionary';
 // import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
@@ -64,13 +65,23 @@ export class SurveyService {
         ) => {
           const geoCodes = survey.geos.map((geo) => geo.code);
           const geoCodeSet = new Set(geoCodes);
+
+          const surveyGenres = new Set(survey.genres.map((genre) => genre.id));
+          const userGenres = new Set(
+            currentUser.genres.map((genre) => genre.id),
+          );
+
           participatedSurveysSet.has(survey.id) === false &&
             survey.is_completed === 0 &&
             (currentUser.is_male === survey.is_target_male ||
               survey.is_target_male === null) &&
             currentUser.age <= survey.target_max_age &&
-            currentUser.age >= survey.target_min_age;
-          // (geoCodeSet.has(currentUser.home_address) || geoCodeSet.has(currentUser.office_address) || geoCodeSet.has(100) ) // 전국
+            currentUser.age >= survey.target_min_age &&
+            (hasCommonElements(surveyGenres, userGenres) ||
+              surveyGenres.has(100)) && // 1: 일반
+            (geoCodeSet.has(currentUser.home_address) ||
+              geoCodeSet.has(currentUser.office_address) ||
+              geoCodeSet.has(100)); // 전국
 
           // TODO: 시 포함시키기..
           // 5_100_000_000

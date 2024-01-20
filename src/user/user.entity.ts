@@ -11,6 +11,7 @@ import {
 import { RefreshToken } from './refreshToken.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Survey } from 'src/survey/survey.entity';
+import { Genre } from 'src/genre/genre.entity';
 // import { Survey } from '../survey/survey.entity';
 
 @Entity()
@@ -62,4 +63,12 @@ export class User {
     inverseJoinColumn: { name: 'survey_id', referencedColumnName: 'id' },
   })
   participated_surveys: Survey[];
+
+  @ManyToMany(() => Genre)
+  @JoinTable({
+    name: 'user_genre',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'genre_id', referencedColumnName: 'id' },
+  })
+  genres: Genre[];
 }
