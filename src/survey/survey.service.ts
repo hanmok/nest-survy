@@ -10,7 +10,7 @@ import logObject from 'src/util/logObject';
 import { sortStringInDecendingOrder } from 'src/date';
 import { Participating } from 'src/participating/participating.entity';
 import { User } from 'src/user/user.entity';
-import { hasCommonElements } from 'src/util/SetDictionary';
+import { compareGeoCode, hasCommonElements } from 'src/util/SetDictionary';
 // import { createRandomAlphabets } from '../util/createRandomAlphabets';
 
 const randomString = require('randomstring');
@@ -79,23 +79,9 @@ export class SurveyService {
             currentUser.age >= survey.target_min_age &&
             (hasCommonElements(surveyGenres, userGenres) ||
               surveyGenres.has(100)) && // 1: 일반
-            (geoCodeSet.has(currentUser.home_address) ||
-              geoCodeSet.has(currentUser.office_address) ||
-              geoCodeSet.has(100)); // 전국
-
-          // TODO: 시 포함시키기..
-          // 5_100_000_000
-          // 전체 시의 경우, 앞 두자리가 일치. 나머지는 다를 것.
-          // 함수로 만들어야것네..
-          // 이거.. 꼭 필요해?
-          // 이거 하나때문에 survey 하나 가져오는 데에 시간이 너무 오래걸리는건 아니야? -> 진짜 오래걸리는지 봐야함.
-
-          // TODO: add conditions for geo,
-          // survey.geos.find
-
-          // survey.
-          // currentUser.home_address
-          // currentUser.office_address
+            (geoCodeSet.has(100) ||
+              compareGeoCode(geoCodeSet, currentUser.home_address) ||
+              compareGeoCode(geoCodeSet, currentUser.office_address)); // 전국
         },
       );
     }
