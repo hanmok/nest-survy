@@ -62,7 +62,7 @@ export class SurveyController {
     return SuccessAPIResponse(ret);
   }
 
-  // ADMIN: 모든 surveys 가져오기
+  // ADMIN: 모든 surveys 가져오기, 비회원.
   @ApiOperation({ summary: "Get all surveys, 'ADMIN'" })
   @Get()
   // @SerializeSurveyDto)

@@ -54,9 +54,6 @@ export class SurveyService {
 
     let surveyEntities: Survey[];
 
-    // genres
-    // geos
-
     if (availableOnly) {
       const currentUser = await this.userRepo
         .createQueryBuilder('user')

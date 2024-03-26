@@ -80,12 +80,7 @@ import { JwtStrategy } from './user/jwt.strategy';
 import { RefreshToken } from './user/refreshToken.entity';
 import { SectionBridgeController } from './section-bridge/section-bridge.controller';
 import { SurveyGenreController } from './survey_genre/survey_genre.controller';
-
-// import { CustomResponseDto } from 'custom-response.dto';
-// import { ApiResponseService } from 'api-response.service';
-
 import { TransactionService } from './transaction/transaction.service';
-// import { ValidateQuestionTypePipe } from './question/validate-question-type.pipe';
 import { CustomAnswerModule } from './custom_answer/custom_answer.module';
 
 import { CreateCustomAnswerDto } from './custom_answer/createCustomAnswer.dto';
@@ -279,16 +274,14 @@ require('dotenv').config();
 // export class AppModule {}
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes(
-        SurveyController,
-        AnswerController,
-        ParticipatingController,
-        PostingController,
-        ParticipatingController,
-        UserGenreController,
-        WithdrawalController,
-      );
+    consumer.apply(AuthMiddleware).forRoutes(
+      // SurveyController,
+      AnswerController,
+      ParticipatingController,
+      PostingController,
+      ParticipatingController,
+      UserGenreController,
+      WithdrawalController,
+    );
   }
 }
